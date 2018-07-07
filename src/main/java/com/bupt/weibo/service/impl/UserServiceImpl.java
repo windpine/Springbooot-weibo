@@ -3,6 +3,7 @@ package com.bupt.weibo.service.impl;
 import com.bupt.weibo.entity.User;
 import com.bupt.weibo.repository.UserRepository;
 import com.bupt.weibo.service.UserService;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
