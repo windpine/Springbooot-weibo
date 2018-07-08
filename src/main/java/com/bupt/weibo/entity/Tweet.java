@@ -9,14 +9,13 @@ import java.util.Objects;
 
 /**
  * @anthor tanshangou
- * @time 2018/7/7
+ * @time 2018/7/8
  * @description
  */
 @Entity
 public class Tweet {
     private int tid;
     private int uid;
-    private Integer cid;
     private Integer srcId;
     private String topicTitle;
     private String content;
@@ -41,16 +40,6 @@ public class Tweet {
 
     public void setUid(int uid) {
         this.uid = uid;
-    }
-
-    @Basic
-    @Column(name = "CID", nullable = true)
-    public Integer getCid() {
-        return cid;
-    }
-
-    public void setCid(Integer cid) {
-        this.cid = cid;
     }
 
     @Basic
@@ -110,7 +99,6 @@ public class Tweet {
         Tweet tweet = (Tweet) o;
         return tid == tweet.tid &&
                 uid == tweet.uid &&
-                Objects.equals(cid, tweet.cid) &&
                 Objects.equals(srcId, tweet.srcId) &&
                 Objects.equals(topicTitle, tweet.topicTitle) &&
                 Objects.equals(content, tweet.content) &&
@@ -121,6 +109,6 @@ public class Tweet {
     @Override
     public int hashCode() {
 
-        return Objects.hash(tid, uid, cid, srcId, topicTitle, content, likes, createTime);
+        return Objects.hash(tid, uid, srcId, topicTitle, content, likes, createTime);
     }
 }
