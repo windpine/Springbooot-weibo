@@ -4,19 +4,24 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+/**
+ * @anthor tanshangou
+ * @time 2018/7/8
+ * @description
+ */
 @Entity
 public class Comment {
-    private int cid;
-    private int uid;
+    private Integer cid;
+    private Integer uid;
     private Integer tid;
     private Integer srcId;
     private String content;
     private Timestamp createTime;
 
     @Id
-    @Column(name = "CID")
+    @Column(name = "CID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getCid() {
+    public Integer getCid() {
         return cid;
     }
 
@@ -25,8 +30,8 @@ public class Comment {
     }
 
     @Basic
-    @Column(name = "UID")
-    public int getUid() {
+    @Column(name = "UID", nullable = false)
+    public Integer getUid() {
         return uid;
     }
 
@@ -35,7 +40,7 @@ public class Comment {
     }
 
     @Basic
-    @Column(name = "TID")
+    @Column(name = "TID", nullable = true)
     public Integer getTid() {
         return tid;
     }
@@ -45,7 +50,7 @@ public class Comment {
     }
 
     @Basic
-    @Column(name = "srcID")
+    @Column(name = "srcID", nullable = true)
     public Integer getSrcId() {
         return srcId;
     }
@@ -55,7 +60,7 @@ public class Comment {
     }
 
     @Basic
-    @Column(name = "content")
+    @Column(name = "content", nullable = false, length = 1024)
     public String getContent() {
         return content;
     }
@@ -65,7 +70,7 @@ public class Comment {
     }
 
     @Basic
-    @Column(name = "create_time")
+    @Column(name = "create_time", nullable = false)
     public Timestamp getCreateTime() {
         return createTime;
     }

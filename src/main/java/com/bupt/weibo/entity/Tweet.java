@@ -1,9 +1,17 @@
 package com.bupt.weibo.entity;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+/**
+ * @anthor tanshangou
+ * @time 2018/7/8
+ * @description
+ */
 @Entity
 public class Tweet {
     private int tid;
@@ -15,8 +23,7 @@ public class Tweet {
     private Timestamp createTime;
 
     @Id
-    @Column(name = "TID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "TID", nullable = false)
     public int getTid() {
         return tid;
     }
@@ -26,7 +33,7 @@ public class Tweet {
     }
 
     @Basic
-    @Column(name = "UID")
+    @Column(name = "UID", nullable = false)
     public int getUid() {
         return uid;
     }
@@ -36,7 +43,7 @@ public class Tweet {
     }
 
     @Basic
-    @Column(name = "srcID")
+    @Column(name = "srcID", nullable = true)
     public Integer getSrcId() {
         return srcId;
     }
@@ -46,7 +53,7 @@ public class Tweet {
     }
 
     @Basic
-    @Column(name = "topicTitle")
+    @Column(name = "topicTitle", nullable = true, length = 21)
     public String getTopicTitle() {
         return topicTitle;
     }
@@ -56,7 +63,7 @@ public class Tweet {
     }
 
     @Basic
-    @Column(name = "content")
+    @Column(name = "content", nullable = false, length = 1024)
     public String getContent() {
         return content;
     }
@@ -66,7 +73,7 @@ public class Tweet {
     }
 
     @Basic
-    @Column(name = "likes")
+    @Column(name = "likes", nullable = true)
     public Integer getLikes() {
         return likes;
     }
@@ -76,7 +83,7 @@ public class Tweet {
     }
 
     @Basic
-    @Column(name = "create_time")
+    @Column(name = "create_time", nullable = false)
     public Timestamp getCreateTime() {
         return createTime;
     }
