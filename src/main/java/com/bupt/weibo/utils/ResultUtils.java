@@ -17,6 +17,13 @@ public class ResultUtils {
     public static final String ERROR = "error";
 
 
+    public static ResultDTO onSuccess(){
+        ResultDTO resultDTO = new ResultDTO();
+        resultDTO.setStatus(SUCCESS);
+        resultDTO.setData(null);
+        resultDTO.setMsg(null);
+        return resultDTO;
+    }
     public static ResultDTO onSuccess(String data){
         ResultDTO resultDTO = new ResultDTO();
         resultDTO.setStatus(SUCCESS);

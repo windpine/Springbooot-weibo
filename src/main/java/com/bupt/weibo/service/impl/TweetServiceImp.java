@@ -1,5 +1,6 @@
 package com.bupt.weibo.service.impl;
 
+import com.bupt.weibo.dto.TweetDTO;
 import com.bupt.weibo.entity.Comment;
 import com.bupt.weibo.entity.Tweet;
 import com.bupt.weibo.repository.CommentRepository;
@@ -8,10 +9,12 @@ import com.bupt.weibo.repository.TweetRepository;
 import com.bupt.weibo.service.TweetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
-
+@Service("TweetService")
 public class TweetServiceImp implements TweetService {
     @Autowired
     TweetRepository tweetRepository;
@@ -34,13 +37,16 @@ public class TweetServiceImp implements TweetService {
     }
 
     @Override
-    public void publishTweet(String content,Integer UID,String topicTitle) {
+    public Boolean publishTweet(TweetDTO tweetDTO) {
         Tweet newTweet = new Tweet();
-        newTweet.setContent(content);
-        newTweet.setUid(UID);
-        newTweet.setCreateTime(new Timestamp(System.currentTimeMillis()));
-        newTweet.setTopicTitle(topicTitle);
-        tweetRepository.saveAndFlush(newTweet);
+        newTweet.setContent(tweetDTO.getContent());
+        newTweet.setUid(tweetDTO.getUid());
+        newTweet.setCreateTime(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+        Tweet saveTweet = tweetRepository.saveAndFlush(newTweet);
+        if(saveTweet.equals(newTweet))
+            return true;
+        else
+            return false;
     }
 
     @Override
@@ -52,6 +58,6 @@ public class TweetServiceImp implements TweetService {
     @Override
     public List<Comment> getTweetComments(Integer TID) {
         Sort sort = new Sort(Sort.Direction.DESC,"createTime");
-        return commentRepository.findCommentsByTID(TID,sort);
+        return commentRepository.findCommentsByTid(TID,sort);
     }
 }

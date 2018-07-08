@@ -15,5 +15,5 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment,Integer> {
 
     @Transactional
-    List<Comment> findCommentsByTID(Integer TID, Sort sort);
+    List<Comment> findCommentsByTid(Integer Tid, Sort sort);
 }
