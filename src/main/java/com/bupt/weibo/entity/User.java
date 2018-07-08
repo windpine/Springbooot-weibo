@@ -1,10 +1,12 @@
 package com.bupt.weibo.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.stereotype.Component;
+
+import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -117,7 +119,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "role", nullable = true, length = 32)
+    @Column(name = "role", nullable = true)
     public String getRole() {
         return role;
     }
@@ -150,13 +152,15 @@ public class User {
                 Objects.equals(followers, user.followers) &&
                 Objects.equals(sex, user.sex) &&
                 Objects.equals(creatTime, user.creatTime) &&
-                Objects.equals(role, user.role) &&
                 Objects.equals(email, user.email);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(uid, username, nickname, password, tweets, follows, followers, sex, creatTime, role, email);
+        return Objects.hash(uid, username, nickname, password, tweets, follows, followers, sex, creatTime, email);
     }
+
+
+
 }
