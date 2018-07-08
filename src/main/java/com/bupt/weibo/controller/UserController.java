@@ -14,12 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
  * @description
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 @Slf4j
 public class UserController {
 
     @Autowired
     UserService userService;
+
     @GetMapping("/")
     public User getUser(){
 
