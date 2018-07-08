@@ -29,6 +29,7 @@ public class UserController {
     ResultUtils resultUtils;
 
 
+    //根据用户ID获得一个用户的信息
     @GetMapping("/{uid}")
     public ResultDTO getUser(@PathVariable("uid") Integer uid){
 
@@ -40,6 +41,7 @@ public class UserController {
         return resultUtils.onSuccess(JSONObject.toJSONString(user));
     }
 
+    //获得所有用户
     @GetMapping("/users")
     public ResultDTO getUsers(){
         List<User> users=userService.getUsers();
@@ -47,6 +49,7 @@ public class UserController {
     }
 
 
+    //新用户注册
     @PostMapping("/")
     public ResultDTO Register(@RequestBody UserDTO userDTO) throws Exception{
         if(userDTO != null){
