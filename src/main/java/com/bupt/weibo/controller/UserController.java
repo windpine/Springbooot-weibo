@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @anthor tanshangou
  * @time 2018/7/7
@@ -38,11 +40,22 @@ public class UserController {
         return resultUtils.onSuccess(JSONObject.toJSONString(user));
     }
 
+    @GetMapping("/users")
+    public ResultDTO getUsers(){
+        List<User> users=userService.getUsers();
+        return resultUtils.onSuccess(JSONObject.toJSONString(users));
+    }
+
+
     @PostMapping("/")
     public ResultDTO Register(@RequestBody UserDTO userDTO) throws Exception{
         User user=userService.registerUser(userDTO);
         return resultUtils.onSuccess(JSONObject.toJSONString(user));
     }
+
+
+
+
 
 
 
