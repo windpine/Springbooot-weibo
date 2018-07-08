@@ -10,4 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @description
  */
 public interface RelationRepository extends JpaRepository<Relation,RelationPK> {
+
+
 }

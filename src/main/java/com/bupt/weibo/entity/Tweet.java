@@ -109,6 +109,6 @@ public class Tweet {
     @Override
     public int hashCode() {
 
-        return Objects.hash(tid, uid, cid, srcId, topicTitle, content, likes, createTime);
+        return Objects.hash(tid, uid, srcId, topicTitle, content, likes, createTime);
     }
 }

@@ -24,6 +24,13 @@ public class ResultUtils {
         resultDTO.setMsg(null);
         return resultDTO;
     }
+    public static ResultDTO onSuccess(){
+        ResultDTO resultDTO = new ResultDTO();
+        resultDTO.setStatus(SUCCESS);
+        resultDTO.setData(null);
+        resultDTO.setMsg(null);
+        return resultDTO;
+    }
     public static ResultDTO onError(){
         ResultDTO resultDTO = new ResultDTO();
         resultDTO.setStatus(ERROR);
