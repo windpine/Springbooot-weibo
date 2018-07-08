@@ -11,4 +11,6 @@ import com.bupt.weibo.entity.Comment;
 public interface CommentService {
 
     Comment commentATweet(CommentDTO commentDTO);
+
+    void deleteAComment(int CID);
 }

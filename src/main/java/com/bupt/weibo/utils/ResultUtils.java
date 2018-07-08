@@ -17,6 +17,11 @@ public class ResultUtils {
     public static final String ERROR = "error";
 
 
+    /**
+     * 成功且有数据
+     * @param data
+     * @return
+     */
     public static ResultDTO onSuccess(String data){
         ResultDTO resultDTO = new ResultDTO();
         resultDTO.setStatus(SUCCESS);
@@ -24,6 +29,11 @@ public class ResultUtils {
         resultDTO.setMsg(null);
         return resultDTO;
     }
+
+    /**
+     * 成功，无数据
+     * @return
+     */
     public static ResultDTO onSuccess(){
         ResultDTO resultDTO = new ResultDTO();
         resultDTO.setStatus(SUCCESS);
@@ -31,12 +41,24 @@ public class ResultUtils {
         resultDTO.setMsg(null);
         return resultDTO;
     }
+
+    /**
+     * 错误，无信息
+     * @return
+     */
+
     public static ResultDTO onError(){
         ResultDTO resultDTO = new ResultDTO();
         resultDTO.setStatus(ERROR);
         resultDTO.setData(null);
         return resultDTO;
     }
+
+    /**
+     * 错误，有信息
+     * @param msg
+     * @return
+     */
     public static ResultDTO onError(String msg){
         ResultDTO resultDTO = new ResultDTO();
         resultDTO.setStatus(ERROR);
