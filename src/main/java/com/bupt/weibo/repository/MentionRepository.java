@@ -10,4 +10,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @description
  */
 public interface MentionRepository extends JpaRepository<Mention,MentionPK> {
+
 }
