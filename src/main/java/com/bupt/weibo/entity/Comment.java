@@ -7,6 +7,11 @@ import javax.persistence.Id;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+/**
+ * @anthor tanshangou
+ * @time 2018/7/7
+ * @description
+ */
 @Entity
 public class Comment {
     private int cid;
@@ -17,8 +22,9 @@ public class Comment {
     private Timestamp createTime;
 
     @Id
-    @Column(name = "CID")
-    public int getCid() {
+    @Column(name = "CID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Integer getCid() {
         return cid;
     }
 
@@ -27,8 +33,8 @@ public class Comment {
     }
 
     @Basic
-    @Column(name = "UID")
-    public int getUid() {
+    @Column(name = "UID", nullable = false)
+    public Integer getUid() {
         return uid;
     }
 
@@ -37,7 +43,7 @@ public class Comment {
     }
 
     @Basic
-    @Column(name = "TID")
+    @Column(name = "TID", nullable = true)
     public Integer getTid() {
         return tid;
     }
@@ -47,7 +53,7 @@ public class Comment {
     }
 
     @Basic
-    @Column(name = "srcID")
+    @Column(name = "srcID", nullable = true)
     public Integer getSrcId() {
         return srcId;
     }
@@ -57,7 +63,7 @@ public class Comment {
     }
 
     @Basic
-    @Column(name = "content")
+    @Column(name = "content", nullable = false, length = 1024)
     public String getContent() {
         return content;
     }
@@ -67,7 +73,7 @@ public class Comment {
     }
 
     @Basic
-    @Column(name = "create_time")
+    @Column(name = "create_time", nullable = false)
     public Timestamp getCreateTime() {
         return createTime;
     }
@@ -83,7 +89,6 @@ public class Comment {
         Comment comment = (Comment) o;
         return cid == comment.cid &&
                 uid == comment.uid &&
-                Objects.equals(tid, comment.tid) &&
                 Objects.equals(srcId, comment.srcId) &&
                 Objects.equals(content, comment.content) &&
                 Objects.equals(createTime, comment.createTime);
@@ -92,6 +97,6 @@ public class Comment {
     @Override
     public int hashCode() {
 
-        return Objects.hash(cid, uid, tid, srcId, content, createTime);
+        return Objects.hash(cid, uid, srcId, content, createTime);
     }
 }
