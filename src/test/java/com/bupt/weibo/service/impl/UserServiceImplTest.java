@@ -2,6 +2,7 @@ package com.bupt.weibo.service.impl;
 
 import com.bupt.weibo.entity.User;
 import com.bupt.weibo.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +18,7 @@ import static org.junit.Assert.*;
  * @description
  */
 @SpringBootTest
+@Slf4j
 @RunWith(SpringRunner.class)
 public class UserServiceImplTest {
 
@@ -26,7 +28,8 @@ public class UserServiceImplTest {
     @Test
     public void getUser() {
 
-        User user=userService.getUser();
+        User user=userService.getUser(1);
+        log.info("user:"+user.getNickname());
         Assert.assertNotNull(user);
     }
 }

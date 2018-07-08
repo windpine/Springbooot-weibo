@@ -9,5 +9,5 @@ import com.bupt.weibo.entity.User;
  */
 public interface UserService {
 
-    User getUser();
+    User getUser(Integer uid);
 }

@@ -4,9 +4,7 @@ import com.bupt.weibo.entity.User;
 import com.bupt.weibo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @anthor tanshangou
@@ -14,19 +12,26 @@ import org.springframework.web.bind.annotation.RestController;
  * @description
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 @Slf4j
 public class UserController {
 
     @Autowired
     UserService userService;
-    @GetMapping("/")
-    public User getUser(){
 
-        User user=userService.getUser();
+    @GetMapping("/{uid}")
+    public User getUser(@PathVariable("uid") Integer uid){
+
+        User user=userService.getUser(uid);
+
 
         log.info("username: "+user.getNickname());
 
         return user;
     }
+
+
+
+
+
 }

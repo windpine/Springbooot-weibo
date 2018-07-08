@@ -1,28 +1,27 @@
 package com.bupt.weibo.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 /**
  * @anthor tanshangou
- * @time 2018/7/7
+ * @time 2018/7/8
  * @description
  */
 @Entity
 public class Comment {
-    private int cid;
-    private int uid;
+    private Integer cid;
+    private Integer uid;
+    private Integer tid;
     private Integer srcId;
     private String content;
     private Timestamp createTime;
 
     @Id
     @Column(name = "CID", nullable = false)
-    public int getCid() {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Integer getCid() {
         return cid;
     }
 
@@ -32,12 +31,22 @@ public class Comment {
 
     @Basic
     @Column(name = "UID", nullable = false)
-    public int getUid() {
+    public Integer getUid() {
         return uid;
     }
 
     public void setUid(int uid) {
         this.uid = uid;
+    }
+
+    @Basic
+    @Column(name = "TID", nullable = true)
+    public Integer getTid() {
+        return tid;
+    }
+
+    public void setTid(Integer tid) {
+        this.tid = tid;
     }
 
     @Basic
@@ -77,6 +86,7 @@ public class Comment {
         Comment comment = (Comment) o;
         return cid == comment.cid &&
                 uid == comment.uid &&
+                Objects.equals(tid, comment.tid) &&
                 Objects.equals(srcId, comment.srcId) &&
                 Objects.equals(content, comment.content) &&
                 Objects.equals(createTime, comment.createTime);
@@ -85,6 +95,6 @@ public class Comment {
     @Override
     public int hashCode() {
 
-        return Objects.hash(cid, uid, srcId, content, createTime);
+        return Objects.hash(cid, uid, tid, srcId, content, createTime);
     }
 }
