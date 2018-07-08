@@ -1,22 +1,13 @@
 package com.bupt.weibo.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-/**
- * @anthor tanshangou
- * @time 2018/7/7
- * @description
- */
 @Entity
 public class Tweet {
     private int tid;
     private int uid;
-    private Integer cid;
     private Integer srcId;
     private String topicTitle;
     private String content;
@@ -24,7 +15,8 @@ public class Tweet {
     private Timestamp createTime;
 
     @Id
-    @Column(name = "TID", nullable = false)
+    @Column(name = "TID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getTid() {
         return tid;
     }
@@ -34,7 +26,7 @@ public class Tweet {
     }
 
     @Basic
-    @Column(name = "UID", nullable = false)
+    @Column(name = "UID")
     public int getUid() {
         return uid;
     }
@@ -44,17 +36,7 @@ public class Tweet {
     }
 
     @Basic
-    @Column(name = "CID", nullable = true)
-    public Integer getCid() {
-        return cid;
-    }
-
-    public void setCid(Integer cid) {
-        this.cid = cid;
-    }
-
-    @Basic
-    @Column(name = "srcID", nullable = true)
+    @Column(name = "srcID")
     public Integer getSrcId() {
         return srcId;
     }
@@ -64,7 +46,7 @@ public class Tweet {
     }
 
     @Basic
-    @Column(name = "topicTitle", nullable = true, length = 21)
+    @Column(name = "topicTitle")
     public String getTopicTitle() {
         return topicTitle;
     }
@@ -74,7 +56,7 @@ public class Tweet {
     }
 
     @Basic
-    @Column(name = "content", nullable = false, length = 1024)
+    @Column(name = "content")
     public String getContent() {
         return content;
     }
@@ -84,7 +66,7 @@ public class Tweet {
     }
 
     @Basic
-    @Column(name = "likes", nullable = true)
+    @Column(name = "likes")
     public Integer getLikes() {
         return likes;
     }
@@ -94,7 +76,7 @@ public class Tweet {
     }
 
     @Basic
-    @Column(name = "create_time", nullable = false)
+    @Column(name = "create_time")
     public Timestamp getCreateTime() {
         return createTime;
     }
@@ -110,7 +92,6 @@ public class Tweet {
         Tweet tweet = (Tweet) o;
         return tid == tweet.tid &&
                 uid == tweet.uid &&
-                Objects.equals(cid, tweet.cid) &&
                 Objects.equals(srcId, tweet.srcId) &&
                 Objects.equals(topicTitle, tweet.topicTitle) &&
                 Objects.equals(content, tweet.content) &&
@@ -121,6 +102,6 @@ public class Tweet {
     @Override
     public int hashCode() {
 
-        return Objects.hash(tid, uid, cid, srcId, topicTitle, content, likes, createTime);
+        return Objects.hash(tid, uid, srcId, topicTitle, content, likes, createTime);
     }
 }
