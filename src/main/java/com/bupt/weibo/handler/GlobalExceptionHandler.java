@@ -15,6 +15,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
+
+    /**
+     * 统一异常处理
+     * @param e
+     * @return
+     */
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     public ResultDTO handle(Exception e){

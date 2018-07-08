@@ -16,10 +16,10 @@ import java.util.Objects;
 public class Tweet {
     private int tid;
     private int uid;
-    private Integer srcId = -1;
+    private Integer srcId=-1;
     private String topicTitle;
     private String content;
-    private Integer likes = 0;
+    private Integer likes=0;
     private Timestamp createTime;
 
     @Id

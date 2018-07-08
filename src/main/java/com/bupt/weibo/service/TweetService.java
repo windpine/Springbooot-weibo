@@ -1,5 +1,6 @@
 package com.bupt.weibo.service;
 
+
 import com.bupt.weibo.dto.TweetDTO;
 import com.bupt.weibo.entity.Comment;
 import com.bupt.weibo.entity.Tweet;
@@ -22,4 +23,9 @@ public interface TweetService {
     List<Tweet> getTopicTweets(String topicTitle);
     //获取某一微博的所有评论
     List<Comment> getTweetComments(Integer TID);
+
+    void deleteATweet(int TID) throws Exception;
+
+    void likeATweet(int TID) throws Exception;
+
 }
