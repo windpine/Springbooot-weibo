@@ -7,21 +7,17 @@ import javax.persistence.Id;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-/**
- * @anthor tanshangou
- * @time 2018/7/7
- * @description
- */
 @Entity
 public class Comment {
     private int cid;
     private int uid;
+    private Integer tid;
     private Integer srcId;
     private String content;
     private Timestamp createTime;
 
     @Id
-    @Column(name = "CID", nullable = false)
+    @Column(name = "CID")
     public int getCid() {
         return cid;
     }
@@ -31,7 +27,7 @@ public class Comment {
     }
 
     @Basic
-    @Column(name = "UID", nullable = false)
+    @Column(name = "UID")
     public int getUid() {
         return uid;
     }
@@ -41,7 +37,17 @@ public class Comment {
     }
 
     @Basic
-    @Column(name = "srcID", nullable = true)
+    @Column(name = "TID")
+    public Integer getTid() {
+        return tid;
+    }
+
+    public void setTid(Integer tid) {
+        this.tid = tid;
+    }
+
+    @Basic
+    @Column(name = "srcID")
     public Integer getSrcId() {
         return srcId;
     }
@@ -51,7 +57,7 @@ public class Comment {
     }
 
     @Basic
-    @Column(name = "content", nullable = false, length = 1024)
+    @Column(name = "content")
     public String getContent() {
         return content;
     }
@@ -61,7 +67,7 @@ public class Comment {
     }
 
     @Basic
-    @Column(name = "create_time", nullable = false)
+    @Column(name = "create_time")
     public Timestamp getCreateTime() {
         return createTime;
     }
@@ -77,6 +83,7 @@ public class Comment {
         Comment comment = (Comment) o;
         return cid == comment.cid &&
                 uid == comment.uid &&
+                Objects.equals(tid, comment.tid) &&
                 Objects.equals(srcId, comment.srcId) &&
                 Objects.equals(content, comment.content) &&
                 Objects.equals(createTime, comment.createTime);
@@ -85,6 +92,6 @@ public class Comment {
     @Override
     public int hashCode() {
 
-        return Objects.hash(cid, uid, srcId, content, createTime);
+        return Objects.hash(cid, uid, tid, srcId, content, createTime);
     }
 }
