@@ -53,7 +53,7 @@ public class Tweet {
     }
 
     @Basic
-    @Column(name = "topicTitle", nullable = true, length = 21)
+    @Column(name = "topic_title", nullable = true, length = 21)
     public String getTopicTitle() {
         return topicTitle;
     }

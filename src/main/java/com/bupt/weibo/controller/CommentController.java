@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,6 +26,17 @@ public class CommentController {
     @Autowired
     CommentService commentService;
 
+    //获取某一微博的所有评论
+    @GetMapping("/{TID}")
+    public ResultDTO getTweetComments(@PathVariable(name="TID") Integer TID){
+        List<Comment> comments = commentService.getTweetComments(TID);
+        if(comments.size() != 0){
+            return ResultUtils.onSuccess(JSON.toJSONString(comments));
+        }
+        else{
+            return ResultUtils.onError("no comment");
+        }
+    }
     //对一条微博评论
     @PostMapping("/")
     public ResultDTO sendAComment(@RequestBody CommentDTO commentDTO) throws Exception{
