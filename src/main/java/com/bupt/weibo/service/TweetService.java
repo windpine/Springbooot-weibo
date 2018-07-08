@@ -21,8 +21,7 @@ public interface TweetService {
     Boolean publishTweet(TweetDTO tweetDTO);
     //查看某一话题的微博
     List<Tweet> getTopicTweets(String topicTitle);
-    //获取某一微博的所有评论
-    List<Comment> getTweetComments(Integer TID);
+
 
     void deleteATweet(int TID) throws Exception;
 
