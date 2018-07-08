@@ -1,12 +1,14 @@
 package com.bupt.weibo.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.bupt.weibo.dto.ResultDTO;
+import com.bupt.weibo.dto.UserDTO;
 import com.bupt.weibo.entity.User;
 import com.bupt.weibo.service.UserService;
+import com.bupt.weibo.utils.ResultUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @anthor tanshangou
@@ -21,13 +23,28 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/")
-    public User getUser(){
+    @Autowired
+    ResultUtils resultUtils;
 
-        User user=userService.getUser();
 
-        log.info("username: "+user.getNickname());
+    @GetMapping("/{uid}")
+    public ResultDTO getUser(@PathVariable("uid") Integer uid){
 
-        return user;
+        User user=userService.getUser(uid);
+
+
+        //log.info("username: "+user.getNickname());
+
+        return resultUtils.onSuccess(JSONObject.toJSONString(user));
     }
+
+    @PostMapping("/")
+    public ResultDTO Register(@RequestBody UserDTO userDTO) throws Exception{
+        User user=userService.registerUser(userDTO);
+        return resultUtils.onSuccess(JSONObject.toJSONString(user));
+    }
+
+
+
+
 }
