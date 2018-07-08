@@ -49,8 +49,14 @@ public class UserController {
 
     @PostMapping("/")
     public ResultDTO Register(@RequestBody UserDTO userDTO) throws Exception{
-        User user=userService.registerUser(userDTO);
-        return resultUtils.onSuccess(JSONObject.toJSONString(user));
+        if(userDTO != null){
+            User user=userService.registerUser(userDTO);
+            return resultUtils.onSuccess(JSONObject.toJSONString(user));
+        }else{
+            return resultUtils.onError("userDTO = null");
+        }
+
+
     }
 
 
