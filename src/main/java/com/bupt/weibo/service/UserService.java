@@ -1,5 +1,6 @@
 package com.bupt.weibo.service;
 
+import com.bupt.weibo.dto.UserDTO;
 import com.bupt.weibo.entity.User;
 
 /**
@@ -10,4 +11,6 @@ import com.bupt.weibo.entity.User;
 public interface UserService {
 
     User getUser(Integer uid);
+
+     public User registerUser(UserDTO userDTO);
 }
