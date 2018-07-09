@@ -25,7 +25,6 @@ public class User {
     private Integer followers=0;
     private String sex;
     private Timestamp creatTime;
-    private String role="USER";
     private String email;
 
     @Id
@@ -116,16 +115,6 @@ public class User {
 
     public void setCreatTime(Timestamp creatTime) {
         this.creatTime = creatTime;
-    }
-
-    @Basic
-    @Column(name = "role", nullable = true)
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 
     @Basic

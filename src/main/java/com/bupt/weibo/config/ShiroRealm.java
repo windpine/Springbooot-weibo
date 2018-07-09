@@ -36,9 +36,9 @@ public class ShiroRealm extends AuthenticatingRealm {
         // 将token装换成UsernamePasswordToken
         UsernamePasswordToken upToken = (UsernamePasswordToken) authenticationToken;
         // 获取用户名即可
-        String email = upToken.getUsername();
+        String username = upToken.getUsername();
         // 查询数据库，是否查询到用户名和密码的用户
-        User user = userService.getUserByEmail(email);
+        User user = userService.getUserByName(username);
 
         if(user != null) {
             // 如果查询到了，封装查询结果，返回给我们的调用
@@ -46,7 +46,7 @@ public class ShiroRealm extends AuthenticatingRealm {
             Object credentials = user.getPassword();
 
             // 获取盐值，即用户名
-            ByteSource salt = ByteSource.Util.bytes(email);
+            ByteSource salt = ByteSource.Util.bytes(username);
             String realmName = this.getName();
             // 将账户名，密码，盐值，realmName实例化到SimpleAuthenticationInfo中交给Shiro来管理
             info = new SimpleAuthenticationInfo(principal, credentials, salt,realmName);
@@ -57,4 +57,6 @@ public class ShiroRealm extends AuthenticatingRealm {
 
         return info;
     }
+
+
 }

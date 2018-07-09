@@ -17,4 +17,6 @@ public interface UserService {
      public User registerUser(UserDTO userDTO) throws DisabledAccountException;
 
      User getUserByEmail(String email);
+
+     User getUserByName(String username);
 }
