@@ -6,7 +6,10 @@ import com.bupt.weibo.repository.CommentRepository;
 import com.bupt.weibo.service.CommentService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @anthor tanshangou
@@ -31,5 +34,11 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void deleteAComment(int CID) {
         commentRepository.deleteById(CID);
+    }
+
+    @Override
+    public List<Comment> getTweetComments(Integer TID) {
+        Sort sort = new Sort(Sort.Direction.DESC,"createTime");
+        return commentRepository.findCommentsByTid(TID,sort);
     }
 }

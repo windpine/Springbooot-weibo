@@ -1,10 +1,17 @@
 package com.bupt.weibo.service.impl;
 
+import com.bupt.weibo.dto.TweetDTO;
+import com.bupt.weibo.entity.Tweet;
 import com.bupt.weibo.repository.TweetRepository;
 import com.bupt.weibo.service.TweetService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * @anthor tanshangou
@@ -16,6 +23,38 @@ import org.springframework.stereotype.Service;
 public class TweetServiceImpl implements TweetService {
     @Autowired
     TweetRepository tweetRepository;
+
+
+    @Override
+    public List<Tweet> getAllTweets() {
+        return tweetRepository.findAll();
+    }
+
+    @Override
+    public List<Tweet> getPersonalTweets(Integer UID) {
+        Sort sort = new Sort(Sort.Direction.DESC,"createTime");
+        return tweetRepository.findTweetsByUid(UID,sort);
+    }
+
+    @Override
+    public Boolean publishTweet(TweetDTO tweetDTO) {
+        Tweet newTweet = new Tweet();
+        newTweet.setContent(tweetDTO.getContent());
+        newTweet.setUid(tweetDTO.getUid());
+        newTweet.setCreateTime(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+        Tweet saveTweet = tweetRepository.saveAndFlush(newTweet);
+        if(saveTweet.equals(newTweet))
+            return true;
+        else
+            return false;
+    }
+
+    @Override
+    public List<Tweet> getTopicTweets(String topicTitle) {
+        Sort sort = new Sort(Sort.Direction.DESC,"createTime");
+        return tweetRepository.findTweetsByTopicTitle(topicTitle,sort);
+    }
+
 
     @Override
     public void deleteATweet(int TID) throws Exception{

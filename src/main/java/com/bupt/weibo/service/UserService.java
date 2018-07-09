@@ -2,6 +2,8 @@ package com.bupt.weibo.service;
 
 import com.bupt.weibo.dto.UserDTO;
 import com.bupt.weibo.entity.User;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.DisabledAccountException;
 
 /**
  * @anthor tanshangou
@@ -12,5 +14,7 @@ public interface UserService {
 
     User getUser(Integer uid);
 
-   User registerUser(UserDTO userDTO);
+     public User registerUser(UserDTO userDTO) throws DisabledAccountException;
+
+     User getUserByEmail(String email);
 }

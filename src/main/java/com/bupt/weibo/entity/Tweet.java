@@ -16,10 +16,10 @@ import java.util.Objects;
 public class Tweet {
     private int tid;
     private int uid;
-    private Integer srcId;
+    private Integer srcId=-1;
     private String topicTitle;
     private String content;
-    private Integer likes;
+    private Integer likes=0;
     private Timestamp createTime;
 
     @Id
@@ -53,7 +53,7 @@ public class Tweet {
     }
 
     @Basic
-    @Column(name = "topicTitle", nullable = true, length = 21)
+    @Column(name = "topic_title", nullable = true, length = 21)
     public String getTopicTitle() {
         return topicTitle;
     }

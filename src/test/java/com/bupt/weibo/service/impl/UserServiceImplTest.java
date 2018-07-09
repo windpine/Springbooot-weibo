@@ -1,13 +1,16 @@
 package com.bupt.weibo.service.impl;
 
+import com.bupt.weibo.dto.UserDTO;
 import com.bupt.weibo.entity.User;
 import com.bupt.weibo.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.*;
 
@@ -17,6 +20,7 @@ import static org.junit.Assert.*;
  * @description
  */
 @SpringBootTest
+@Slf4j
 @RunWith(SpringRunner.class)
 public class UserServiceImplTest {
 
@@ -26,7 +30,12 @@ public class UserServiceImplTest {
     @Test
     public void getUser() {
 
-        User user=userService.getUser();
-        Assert.assertNotNull(user);
+        UserDTO userDTO = new UserDTO();
+        userDTO.setEmail("tsseagull_gd@163.com");
+        userDTO.setUsername("tanshangou");
+        userDTO.setNickname("doggy");
+        userDTO.setPassword("kk6665596");
+        userDTO.setSex("male");
+        userService.registerUser(userDTO);
     }
 }
