@@ -1,9 +1,11 @@
 package com.bupt.weibo.service;
 
 import com.bupt.weibo.entity.Relation;
+
 import com.bupt.weibo.entity.User;
 
 import java.util.List;
+
 
 public interface RelationService {
 

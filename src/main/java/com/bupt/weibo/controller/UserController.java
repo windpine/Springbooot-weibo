@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @anthor tanshangou
  * @time 2018/7/7
@@ -27,6 +29,7 @@ public class UserController {
     ResultUtils resultUtils;
 
 
+    //根据用户ID获得一个用户的信息
     @GetMapping("/{uid}")
     public ResultDTO getUser(@PathVariable("uid") Integer uid){
 
@@ -38,11 +41,30 @@ public class UserController {
         return resultUtils.onSuccess(JSONObject.toJSONString(user));
     }
 
+    //获得所有用户
+    @GetMapping("/users")
+    public ResultDTO getUsers(){
+        List<User> users=userService.getUsers();
+        return resultUtils.onSuccess(JSONObject.toJSONString(users));
+    }
+
+
+    //新用户注册
     @PostMapping("/")
     public ResultDTO Register(@RequestBody UserDTO userDTO) throws Exception{
-        User user=userService.registerUser(userDTO);
-        return resultUtils.onSuccess(JSONObject.toJSONString(user));
+        if(userDTO != null){
+            User user=userService.registerUser(userDTO);
+            return resultUtils.onSuccess(JSONObject.toJSONString(user));
+        }else{
+            return resultUtils.onError("userDTO = null");
+        }
+
+
     }
+
+
+
+
 
 
 

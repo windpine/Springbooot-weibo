@@ -5,6 +5,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  * @time 2018/7/7
  * @description
  */
+@Repository
 public interface TweetRepository extends JpaRepository<Tweet,Integer> {
     @Transactional
     List<Tweet> findTweetsByUid(Integer UID, Sort sort);
