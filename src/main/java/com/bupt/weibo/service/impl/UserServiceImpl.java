@@ -4,6 +4,7 @@ import com.bupt.weibo.dto.UserDTO;
 import com.bupt.weibo.entity.User;
 import com.bupt.weibo.repository.UserRepository;
 import com.bupt.weibo.service.UserService;
+import java.util.List;
 import com.bupt.weibo.utils.UUIDUtils;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
 
 
+    //根据用户id获取用户
     @Override
     public User getUser(Integer uid) {
         User user=userRepository.findById(uid).orElse(null);
@@ -34,6 +36,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    //用户注册
     @Override
     public User registerUser(UserDTO userDTO) throws DisabledAccountException{
         User user=new User();
@@ -65,5 +68,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    //获取用户列表
+    @Override
+    public List<User> getUsers() {
+        List<User> users=userRepository.findAll();
+        return users;
     }
 }
