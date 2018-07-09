@@ -1,6 +1,9 @@
 package com.bupt.weibo.entity;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.Objects;
 
 /**
@@ -10,7 +13,6 @@ import java.util.Objects;
  */
 @Entity
 public class Message {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int messageId;
     private int type;
     private String content;
