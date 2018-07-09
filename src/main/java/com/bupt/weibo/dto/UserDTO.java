@@ -9,7 +9,6 @@ import java.sql.Timestamp;
  */
 @Data
 public class UserDTO {
-    private int uid;
     private String username;
     private String nickname;
     private String password;
@@ -19,5 +18,5 @@ public class UserDTO {
     private String sex;
 //    private Timestamp creatTime;
 //    private String role;
-//    private String email;
+    private String email;
 }

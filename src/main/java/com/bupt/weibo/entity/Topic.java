@@ -1,6 +1,9 @@
 package com.bupt.weibo.entity;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -11,7 +14,6 @@ import java.util.Objects;
  */
 @Entity
 public class Topic {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int topicId;
     private String title;
     private String description;

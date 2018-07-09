@@ -1,7 +1,12 @@
 package com.bupt.weibo.entity;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -11,26 +16,25 @@ import java.util.Objects;
  */
 @Entity
 public class User {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int uid;
+    private String uid;
     private String username;
     private String nickname;
     private String password;
-    private Integer tweets;
-    private Integer follows;
-    private Integer followers;
+    private Integer tweets=0;
+    private Integer follows=0;
+    private Integer followers=0;
     private String sex;
     private Timestamp creatTime;
-    private String role;
+    private String role="USER";
     private String email;
 
     @Id
     @Column(name = "UID", nullable = false)
-    public int getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 
@@ -115,7 +119,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "role", nullable = true, length = 32)
+    @Column(name = "role", nullable = true)
     public String getRole() {
         return role;
     }
@@ -148,13 +152,13 @@ public class User {
                 Objects.equals(followers, user.followers) &&
                 Objects.equals(sex, user.sex) &&
                 Objects.equals(creatTime, user.creatTime) &&
-                Objects.equals(role, user.role) &&
                 Objects.equals(email, user.email);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(uid, username, nickname, password, tweets, follows, followers, sex, creatTime, role, email);
+        return Objects.hash(uid, username, nickname, password, tweets, follows, followers, sex, creatTime, email);
     }
+
 }
