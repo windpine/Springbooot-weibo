@@ -16,25 +16,25 @@ import java.util.Objects;
  */
 @Entity
 public class User {
-    private int uid;
+    private String uid;
     private String username;
     private String nickname;
     private String password;
-    private Integer tweets;
-    private Integer follows;
-    private Integer followers;
+    private Integer tweets=0;
+    private Integer follows=0;
+    private Integer followers=0;
     private String sex;
     private Timestamp creatTime;
-    private String role;
+    private String role="USER";
     private String email;
 
     @Id
     @Column(name = "UID", nullable = false)
-    public int getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 
@@ -160,7 +160,5 @@ public class User {
 
         return Objects.hash(uid, username, nickname, password, tweets, follows, followers, sex, creatTime, email);
     }
-
-
 
 }
