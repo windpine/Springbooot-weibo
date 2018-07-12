@@ -14,6 +14,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @anthor tanshangou
  * @time 2018/7/7
@@ -32,6 +34,12 @@ public class UserServiceImpl implements UserService {
         //log.info("user"+user.getNickname());
         return user;
     }
+
+    @Override
+    public List<User> getUsers() {
+        return userRepository.findAll();
+    }
+
 
 
     @Override
@@ -58,7 +66,7 @@ public class UserServiceImpl implements UserService {
         if(userRepository.findByUsername(user.getUsername())==null){
             return userRepository.save(user);
         }else {
-            throw new DisabledAccountException("不存在该用户");
+            throw new DisabledAccountException("已存在该用户名");
         }
     }
 
@@ -70,6 +78,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByName(String username) {
+
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public User login(String username, String password) {
+
+        return null;
     }
 }
