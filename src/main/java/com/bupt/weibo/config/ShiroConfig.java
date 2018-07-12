@@ -1,5 +1,6 @@
 package com.bupt.weibo.config;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -33,14 +34,17 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/doLogin", "anon");
         filterChainDefinitionMap.put("/doRegister", "anon");
         filterChainDefinitionMap.put("/register", "anon");
+        filterChainDefinitionMap.put("/admin/**", "authc,roles[admin]");
+        filterChainDefinitionMap.put("/static/**", "anon");
 
         // 配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了
         filterChainDefinitionMap.put("/doLogout", "logout");
 
         // 剩余请求需要身份认证
-        filterChainDefinitionMap.put("/**", "authc");
+        filterChainDefinitionMap.put("/**", "authc,roles[user]");
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
         shiroFilterFactoryBean.setLoginUrl("/login");
+
 
         // 未授权界面;
 //        shiroFilterFactoryBean.setUnauthorizedUrl("/403");
@@ -76,5 +80,10 @@ public class ShiroConfig {
         // 设置加密次数
         hashedCredentialsMatcher.setHashIterations(1024);
         return hashedCredentialsMatcher;
+    }
+
+    @Bean
+    public ShiroDialect shiroDialect() {
+        return new ShiroDialect();
     }
 }

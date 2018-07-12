@@ -4,7 +4,6 @@ import com.bupt.weibo.dto.UserDTO;
 import com.bupt.weibo.entity.User;
 import com.bupt.weibo.repository.UserRepository;
 import com.bupt.weibo.service.UserService;
-import java.util.List;
 import com.bupt.weibo.utils.UUIDUtils;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +13,8 @@ import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @anthor tanshangou
@@ -27,7 +28,6 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
 
 
-    //根据用户id获取用户
     @Override
     public User getUser(Integer uid) {
         User user=userRepository.findById(uid).orElse(null);
@@ -35,8 +35,13 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Override
+    public List<User> getUsers() {
+        return userRepository.findAll();
+    }
 
-    //用户注册
+
+
     @Override
     public User registerUser(UserDTO userDTO) throws DisabledAccountException{
         User user=new User();
@@ -61,19 +66,25 @@ public class UserServiceImpl implements UserService {
         if(userRepository.findByUsername(user.getUsername())==null){
             return userRepository.save(user);
         }else {
-            throw new DisabledAccountException("不存在该用户");
+            throw new DisabledAccountException("已存在该用户名");
         }
     }
 
     @Override
     public User getUserByEmail(String email) {
+
         return userRepository.findByEmail(email);
     }
 
-    //获取用户列表
     @Override
-    public List<User> getUsers() {
-        List<User> users=userRepository.findAll();
-        return users;
+    public User getUserByName(String username) {
+
+        return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public User login(String username, String password) {
+
+        return null;
     }
 }
