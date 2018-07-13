@@ -33,15 +33,6 @@ public class User {
     @Column(name = "password", nullable = false, length = 32)
     private String password;
     @Basic
-    @Column(name = "tweets", nullable = true)
-    private Integer tweets=0;
-    @Basic
-    @Column(name = "follows", nullable = true)
-    private Integer follows=0;
-    @Basic
-    @Column(name = "followers", nullable = true)
-    private Integer followers=0;
-    @Basic
     @Column(name = "creat_time", nullable = false)
     private Timestamp creatTime;
     @Basic
@@ -51,9 +42,6 @@ public class User {
     /**
      * 添加
      */
-    @Column(name = "salt")
-    @NotNull
-    private String salt;
 
     @Column(name = "status")
     @NotNull
@@ -81,12 +69,8 @@ public class User {
                 Objects.equals(username, user.username) &&
                 Objects.equals(nickname, user.nickname) &&
                 Objects.equals(password, user.password) &&
-                Objects.equals(tweets, user.tweets) &&
-                Objects.equals(follows, user.follows) &&
-                Objects.equals(followers, user.followers) &&
                 Objects.equals(creatTime, user.creatTime) &&
                 Objects.equals(email, user.email) &&
-                Objects.equals(salt, user.salt) &&
                 status == user.status &&
                 Objects.equals(roles, user.roles) &&
                 Objects.equals(permissions, user.permissions);
@@ -95,7 +79,7 @@ public class User {
     @Override
     public int hashCode() {
 
-        return Objects.hash(uid, username, nickname, password, tweets, follows, followers, creatTime, email, salt, status, roles, permissions);
+        return Objects.hash(uid, username, nickname, password, creatTime, email,status, roles, permissions);
     }
 
 
@@ -134,34 +118,6 @@ public class User {
         this.password = password;
     }
 
-
-    public Integer getTweets() {
-        return tweets;
-    }
-
-    public void setTweets(Integer tweets) {
-        this.tweets = tweets;
-    }
-
-
-    public Integer getFollows() {
-        return follows;
-    }
-
-    public void setFollows(Integer follows) {
-        this.follows = follows;
-    }
-
-
-    public Integer getFollowers() {
-        return followers;
-    }
-
-    public void setFollowers(Integer followers) {
-        this.followers = followers;
-    }
-
-
     public Timestamp getCreatTime() {
         return creatTime;
     }
@@ -193,14 +149,6 @@ public class User {
 
     public void setStatus(UserStatus status) {
         this.status = status;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
     }
 
     public List<Permission> getPermissions() {

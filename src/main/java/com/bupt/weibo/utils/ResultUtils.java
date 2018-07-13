@@ -22,11 +22,12 @@ public class ResultUtils {
      * @param data
      * @return
      */
-    public static ResultDTO onSuccess(String data){
+    public static ResultDTO onSuccess(Object data){
         ResultDTO resultDTO = new ResultDTO();
         resultDTO.setStatus(SUCCESS);
         resultDTO.setData(data);
         resultDTO.setMsg(null);
+        resultDTO.setErrorCode(null);
         return resultDTO;
     }
 
@@ -39,6 +40,7 @@ public class ResultUtils {
         resultDTO.setStatus(SUCCESS);
         resultDTO.setData(null);
         resultDTO.setMsg(null);
+        resultDTO.setErrorCode(null);
         return resultDTO;
     }
 
@@ -51,6 +53,7 @@ public class ResultUtils {
         ResultDTO resultDTO = new ResultDTO();
         resultDTO.setStatus(ERROR);
         resultDTO.setData(null);
+        resultDTO.setErrorCode(null);
         return resultDTO;
     }
 
@@ -64,6 +67,7 @@ public class ResultUtils {
         resultDTO.setStatus(ERROR);
         resultDTO.setData(null);
         resultDTO.setMsg(msg);
+        resultDTO.setErrorCode(null);
         return resultDTO;
     }
 

@@ -1,5 +1,6 @@
 package com.bupt.weibo.dto;
 
+import com.bupt.weibo.entity.enums.ErrorCode;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +12,10 @@ import org.springframework.stereotype.Component;
 @Data
 public class ResultDTO {
 
+    //仅用于一定情况
+    private ErrorCode errorCode;
     private String status;
-    private String data;
+    private Object data;
     private String msg;
+    private String url;
 }

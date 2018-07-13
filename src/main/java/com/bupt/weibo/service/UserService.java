@@ -1,6 +1,8 @@
 package com.bupt.weibo.service;
 
 import com.bupt.weibo.dto.UserDTO;
+import com.bupt.weibo.entity.Permission;
+import com.bupt.weibo.entity.Role;
 import com.bupt.weibo.entity.User;
 import java.util.List;
 import org.apache.shiro.authc.AuthenticationException;
@@ -13,9 +15,7 @@ import org.apache.shiro.authc.DisabledAccountException;
  */
 public interface UserService {
 
-    User getUser(Integer uid);
-
-    List<User> getUsers();
+    User getUserById(String uid);
 
     User registerUser(UserDTO userDTO) throws DisabledAccountException;
 
@@ -23,6 +23,9 @@ public interface UserService {
 
      User getUserByName(String username);
 
-     User login(String username,String password);
+    List<User> listUsers();
+    User updateRolesById(String id, List<Role> roles);
+    User updatePermissionsById(String id, List<Permission> permissions);
+    void delUserById(String id);
 
 }
