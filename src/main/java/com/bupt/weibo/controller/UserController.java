@@ -64,9 +64,10 @@ public class UserController {
 
 
 
-
-
-
-
-
 }
+
+//URL点击 ：<a href="details.html" th:href="@{myThymeleaf(orderId=${id})}">view</a></br>
+//        相对路径：<img th:width="100px" th:src="@{../images/{imageUrl}(imageUrl=${image})}"></br>
+//        绝对路径：<img th:width="100px" th:src="@{/images/{imageUrl}(imageUrl=${image})}"></br>
+//<!-- 无效链接 -->
+//        其他路径：<img th:width="100px" th:src="@{images/{imageUrl}(imageUrl=${image})}">

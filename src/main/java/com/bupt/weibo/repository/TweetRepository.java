@@ -22,6 +22,8 @@ public interface TweetRepository extends JpaRepository<Tweet,Integer> {
 
     @Transactional
     List<Tweet> findTweetsByTopicTitle(String topicTitle,Sort sort);
+
+
     @Transactional
     @Modifying
     @Query("update Tweet t set t.likes = t.likes+1 where t.tid=?1")
