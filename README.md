@@ -27,6 +27,7 @@
 2. 成功结果的返回用ResultUtils.onSuccess封装，已经将data从原有的String更改为data，由ResponseEntity解析返回。
   注意参数类型必须为Map类型或者类对象。
 3. 失败的结果通过抛出异常 throw new ResultException让全局异常类自己处理。可以看看ResultException的定义，该填的信息参数要填进去。
+4. ResultException的处理可能会不能正确地返回至接口，可以先编写好，通过调试确认返回信息符合要求即可，具体我再处理
 
 
 # 任务：根据以上变更适配自己负责编写的接口所涉及到的DTO类，以及Controller的返回值。DTO类的设计可以根据自己的页面设计需求进行修改。
