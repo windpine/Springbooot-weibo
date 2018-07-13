@@ -1,20 +1,24 @@
 package com.bupt.weibo.config;
 
-import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import com.bupt.weibo.shiro.ShiroSessionDao;
+import com.bupt.weibo.shiro.ShiroSessionFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
+import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.filter.authc.LogoutFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.apache.shiro.mgt.SecurityManager;
-import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
+import org.springframework.context.annotation.DependsOn;
 
+import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Properties;
+
 
 /**
  * @anthor tanshangou
@@ -22,50 +26,94 @@ import java.util.Properties;
  * @description
  */
 @Configuration
+@Slf4j
 public class ShiroConfig {
-    @Bean
-    public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
+
+    /**
+     * LifecycleBeanPostProcessor,DestructionAwareBeanPostProcessor的子类
+     * 负责org.apache.shiro.util.Initializable类型bean的生命周期，初始化和销毁
+     * 主要是AuthorizingRealm类的子类，以及EhCacheManager类
+     */
+    @Bean(name = "lifecycleBeanPostProcessor")
+    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor(){
+        return new LifecycleBeanPostProcessor();
+    }
+
+    @Bean(name = "securityManager")
+    public SecurityManager securityManager(@Qualifier("hashedCredentialsMatcher") HashedCredentialsMatcher matcher){
+        DefaultWebSecurityManager securityManager =  new DefaultWebSecurityManager();
+        //设置Realm
+        securityManager.setRealm(myShiroRealm(matcher));
+        //设置会话管理器
+        securityManager.setSessionManager(sessionManager());
+        return securityManager;
+    }
+
+    /**
+     * ShirpFilterFactoryBean, 生成ShiroFilter
+     * securityManager,filters,filterChainDefinitionManager
+     */
+    @Bean(name = "shiroFilter")
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(){
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
-        shiroFilterFactoryBean.setSecurityManager(securityManager);
-        // 拦截器。匹配原则是最上面的最优先匹配
-        Map<String,String> filterChainDefinitionMap = new LinkedHashMap<String,String>();
-        // 配置不会被拦截的链接
-        filterChainDefinitionMap.put("/login", "anon");
-        filterChainDefinitionMap.put("/doLogin", "anon");
-        filterChainDefinitionMap.put("/doRegister", "anon");
-        filterChainDefinitionMap.put("/register", "anon");
-        filterChainDefinitionMap.put("/admin/**", "authc,roles[admin]");
-        filterChainDefinitionMap.put("/static/**", "anon");
+        shiroFilterFactoryBean.setSecurityManager(securityManager(hashedCredentialsMatcher()));
 
-        // 配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了
-        filterChainDefinitionMap.put("/doLogout", "logout");
+        Map<String, Filter> filters = new LinkedHashMap<String,Filter>();
+        LogoutFilter logoutFilter = new LogoutFilter();
+        logoutFilter.setRedirectUrl("/login");
+        shiroFilterFactoryBean.setFilters(filters);
+        shiroFilterFactoryBean.setLoginUrl("/notAuthc");
 
-        // 剩余请求需要身份认证
-        filterChainDefinitionMap.put("/**", "authc,roles[user]");
-        // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
-        shiroFilterFactoryBean.setLoginUrl("/login");
+        Map<String,String> filterChainDefinitionManager = new LinkedHashMap<String,String>();
+        filterChainDefinitionManager.put("/logout","logout");
+        filterChainDefinitionManager.put("/userInfo","authc");
+        filterChainDefinitionManager.put("/users/**","anon");
+        filterChainDefinitionManager.put("/jobs/**","perms[WORDCOUNT:CREATE]");
+        filterChainDefinitionManager.put("/admin/**","roles[Admin]");
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionManager);
 
-
-        // 未授权界面;
-//        shiroFilterFactoryBean.setUnauthorizedUrl("/403");
-        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+        shiroFilterFactoryBean.setSuccessUrl("/");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/notAuthz");
         return shiroFilterFactoryBean;
     }
 
+
     @Bean(name = "myShiroRealm")
+    @DependsOn("lifecycleBeanPostProcessor")
     public ShiroRealm myShiroRealm(HashedCredentialsMatcher matcher){
         ShiroRealm myShiroRealm = new ShiroRealm();
         myShiroRealm.setCredentialsMatcher(matcher);
         return myShiroRealm;
     }
 
-
-    @Bean
-    public SecurityManager securityManager(@Qualifier("hashedCredentialsMatcher") HashedCredentialsMatcher matcher){
-        DefaultWebSecurityManager securityManager =  new DefaultWebSecurityManager();
-        securityManager.setRealm(myShiroRealm(matcher));
-        return securityManager;
+    /**
+     * CachingShiroSessionDao
+     */
+    @Bean(name = "shiroSessionDao")
+    public ShiroSessionDao shiroSessionDao(){
+        return new ShiroSessionDao();
     }
+    /**
+     * EhCacheManager,缓存管理，用户登陆成功后，把用户信息和权限信息缓存起来
+     */
+    @Bean(name = "sessionFactory")
+    public ShiroSessionFactory shiroSessionFactory() {
+        return new ShiroSessionFactory();
+    }
+
+    @Bean(name = "sessionManager")
+    public DefaultWebSessionManager sessionManager(){
+        DefaultWebSessionManager manager = new DefaultWebSessionManager();
+        //manager.setCacheManager(cacheManager);// 加入缓存管理器
+        manager.setSessionFactory(shiroSessionFactory());//设置sessionFactory
+        manager.setSessionDAO(shiroSessionDao());// 设置SessionDao
+        manager.setDeleteInvalidSessions(true);// 删除过期的session
+        manager.setGlobalSessionTimeout(shiroSessionDao().getExpireTime());// 设置全局session超时时间
+        manager.setSessionValidationSchedulerEnabled(true);// 是否定时检查session
+        return manager;
+    }
+
+
 
     /**
      * 密码匹配凭证管理器
@@ -79,11 +127,8 @@ public class ShiroConfig {
         hashedCredentialsMatcher.setHashAlgorithmName("MD5");
         // 设置加密次数
         hashedCredentialsMatcher.setHashIterations(1024);
+        hashedCredentialsMatcher.setStoredCredentialsHexEncoded(true);
         return hashedCredentialsMatcher;
     }
 
-    @Bean
-    public ShiroDialect shiroDialect() {
-        return new ShiroDialect();
-    }
 }

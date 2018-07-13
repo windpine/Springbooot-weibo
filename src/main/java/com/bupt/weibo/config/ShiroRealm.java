@@ -5,18 +5,44 @@ package com.bupt.weibo.config;
  * @time 2018/7/8
  * @description
  */
+import com.bupt.weibo.dto.PermissionDto;
+import com.bupt.weibo.dto.RoleDTO;
+import com.bupt.weibo.dto.UserDTO;
+import com.bupt.weibo.dto.mapper.PermissionMapper;
+import com.bupt.weibo.dto.mapper.RoleMapper;
+import com.bupt.weibo.entity.Permission;
+import com.bupt.weibo.entity.Role;
 import com.bupt.weibo.entity.User;
+import com.bupt.weibo.repository.PermissionRepository;
+import com.bupt.weibo.repository.RoleRepository;
+import com.bupt.weibo.repository.UserRepository;
 import com.bupt.weibo.service.UserService;
+import com.bupt.weibo.shiro.ShiroSessionDao;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthenticatingRealm;
+import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+import java.util.stream.Collectors;
 
-public class ShiroRealm extends AuthenticatingRealm {
+@Slf4j
+public class ShiroRealm extends AuthorizingRealm {
     @Autowired
-    private UserService userService;
-
+    private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
+    private PermissionRepository permissionRepository;
+    @Autowired
+    private ShiroSessionDao shiroSessionDao;
     private SimpleAuthenticationInfo info = null;
 
     /**
@@ -38,13 +64,15 @@ public class ShiroRealm extends AuthenticatingRealm {
         // 获取用户名即可
         String username = upToken.getUsername();
         // 查询数据库，是否查询到用户名和密码的用户
-        User user = userService.getUserByName(username);
-
+        User user = userRepository.findByUsername(username);
         if(user != null) {
             // 如果查询到了，封装查询结果，返回给我们的调用
             Object principal =  user.getEmail();
             Object credentials = user.getPassword();
-
+            //登陆成功
+            //设置session
+            Session session = SecurityUtils.getSubject().getSession();
+            session.setAttribute("uid",user.getUid());
             // 获取盐值，即用户名
             ByteSource salt = ByteSource.Util.bytes(username);
             String realmName = this.getName();
@@ -58,5 +86,29 @@ public class ShiroRealm extends AuthenticatingRealm {
         return info;
     }
 
+
+    @Override
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+        //获取当前用户
+        //UserDto user = convertToDto(userDao.findUserByUsername((String)principalCollection.getPrimaryPrincipal()));
+        //User currentUser = userDao.findUserByUsername((String)principalCollection.getPrimaryPrincipal());
+        User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
+
+        //把principals放session中，key=userId value=principals
+        SecurityUtils.getSubject().getSession().setAttribute(String.valueOf(user.getUid()),SecurityUtils.getSubject().getPrincipals());
+
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+
+
+        for(Role role:user.getRoles()){
+            info.addRole(role.getName());
+        }
+        //赋予权限
+        for(Permission permission:user.getPermissions()){
+            //System.out.println(permission.getName());
+            info.addStringPermission(permission.getName());
+        }
+        return info;
+    }
 
 }

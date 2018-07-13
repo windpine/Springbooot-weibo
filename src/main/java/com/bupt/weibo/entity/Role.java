@@ -36,17 +36,17 @@ public class Role implements Serializable {
     @NotNull
     private Boolean available = Boolean.FALSE;
 
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-    private List<User> users = new ArrayList<>();
+        @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+        private List<User> users = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
-    @JoinTable(name = "role_permission",
-            joinColumns = {@JoinColumn(name = "roleId",referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "permissionId",referencedColumnName = "id")})
-    @CollectionId(columns = @Column(name = "id"),
-            type = @Type(type = "long"),
-            generator = "identity")
-    private List<Permission> permissions = new ArrayList<>();
+        @ManyToMany(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
+        @JoinTable(name = "role_permission",
+                joinColumns = {@JoinColumn(name = "roleId",referencedColumnName = "id")},
+                inverseJoinColumns = {@JoinColumn(name = "permissionId",referencedColumnName = "id")})
+        @CollectionId(columns = @Column(name = "id"),
+                type = @Type(type = "long"),
+                generator = "identity")
+        private List<Permission> permissions = new ArrayList<>();
 
     public Role() {
     }

@@ -1,7 +1,11 @@
 package com.bupt.weibo.service.impl;
 
 import com.bupt.weibo.dto.UserDTO;
+import com.bupt.weibo.dto.mapper.UserMapper;
+import com.bupt.weibo.entity.Permission;
+import com.bupt.weibo.entity.Role;
 import com.bupt.weibo.entity.User;
+import com.bupt.weibo.exception.ResultException;
 import com.bupt.weibo.repository.UserRepository;
 import com.bupt.weibo.service.UserService;
 import com.bupt.weibo.utils.UUIDUtils;
@@ -27,25 +31,22 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    @Autowired
+    UserMapper userMapper;
+
 
     @Override
-    public User getUser(Integer uid) {
+    public User getUserById(String uid) {
         User user=userRepository.findById(uid).orElse(null);
         //log.info("user"+user.getNickname());
         return user;
     }
 
     @Override
-    public List<User> getUsers() {
-        return userRepository.findAll();
-    }
-
-
-
-    @Override
     public User registerUser(UserDTO userDTO) throws DisabledAccountException{
-        User user=new User();
-        BeanUtils.copyProperties(userDTO,user);
+        log.info("Mapper转换UserDTO->User");
+        User user=userMapper.convertToEntity(userDTO);
         //生成UUID
         user.setUid(UUIDUtils.getOneUUID());
         ByteSource salt = ByteSource.Util.bytes(user.getUsername());
@@ -64,6 +65,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(newPs);
         //检查用户是否存在
         if(userRepository.findByUsername(user.getUsername())==null){
+            log.info("成功注册！");
             return userRepository.save(user);
         }else {
             throw new DisabledAccountException("已存在该用户名");
@@ -81,10 +83,45 @@ public class UserServiceImpl implements UserService {
 
         return userRepository.findByUsername(username);
     }
+    @Override
+    public List<User> listUsers() {
+        List<User> users = userRepository.findAll();
+        return users;
+    }
 
     @Override
-    public User login(String username, String password) {
+    public User updateRolesById(String id, List<Role> roles) {
+        if(!userRepository.existsById(id)){
+            throw new ResultException();
+        }
+        try {
+            User user = userRepository.findById(id).orElse(null);
+            user.setRoles(roles);
+            user = userRepository.save(user);
+            return user;
+        }catch (Exception e){
+            //throw e;
+            throw new ResultException();
+        }
+    }
 
-        return null;
+    @Override
+    public User updatePermissionsById(String id, List<Permission> permissions) {
+        if(!userRepository.existsById(id)){
+            throw new ResultException();
+        }
+        try {
+            User user = userRepository.findById(id).orElse(null);
+            user.setPermissions(permissions);
+            user = userRepository.save(user);
+            return user;
+        }catch (Exception e){
+            throw new ResultException();
+        }
+    }
+
+    @Override
+    public void delUserById(String id) {
+        userRepository.deleteById(id);
     }
 }
