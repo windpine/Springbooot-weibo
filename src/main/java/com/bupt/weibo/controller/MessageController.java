@@ -9,9 +9,12 @@ import com.bupt.weibo.service.MessageService;
 import com.bupt.weibo.utils.ApplicationUtils;
 import com.bupt.weibo.utils.ResultUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -26,7 +29,7 @@ import java.util.Map;
  * @description
  */
 @RestController
-@RequestMapping(MessageController.PATH)
+@RequestMapping(value = MessageController.PATH)
 @Slf4j
 public class MessageController {
     public static final String PATH = "/message";
@@ -34,20 +37,20 @@ public class MessageController {
     public static final String MENTIONPATH ="/mention";
     public static final String COMMENTPATH= "/comment";
     @Autowired
-    MessageService messageService;
+    private MessageService messageService;
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * 获取当前用户下的所有@消息
      */
-    @GetMapping(value = PATH+MENTIONPATH+UIDPATH)
-    public ResponseEntity<ResultDTO> getAllMessageMention(UriComponentsBuilder uriComponentsBuilder, @PathVariable(name="UID")String UID){
+    @GetMapping(value = MENTIONPATH)
+    public ResponseEntity<ResultDTO> getAllMessageMention(UriComponentsBuilder uriComponentsBuilder, @RequestParam(name="UID")String UID){
         //包装header
-        HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+MENTIONPATH+"/"+UID);
-        headers.setAccessControlAllowOrigin("*");
-        headers.setAccessControlAllowCredentials(true);
+        HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+MENTIONPATH);
         //map message
         List<MessageMentionTweetDTO> messageDTOS = messageService.getPersonalAllTweetMention(UID);
         Map result = new HashMap<String,List<MessageMentionTweetDTO>>();
+        logger.info("Map_success");
         //返回
         if(messageDTOS.size() != 0){
             result.put("messageList",messageDTOS);
@@ -59,12 +62,10 @@ public class MessageController {
     /**
      * 获取当前用户下的所有评论消息
      */
-    @GetMapping(value = PATH+COMMENTPATH+UIDPATH)
-    public ResponseEntity<ResultDTO> getAllMessageComment(UriComponentsBuilder uriComponentsBuilder, @PathVariable(name="UID")String UID){
+    @GetMapping(value = COMMENTPATH)
+    public ResponseEntity<ResultDTO> getAllMessageComment(UriComponentsBuilder uriComponentsBuilder, @RequestParam(name="UID")String UID){
         //包装header
-        HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+COMMENTPATH+"/"+UID);
-        headers.setAccessControlAllowOrigin("*");
-        headers.setAccessControlAllowCredentials(true);
+        HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+COMMENTPATH);
         //map message
         List<MessageCommentDTO> messageDTOS = messageService.getPersonalAllComment(UID);
         Map result = new HashMap<String,List<MessageCommentDTO>>();
@@ -85,8 +86,6 @@ public class MessageController {
     public ResponseEntity<ResultDTO> publishMessage(UriComponentsBuilder uriComponentsBuilder,@RequestBody Message message){
         //包装header
         HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH);
-        headers.setAccessControlAllowOrigin("*");
-        headers.setAccessControlAllowCredentials(true);
         //
         boolean ispublish = messageService.publishMessage(message);
         if(ispublish){

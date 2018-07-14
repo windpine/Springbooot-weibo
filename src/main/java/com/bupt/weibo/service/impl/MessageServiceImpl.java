@@ -40,7 +40,7 @@ public class MessageServiceImpl implements MessageService {
         List<Object[]> resultArray=messageRepository.findAllMessageAndCommentJoin(UID);
         List<MessageCommentDTO> messageCommentDTOList = new LinkedList<>();
         for(Object[] objArray:resultArray){
-            messageCommentDTOList.add(messageMapper.convertToCommentDto((Message)objArray[0],(Comment)objArray[2],(User)objArray[3]));
+            messageCommentDTOList.add(messageMapper.convertToCommentDto((Message)objArray[0],(Comment)objArray[1],(User)objArray[2]));
         }
         return messageCommentDTOList;
     }
