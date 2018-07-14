@@ -12,6 +12,7 @@ import com.bupt.weibo.entity.Role;
 import com.bupt.weibo.entity.User;
 import com.bupt.weibo.entity.enums.ErrorCode;
 import com.bupt.weibo.exception.ResultException;
+import com.bupt.weibo.service.UserService;
 import com.bupt.weibo.utils.ApplicationUtils;
 import com.bupt.weibo.utils.ResultUtils;
 import org.apache.shiro.SecurityUtils;
@@ -24,10 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
@@ -46,7 +44,8 @@ public class AuthController {
     public static final String SUBPATH_LOGIN = "/login";
     public static final String SUBPATH_USERINFO = "/userInfo";
 
-
+    @Autowired
+    UserService userService;
 
 
     @PostMapping(value = SUBPATH_LOGIN)
@@ -65,7 +64,41 @@ public class AuthController {
         String loginUserDto = (String) SecurityUtils.getSubject().getSession().getAttribute("uid");
         Map uidResult = new HashMap<String,String>();
         uidResult.put("uid",loginUserDto);
+        headers.setAccessControlAllowOrigin("*");
+        headers.setAccessControlAllowCredentials(true);
         return new ResponseEntity<>(ResultUtils.onSuccess(uidResult),headers, HttpStatus.OK);
+    }
+
+    //新用户注册
+    @PostMapping("/register")
+    public ResponseEntity<User> Register(@RequestBody UserDTO userDTO,
+                                         UriComponentsBuilder uriComponentsBuilder) throws Exception{
+        HttpHeaders headers=ApplicationUtils.getHttpHeaders(uriComponentsBuilder,"users");
+        headers.setAccessControlAllowOrigin("*");
+        headers.setAccessControlAllowCredentials(true);
+        if(userDTO != null){
+            logger.info("=======开始注册用户=========");
+            logger.info("username:"+ userDTO.getUsername()
+                    +" password: "+userDTO.getPassword());
+            User user=userService.registerUser(userDTO);
+            return new ResponseEntity<>(user,headers,HttpStatus.OK);
+        }else{
+            throw new ResultException("Username:"+userDTO.getUsername(),ErrorCode.USEREXIST);
+        }
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    public ResponseEntity<ResultDTO> logout(UriComponentsBuilder uriComponentsBuilder) {
+        HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,SUBPATH_LOGIN);
+        Subject currentUser = SecurityUtils.getSubject();
+        try{
+            currentUser.logout();
+        }catch (ResultException e){
+            logger.error("注销失败");
+        }
+        headers.setAccessControlAllowOrigin("*");
+        headers.setAccessControlAllowCredentials(true);
+        return new ResponseEntity<>(ResultUtils.onSuccess(),headers, HttpStatus.OK);
     }
 
     @GetMapping(value = SUBPATH_USERINFO)
