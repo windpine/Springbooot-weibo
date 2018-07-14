@@ -35,5 +35,5 @@ public interface UserMapper {
     List<User> convertToListEntity(List<UserDTO> roleDtoList);
 
     @InheritInverseConfiguration
-    List<UserDTO> conovertToListDto(List<User> roleList);
+    List<UserDTO> convertToListDto(List<User> roleList);
 }
