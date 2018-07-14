@@ -65,8 +65,6 @@ public class TweetController {
     public ResponseEntity<ResultDTO> getPersonalTweet(UriComponentsBuilder uriComponentsBuilder,@PathVariable(name = "UID") Integer UID){
         //包装header
         HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+"/"+UID);
-        headers.setAccessControlAllowCredentials(true);
-        headers.setAccessControlAllowOrigin("*");
         //map tweet
         List<Tweet> tweets = tweetService.getPersonalTweets(UID);
         Map<String,List<Tweet>> result = new HashMap<String,List<Tweet>>();
@@ -100,8 +98,6 @@ public class TweetController {
     public ResponseEntity<ResultDTO> getTopicTitle(UriComponentsBuilder uriComponentsBuilder, @PathVariable(name="topicTitle") String topicTitle){
         //包装header
         HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+"/topic/"+topicTitle);
-        headers.setAccessControlAllowCredentials(true);
-        headers.setAccessControlAllowOrigin("*");
         //map tweet
         List<Tweet> tweets = tweetService.getTopicTweets(topicTitle);
         Map<String,List<Tweet>> result = new HashMap<String,List<Tweet>>();
@@ -119,8 +115,6 @@ public class TweetController {
     public ResponseEntity<ResultDTO> deleteATweet(UriComponentsBuilder uriComponentsBuilder,@PathVariable(name = "TID") int TID)throws Exception{
         //包装header
         HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+"/"+TID);
-        headers.setAccessControlAllowCredentials(true);
-        headers.setAccessControlAllowOrigin("*");
         //返回
         tweetService.deleteATweet(TID);
         return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(),headers,HttpStatus.OK);
@@ -131,8 +125,6 @@ public class TweetController {
     public ResponseEntity<ResultDTO> likeATweet(UriComponentsBuilder uriComponentsBuilder,@PathVariable(name = "TID") int TID) throws Exception{
         //包装header
         HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+LIKESPATH+"/"+TID);
-        headers.setAccessControlAllowCredentials(true);
-        headers.setAccessControlAllowOrigin("*");
         //返回
         tweetService.likeATweet(TID);
         return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(),headers,HttpStatus.OK);

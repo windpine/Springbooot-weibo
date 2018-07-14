@@ -64,8 +64,6 @@ public class AuthController {
         String loginUserDto = (String) SecurityUtils.getSubject().getSession().getAttribute("uid");
         Map uidResult = new HashMap<String,String>();
         uidResult.put("uid",loginUserDto);
-        headers.setAccessControlAllowOrigin("*");
-        headers.setAccessControlAllowCredentials(true);
         return new ResponseEntity<>(ResultUtils.onSuccess(uidResult),headers, HttpStatus.OK);
     }
 
@@ -74,8 +72,6 @@ public class AuthController {
     public ResponseEntity<User> Register(@RequestBody UserDTO userDTO,
                                          UriComponentsBuilder uriComponentsBuilder) throws Exception{
         HttpHeaders headers=ApplicationUtils.getHttpHeaders(uriComponentsBuilder,"users");
-        headers.setAccessControlAllowOrigin("*");
-        headers.setAccessControlAllowCredentials(true);
         if(userDTO != null){
             logger.info("=======开始注册用户=========");
             logger.info("username:"+ userDTO.getUsername()
@@ -96,8 +92,6 @@ public class AuthController {
         }catch (ResultException e){
             logger.error("注销失败");
         }
-        headers.setAccessControlAllowOrigin("*");
-        headers.setAccessControlAllowCredentials(true);
         return new ResponseEntity<>(ResultUtils.onSuccess(),headers, HttpStatus.OK);
     }
 
