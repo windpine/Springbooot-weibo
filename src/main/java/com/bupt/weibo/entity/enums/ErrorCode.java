@@ -15,6 +15,7 @@ public enum  ErrorCode {
     USERNAMEORPASSWORD(40401,"Username or Password Not Correct"),
     USEREXIST(40402,"Username exist");
 
+
     private final int code;
     private final String desc;
 
