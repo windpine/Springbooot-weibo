@@ -65,7 +65,7 @@ public class AuthController {
         String loginUserDto = (String) SecurityUtils.getSubject().getSession().getAttribute("uid");
         Map uidResult = new HashMap<String,String>();
         uidResult.put("uid",loginUserDto);
-        return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(uidResult),headers, HttpStatus.OK);
+        return new ResponseEntity<>(ResultUtils.onSuccess(uidResult),headers, HttpStatus.OK);
     }
 
     @GetMapping(value = SUBPATH_USERINFO)
