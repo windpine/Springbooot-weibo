@@ -13,7 +13,7 @@ import java.util.Objects;
 @IdClass(MentionPK.class)
 public class Mention {
     private int tid;
-    private int uid;
+    private String uid;
     private Integer cid;
     private Timestamp createTime;
 
@@ -29,11 +29,11 @@ public class Mention {
 
     @Id
     @Column(name = "UID", nullable = false)
-    public int getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 
@@ -63,7 +63,7 @@ public class Mention {
         if (o == null || getClass() != o.getClass()) return false;
         Mention mention = (Mention) o;
         return tid == mention.tid &&
-                uid == mention.uid &&
+                Objects.equals(uid , mention.uid) &&
                 Objects.equals(cid, mention.cid) &&
                 Objects.equals(createTime, mention.createTime);
     }

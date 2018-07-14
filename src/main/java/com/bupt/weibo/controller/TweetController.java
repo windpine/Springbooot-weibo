@@ -62,7 +62,7 @@ public class TweetController {
 
     //获取某一用户发表的微博
     @GetMapping(value = UIDPATH)
-    public ResponseEntity<ResultDTO> getPersonalTweet(UriComponentsBuilder uriComponentsBuilder,@PathVariable(name = "UID") Integer UID){
+    public ResponseEntity<ResultDTO> getPersonalTweet(UriComponentsBuilder uriComponentsBuilder,@PathVariable(name = "UID") String UID){
         //包装header
         HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+"/"+UID);
         headers.setAccessControlAllowCredentials(true);

@@ -16,7 +16,7 @@ public interface TweetService {
     //获取所有微博
     List<Tweet> getAllTweets();
     //获取某一用户发表的微博
-    List<Tweet> getPersonalTweets(Integer UID);
+    List<Tweet> getPersonalTweets(String UID);
     //发表一条微博
     Boolean publishTweet(TweetDTO tweetDTO);
     //查看某一话题的微博

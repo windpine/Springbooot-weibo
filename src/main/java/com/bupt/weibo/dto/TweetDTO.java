@@ -7,6 +7,6 @@ import lombok.Data;
  */
 @Data
 public class TweetDTO {
-    private Integer uid;
+    private String uid;
     private String content;
 }
