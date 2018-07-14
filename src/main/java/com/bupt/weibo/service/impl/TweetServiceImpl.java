@@ -1,6 +1,7 @@
 package com.bupt.weibo.service.impl;
 
 import com.bupt.weibo.dto.TweetDTO;
+import com.bupt.weibo.dto.mapper.TweetMapper;
 import com.bupt.weibo.entity.Tweet;
 import com.bupt.weibo.repository.TweetRepository;
 import com.bupt.weibo.service.TweetService;
@@ -22,6 +23,8 @@ import java.util.List;
 @Slf4j
 public class TweetServiceImpl implements TweetService {
     @Autowired
+    TweetMapper tweetMapper;
+    @Autowired
     TweetRepository tweetRepository;
 
 
@@ -38,12 +41,11 @@ public class TweetServiceImpl implements TweetService {
 
     @Override
     public Boolean publishTweet(TweetDTO tweetDTO) {
-        Tweet newTweet = new Tweet();
-        newTweet.setContent(tweetDTO.getContent());
-        newTweet.setUid(tweetDTO.getUid());
-        newTweet.setCreateTime(new Timestamp(Calendar.getInstance().getTimeInMillis()));
-        Tweet saveTweet = tweetRepository.saveAndFlush(newTweet);
-        if(saveTweet.equals(newTweet))
+        //转换dtoToEntity
+        Tweet tweet = tweetMapper.convertToEntity(tweetDTO);
+        tweet.setCreateTime(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+        Tweet saveTweet = tweetRepository.saveAndFlush(tweet);
+        if(saveTweet.equals(tweet))
             return true;
         else
             return false;

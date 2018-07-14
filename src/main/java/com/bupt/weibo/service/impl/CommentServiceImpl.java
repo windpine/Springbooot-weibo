@@ -1,6 +1,7 @@
 package com.bupt.weibo.service.impl;
 
 import com.bupt.weibo.dto.CommentDTO;
+import com.bupt.weibo.dto.mapper.CommentMapper;
 import com.bupt.weibo.entity.Comment;
 import com.bupt.weibo.repository.CommentRepository;
 import com.bupt.weibo.service.CommentService;
@@ -18,15 +19,15 @@ import java.util.List;
  */
 @Service
 public class CommentServiceImpl implements CommentService {
-
+    @Autowired
+    CommentMapper commentMapper;
     @Autowired
     CommentRepository commentRepository;
 
     @Override
     public Comment commentATweet(CommentDTO commentDTO) {
 
-        Comment comment=new Comment();
-        BeanUtils.copyProperties(commentDTO,comment);
+        Comment comment = commentMapper.convertToEntity(commentDTO);
 
         return commentRepository.save(comment);
     }

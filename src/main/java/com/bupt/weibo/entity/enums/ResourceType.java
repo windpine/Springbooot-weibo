@@ -7,7 +7,11 @@ package com.bupt.weibo.entity.enums;
  */
 public enum ResourceType {
 
-    WORDCOUNT(0,"WordCount");
+    WORDCOUNT(0,"WordCount"),
+    TWEET(1,"tweets"),
+    USER(2,"users"),
+    MESSAGE(3,"messages"),
+    TOPIC(4,"topics");
 
     private int type;
     private String desc;
