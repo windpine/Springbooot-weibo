@@ -20,5 +20,15 @@ import java.util.List;
 @Repository
 @Transactional
 public interface RelationRepository extends JpaRepository<Relation,RelationPK> {
-    
+
+    @Transactional
+    @Modifying
+    @Query("SELECT u From User u inner join Relation r on u.uid=r.followerId where r.followId=?1")
+    List<User> findByFollowId(int uid);
+
+
+    @Transactional
+    @Modifying
+    @Query("SELECT u From User u inner join Relation r on u.uid=r.followId where r.followerId=?1")
+    List<User> findByFollowerId(int uid);
 }

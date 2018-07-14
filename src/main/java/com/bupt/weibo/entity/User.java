@@ -1,11 +1,14 @@
 package com.bupt.weibo.entity;
 
+import com.bupt.weibo.entity.enums.UserStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,21 +18,71 @@ import java.util.Objects;
  * @description
  */
 @Entity
+@Table(name = "user")
 public class User {
-    private String uid;
-    private String username;
-    private String nickname;
-    private String password;
-    private Integer tweets=0;
-    private Integer follows=0;
-    private Integer followers=0;
-    private String sex;
-    private Timestamp creatTime;
-    private String role="USER";
-    private String email;
-
     @Id
     @Column(name = "UID", nullable = false)
+    private String uid;
+    @Basic
+    @Column(name = "username", nullable = false, length = 32)
+    private String username;
+    @Basic
+    @Column(name = "nickname", nullable = true, length = 32)
+    private String nickname;
+    @Basic
+    @Column(name = "password", nullable = false, length = 32)
+    private String password;
+    @Basic
+    @Column(name = "creat_time", nullable = false)
+    private Timestamp creatTime;
+    @Basic
+    @Column(name = "email", nullable = false, length = 32)
+    private String email;
+
+    /**
+     * 添加
+     */
+
+    @Column(name = "status")
+    @NotNull
+    private UserStatus status = UserStatus.CREATE;
+
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinTable(name = "user_role",
+            joinColumns = {@JoinColumn(name = "UID",referencedColumnName = "UID")},
+            inverseJoinColumns = {@JoinColumn(name = "roleId",referencedColumnName = "id")})
+    private List<Role> roles = new ArrayList<>();
+
+
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinTable(name = "user_permission",
+            joinColumns = {@JoinColumn(name = "userId",referencedColumnName = "UID")},
+            inverseJoinColumns = {@JoinColumn(name = "permissionId",referencedColumnName = "id")})
+    private List<Permission> permissions = new ArrayList<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(uid, user.uid) &&
+                Objects.equals(username, user.username) &&
+                Objects.equals(nickname, user.nickname) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(creatTime, user.creatTime) &&
+                Objects.equals(email, user.email) &&
+                status == user.status &&
+                Objects.equals(roles, user.roles) &&
+                Objects.equals(permissions, user.permissions);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(uid, username, nickname, password, creatTime, email,status, roles, permissions);
+    }
+
+
     public String getUid() {
         return uid;
     }
@@ -38,8 +91,7 @@ public class User {
         this.uid = uid;
     }
 
-    @Basic
-    @Column(name = "username", nullable = false, length = 32)
+
     public String getUsername() {
         return username;
     }
@@ -48,8 +100,7 @@ public class User {
         this.username = username;
     }
 
-    @Basic
-    @Column(name = "nickname", nullable = true, length = 32)
+
     public String getNickname() {
         return nickname;
     }
@@ -58,8 +109,7 @@ public class User {
         this.nickname = nickname;
     }
 
-    @Basic
-    @Column(name = "password", nullable = false, length = 32)
+
     public String getPassword() {
         return password;
     }
@@ -68,48 +118,6 @@ public class User {
         this.password = password;
     }
 
-    @Basic
-    @Column(name = "tweets", nullable = true)
-    public Integer getTweets() {
-        return tweets;
-    }
-
-    public void setTweets(Integer tweets) {
-        this.tweets = tweets;
-    }
-
-    @Basic
-    @Column(name = "follows", nullable = true)
-    public Integer getFollows() {
-        return follows;
-    }
-
-    public void setFollows(Integer follows) {
-        this.follows = follows;
-    }
-
-    @Basic
-    @Column(name = "followers", nullable = true)
-    public Integer getFollowers() {
-        return followers;
-    }
-
-    public void setFollowers(Integer followers) {
-        this.followers = followers;
-    }
-
-    @Basic
-    @Column(name = "sex", nullable = true, length = 16)
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    @Basic
-    @Column(name = "creat_time", nullable = false)
     public Timestamp getCreatTime() {
         return creatTime;
     }
@@ -118,18 +126,7 @@ public class User {
         this.creatTime = creatTime;
     }
 
-    @Basic
-    @Column(name = "role", nullable = true)
-    public String getRole() {
-        return role;
-    }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    @Basic
-    @Column(name = "email", nullable = false, length = 32)
     public String getEmail() {
         return email;
     }
@@ -138,27 +135,27 @@ public class User {
         this.email = email;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return uid == user.uid &&
-                Objects.equals(username, user.username) &&
-                Objects.equals(nickname, user.nickname) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(tweets, user.tweets) &&
-                Objects.equals(follows, user.follows) &&
-                Objects.equals(followers, user.followers) &&
-                Objects.equals(sex, user.sex) &&
-                Objects.equals(creatTime, user.creatTime) &&
-                Objects.equals(email, user.email);
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(uid, username, nickname, password, tweets, follows, followers, sex, creatTime, email);
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
+    }
+
+    public List<Permission> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<Permission> permissions) {
+        this.permissions = permissions;
+    }
 }

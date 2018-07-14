@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @Repository
 @Transactional
-public interface UserRepository extends JpaRepository<User,Integer> {
+public interface UserRepository extends JpaRepository<User,String> {
 
     //User findByNameAndPassword(String name, String password);
     User findByUid(Integer uid);
@@ -25,7 +25,7 @@ public interface UserRepository extends JpaRepository<User,Integer> {
 
     List<User> findAll();
 
-    User findByEmail(String email);
-
     User findByUsername(String username);
+
+    User findByEmail(String email);
 }

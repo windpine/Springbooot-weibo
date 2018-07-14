@@ -10,8 +10,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @anthor tanshangou
@@ -25,7 +24,7 @@ public class HomeController {
     @Autowired
     UserService userService;
 
-    @RequestMapping("/doLogin")
+    @GetMapping("/doLogin")
     public String doLogin(@RequestParam("username") String username,
                           @RequestParam("password") String password) {
         // 创建Subject实例
@@ -44,7 +43,7 @@ public class HomeController {
             e.printStackTrace();
             System.out.println("登录失败");
         }
-        return "/loginPage.html";
+        return "/login.html";
     }
 
     @RequestMapping("/doRegister")
@@ -62,18 +61,19 @@ public class HomeController {
     @RequestMapping(value = "/login")
     public String login() {
         log.info("login() 方法被调用");
-        return "loginPage.html";
+        return "login.html";
     }
 
     @RequestMapping(value = "/register")
     public String register() {
         log.info("register() 方法被调用");
-        return "registerPage.html";
+        return "register.html";
     }
 
     @RequestMapping(value = "/hello")
+    @ResponseBody
     public String hello() {
-        log.info("hello() 方法被调用");
-        return "helloPage.html";
+
+        return "hi";
     }
 }

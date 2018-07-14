@@ -35,7 +35,6 @@ public class UserServiceImplTest {
         userDTO.setUsername("tanshangou");
         userDTO.setNickname("doggy");
         userDTO.setPassword("kk6665596");
-        userDTO.setSex("male");
         userService.registerUser(userDTO);
     }
 }
