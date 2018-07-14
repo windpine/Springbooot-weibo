@@ -23,5 +23,5 @@ public interface RoleMapper {
     List<Role> convertToListEntity(List<RoleDTO> roleDtoList);
 
     @InheritInverseConfiguration
-    List<RoleDTO> conovertToListDto(List<Role> roleList);
+    List<RoleDTO> convertToListDto(List<Role> roleList);
 }

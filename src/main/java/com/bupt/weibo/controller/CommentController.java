@@ -46,6 +46,7 @@ public class CommentController {
         Map result = new HashMap<String, List<Comment>>();
         //返回
         if(comments.size() != 0){
+            result.put("commentList",comments);
             return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(result),headers, HttpStatus.OK);
         }
         else{

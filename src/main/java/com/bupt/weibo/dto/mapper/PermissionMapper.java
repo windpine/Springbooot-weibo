@@ -23,5 +23,5 @@ public interface PermissionMapper {
     List<Permission> convertToListEntity(List<PermissionDto> permissionDtoList);
 
     @InheritInverseConfiguration
-    List<PermissionDto> conovertToListDto(List<Permission> permissionList);
+    List<PermissionDto> convertToListDto(List<Permission> permissionList);
 }

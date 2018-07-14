@@ -1,9 +1,6 @@
 package com.bupt.weibo.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 /**
@@ -21,6 +18,7 @@ public class Message {
 
     @Id
     @Column(name = "messageID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getMessageId() {
         return messageId;
     }
@@ -61,9 +59,8 @@ public class Message {
 
     @Basic
     @Column(name = "src_id", nullable = false)
-    private int getSrcId(){return srcId;}
-
-    private void setSrcId(int srcId) {this.srcId=srcId;}
+    public int getSrcId(){return srcId;}
+    public void setSrcId(int srcId) {this.srcId=srcId;}
 
     @Override
     public boolean equals(Object o) {
