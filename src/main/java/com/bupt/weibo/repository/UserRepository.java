@@ -25,6 +25,7 @@ public interface UserRepository extends JpaRepository<User,String> {
 
     List<User> findAll();
 
+    @Transactional
     User findByUsername(String username);
 
     User findByEmail(String email);

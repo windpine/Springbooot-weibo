@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
      */
     private Logger logger = LoggerFactory.getLogger("com.zhuxs.result.GlobalExceptionHandler");
 
-    @ExceptionHandler(value = {ResultException.class})
+    @ExceptionHandler(value = ResultException.class)
     public ResponseEntity<Object> handleException(ResultException ex, HttpServletRequest request) throws URISyntaxException {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(new URI(request.getRequestURI()));
