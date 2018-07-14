@@ -109,6 +109,7 @@ public class TweetController {
         Map<String,List<Tweet>> result = new HashMap<String,List<Tweet>>();
         //返回result
         if(tweets.size() != 0){
+            result.put("tweetList",tweets);
             return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(tweets),headers,HttpStatus.OK);
         }else{
             throw new ResultException("no tweet or error");

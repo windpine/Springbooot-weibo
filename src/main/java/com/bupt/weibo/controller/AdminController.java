@@ -77,7 +77,7 @@ public class AdminController {
         HttpHeaders headers = ApplicationUtils
                 .getHttpHeaders(uriComponentsBuilder,PATH + SUBPATH_PERMISSION);
         List<Permission> permissions = permissionService.listPermissions();
-        List<PermissionDto> permissionDtos = permissionMapper.conovertToListDto(permissions);
+        List<PermissionDto> permissionDtos = permissionMapper.convertToListDto(permissions);
         return new ResponseEntity<List<PermissionDto>>(permissionDtos,headers,HttpStatus.OK);
     }
 
@@ -88,7 +88,7 @@ public class AdminController {
         HttpHeaders headers = ApplicationUtils
                 .getHttpHeaders(uriComponentsBuilder,PATH + SUBPATH_PERMISSION);
         List<Permission> permissions = permissionService.getPermissionsByUserId(userId);
-        List<PermissionDto> permissionDtos = permissionMapper.conovertToListDto(permissions);
+        List<PermissionDto> permissionDtos = permissionMapper.convertToListDto(permissions);
 
         return new ResponseEntity<List<PermissionDto>>(permissionDtos,headers,HttpStatus.OK);
     }
@@ -116,7 +116,7 @@ public class AdminController {
     public ResponseEntity<List<RoleDTO>> listRoles(UriComponentsBuilder uriComponentsBuilder){
         HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH + SUBPATH_ROLE);
         List<Role> roles = roleService.listRoles();
-        List<RoleDTO> roleDtos = roleMapper.conovertToListDto(roles);
+        List<RoleDTO> roleDtos = roleMapper.convertToListDto(roles);
         return new ResponseEntity<List<RoleDTO>>(roleDtos,headers,HttpStatus.OK);
     }
 
@@ -126,7 +126,7 @@ public class AdminController {
                                                           @RequestParam String userId){
         HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH + SUBPATH_ROLE);
         List<Role> roles = roleService.getRolesByUserId(userId);
-        List<RoleDTO> roleDtos = roleMapper.conovertToListDto(roles);
+        List<RoleDTO> roleDtos = roleMapper.convertToListDto(roles);
         return new ResponseEntity<List<RoleDTO>>(roleDtos,headers,HttpStatus.OK);
     }
 
@@ -165,7 +165,7 @@ public class AdminController {
         HttpHeaders headers = ApplicationUtils
                 .getHttpHeaders(uriComponentsBuilder,PATH + SUBPATH_USER);
         List<User> users = userService.listUsers();
-        List<UserDTO> userDtos = userMapper.conovertToListDto(users);
+        List<UserDTO> userDtos = userMapper.convertToListDto(users);
         return new ResponseEntity<List<UserDTO>>(userDtos,headers,HttpStatus.OK);
     }
 

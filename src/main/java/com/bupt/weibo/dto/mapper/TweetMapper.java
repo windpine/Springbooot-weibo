@@ -18,6 +18,6 @@ public interface TweetMapper {
     List<Tweet> convertToListEntity(List<TweetDTO> TweetDtoList);
 
     @InheritInverseConfiguration
-    List<TweetDTO> conovertToListDto(List<Tweet> TweetList);
+    List<TweetDTO> convertToListDto(List<Tweet> TweetList);
     
 }

@@ -18,6 +18,6 @@ public interface CommentMapper {
     List<Comment> convertToListEntity(List<CommentDTO> CommentDtoList);
 
     @InheritInverseConfiguration
-    List<CommentDTO> conovertToListDto(List<Comment> CommentList);
+    List<CommentDTO> convertToListDto(List<Comment> CommentList);
 
 }
