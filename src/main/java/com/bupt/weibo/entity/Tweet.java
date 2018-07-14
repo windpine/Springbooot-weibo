@@ -31,7 +31,7 @@ public class Tweet {
     }
 
     @Basic
-    @Column(name = "UID", nullable = false)
+    @Column(name = "UID", nullable = false,length = 32)
     public String getUid() {
         return uid;
     }
