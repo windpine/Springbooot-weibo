@@ -60,20 +60,6 @@ public class UserController {
     }
 
 
-    //新用户注册
-    @PostMapping("/")
-    public ResponseEntity<User> Register(@RequestBody UserDTO userDTO,
-                              UriComponentsBuilder uriComponentsBuilder) throws Exception{
-        HttpHeaders headers=ApplicationUtils.getHttpHeaders(uriComponentsBuilder,"users");
-        if(userDTO != null){
-            log.info("=======开始注册用户=========");
-            log.info("username:"+ userDTO.getUsername()
-                    +" password: "+userDTO.getPassword());
-            User user=userService.registerUser(userDTO);
-            return new ResponseEntity<User>(user,headers,HttpStatus.OK);
-        }else{
-            throw new ResultException("Username:"+userDTO.getUsername(),ErrorCode.USEREXIST);
-        }
-    }
+
 
 }
