@@ -34,7 +34,7 @@ public class TweetServiceImpl implements TweetService {
     }
 
     @Override
-    public List<Tweet> getPersonalTweets(Integer UID) {
+    public List<Tweet> getPersonalTweets(String UID) {
         Sort sort = new Sort(Sort.Direction.DESC,"createTime");
         return tweetRepository.findTweetsByUid(UID,sort);
     }
@@ -43,7 +43,6 @@ public class TweetServiceImpl implements TweetService {
     public Boolean publishTweet(TweetDTO tweetDTO) {
         //转换dtoToEntity
         Tweet tweet = tweetMapper.convertToEntity(tweetDTO);
-        tweet.setCreateTime(new Timestamp(Calendar.getInstance().getTimeInMillis()));
         Tweet saveTweet = tweetRepository.saveAndFlush(tweet);
         if(saveTweet.equals(tweet))
             return true;
