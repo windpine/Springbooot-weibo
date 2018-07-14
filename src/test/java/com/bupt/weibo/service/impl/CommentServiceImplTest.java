@@ -33,7 +33,7 @@ public class CommentServiceImplTest {
         commentDTO.setContent("测试");
         commentDTO.setSrcId(-1);
         commentDTO.setTid(1);
-        commentDTO.setUid(1);
+        commentDTO.setUid("uljlkjlkjlkjlkj");
         Comment comment = commentService.commentATweet(commentDTO);
 
         Assert.assertNotNull(comment);

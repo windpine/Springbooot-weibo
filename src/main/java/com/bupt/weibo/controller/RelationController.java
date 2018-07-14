@@ -37,7 +37,7 @@ public class RelationController {
         if(relationService.addARelation(relation)!=null)
             return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(),headers,HttpStatus.OK);
         else
-            throw new ResultException("Add Relation Fail", ErrorCode.NOTAUTHC);
+            throw new ResultException("Add Relation Fail", ErrorCode.ERROR);
     }
 
     @RequestMapping(value="/{followId}/follow/{followerId}")
@@ -57,7 +57,7 @@ public class RelationController {
         if(users!=null)
             return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(JSONObject.toJSONString(users)),headers,HttpStatus.OK);
         else
-            return new ResponseEntity<ResultDTO>(ResultUtils.onError("no follows"),headers,HttpStatus.OK);
+            throw new ResultException("No Follows", ErrorCode.NOFOLLOWORFOLLOWER);
     }
 
     @RequestMapping(value = "/{uid}/followers")
@@ -68,7 +68,7 @@ public class RelationController {
         if(users!=null)
             return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(JSONObject.toJSONString(users)),headers,HttpStatus.OK);
         else
-            return new ResponseEntity<ResultDTO>(ResultUtils.onError("no followers"),headers,HttpStatus.OK);
+            throw new ResultException("No Followers", ErrorCode.NOFOLLOWORFOLLOWER);
     }
 
 }

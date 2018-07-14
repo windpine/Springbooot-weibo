@@ -13,7 +13,8 @@ public enum  ErrorCode {
     NOTAUTHC(40100,"not authc"),
     NOTAUTHZ(40101,"not authz"),
     USERNAMEORPASSWORD(40401,"Username or Password Not Correct"),
-    USEREXIST(40402,"Username exist");
+    USEREXIST(40402,"Username exist"),
+    NOFOLLOWORFOLLOWER(40403,"no follows or followers");
 
 
     private final int code;
