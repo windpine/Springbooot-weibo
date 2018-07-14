@@ -15,6 +15,7 @@ import java.util.Objects;
 public class Message {
     private int messageId;
     private int type;
+    private int srcId;
     private String content;
     private int uid;
 
@@ -58,6 +59,12 @@ public class Message {
         this.uid = uid;
     }
 
+    @Basic
+    @Column(name = "src_id", nullable = false)
+    private int getSrcId(){return srcId;}
+
+    private void setSrcId(int srcId) {this.srcId=srcId;}
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -65,6 +72,7 @@ public class Message {
         Message message = (Message) o;
         return messageId == message.messageId &&
                 type == message.type &&
+                srcId == message.srcId &&
                 uid == message.uid &&
                 Objects.equals(content, message.content);
     }
@@ -72,6 +80,6 @@ public class Message {
     @Override
     public int hashCode() {
 
-        return Objects.hash(messageId, type, content, uid);
+        return Objects.hash(messageId, type, srcId, content, uid);
     }
 }
