@@ -8,6 +8,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @time 2018/7/12
  * @description
  */
+
+
+//todo:使用抛出异常
 public class ResultException extends RuntimeException{
     private ErrorCode errorCode;
 

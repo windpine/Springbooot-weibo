@@ -65,6 +65,9 @@ public class AuthController {
         String loginUserDto = (String) SecurityUtils.getSubject().getSession().getAttribute("uid");
         Map uidResult = new HashMap<String,String>();
         uidResult.put("uid",loginUserDto);
+        //todo:对需要的header set
+        headers.setAccessControlAllowCredentials(true);
+        headers.setAccessControlAllowOrigin("*");
         return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(uidResult),headers, HttpStatus.OK);
     }
 
