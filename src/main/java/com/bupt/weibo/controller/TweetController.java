@@ -84,8 +84,6 @@ public class TweetController {
     public ResponseEntity<ResultDTO> publishTweet(UriComponentsBuilder uriComponentsBuilder, @RequestBody TweetDTO tweetDTO){
         //包装header
         HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH);
-        headers.setAccessControlAllowCredentials(true);
-        headers.setAccessControlAllowOrigin("*");
         //返回发表结果
         if(tweetDTO != null){
             if(tweetService.publishTweet(tweetDTO)){
