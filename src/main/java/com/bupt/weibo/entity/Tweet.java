@@ -12,7 +12,7 @@ import java.util.Objects;
 @Entity
 public class Tweet {
     private int tid;
-    private int uid;
+    private String uid;
     private Integer srcId=-1;
     private String topicTitle;
     private String content;
@@ -31,12 +31,12 @@ public class Tweet {
     }
 
     @Basic
-    @Column(name = "UID", nullable = false)
-    public int getUid() {
+    @Column(name = "UID", nullable = false,length = 32)
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 
