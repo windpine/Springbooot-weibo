@@ -60,31 +60,6 @@ public class UserController {
     }
 
 
-    //新用户注册
-    @PostMapping("/")
-    public ResponseEntity<User> Register(@RequestBody UserDTO userDTO,
-                              UriComponentsBuilder uriComponentsBuilder) throws Exception{
-        HttpHeaders headers=ApplicationUtils.getHttpHeaders(uriComponentsBuilder,"users");
-        if(userDTO != null){
-            log.info("=======开始注册用户=========");
-            log.info("username:"+ userDTO.getUsername()
-                    +" password: "+userDTO.getPassword());
-            User user=userService.registerUser(userDTO);
-            return new ResponseEntity<User>(user,headers,HttpStatus.OK);
-        }else{
-            throw new ResultException("Username:"+userDTO.getUsername(),ErrorCode.USEREXIST);
-        }
-
-
-    }
-
-
 
 
 }
-
-//URL点击 ：<a href="details.html" th:href="@{myThymeleaf(orderId=${id})}">view</a></br>
-//        相对路径：<img th:width="100px" th:src="@{../images/{imageUrl}(imageUrl=${image})}"></br>
-//        绝对路径：<img th:width="100px" th:src="@{/images/{imageUrl}(imageUrl=${image})}"></br>
-//<!-- 无效链接 -->
-//        其他路径：<img th:width="100px" th:src="@{images/{imageUrl}(imageUrl=${image})}">

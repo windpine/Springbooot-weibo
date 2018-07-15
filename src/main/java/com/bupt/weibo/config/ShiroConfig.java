@@ -65,7 +65,6 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setLoginUrl("/notAuthc");
 
         Map<String,String> filterChainDefinitionManager = new LinkedHashMap<String,String>();
-        filterChainDefinitionManager.put("/logout","logout");
         filterChainDefinitionManager.put("/userInfo","authc");
         filterChainDefinitionManager.put("/users/**","anon");
         filterChainDefinitionManager.put("/jobs/**","perms[WORDCOUNT:CREATE]");

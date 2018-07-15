@@ -36,11 +36,13 @@ public class GlobalExceptionHandler {
      */
     private Logger logger = LoggerFactory.getLogger("com.zhuxs.result.GlobalExceptionHandler");
 
-    @ExceptionHandler(value = {ResultException.class})
+    @ExceptionHandler(value = ResultException.class)
     public ResponseEntity<Object> handleException(ResultException ex, HttpServletRequest request) throws URISyntaxException {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(new URI(request.getRequestURI()));
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccessControlAllowOrigin("*");
+        headers.setAccessControlAllowCredentials(true);
         logger.error("-----exception Handler---Host: {} invokes url: {} ERROR: {} Cause:",request.getRemoteHost(),request.getRequestURL(), ex.getMessage(),ex.getCause());
         return handleExceptionInternal(ex,headers,HttpStatus.INTERNAL_SERVER_ERROR,request);
     }

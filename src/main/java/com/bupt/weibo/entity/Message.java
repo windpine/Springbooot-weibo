@@ -1,9 +1,6 @@
 package com.bupt.weibo.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 /**
@@ -15,11 +12,13 @@ import java.util.Objects;
 public class Message {
     private int messageId;
     private int type;
+    private int srcId;
     private String content;
     private int uid;
 
     @Id
     @Column(name = "messageID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getMessageId() {
         return messageId;
     }
@@ -58,6 +57,11 @@ public class Message {
         this.uid = uid;
     }
 
+    @Basic
+    @Column(name = "src_id", nullable = false)
+    public int getSrcId(){return srcId;}
+    public void setSrcId(int srcId) {this.srcId=srcId;}
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -65,6 +69,7 @@ public class Message {
         Message message = (Message) o;
         return messageId == message.messageId &&
                 type == message.type &&
+                srcId == message.srcId &&
                 uid == message.uid &&
                 Objects.equals(content, message.content);
     }
@@ -72,6 +77,6 @@ public class Message {
     @Override
     public int hashCode() {
 
-        return Objects.hash(messageId, type, content, uid);
+        return Objects.hash(messageId, type, srcId, content, uid);
     }
 }
