@@ -1,6 +1,7 @@
 package com.bupt.weibo.dto.mapper;
 
 import com.bupt.weibo.dto.MessageCommentDTO;
+import com.bupt.weibo.dto.MessageLikesDTO;
 import com.bupt.weibo.dto.MessageMentionTweetDTO;
 import com.bupt.weibo.entity.*;
 import org.mapstruct.InheritInverseConfiguration;
@@ -38,5 +39,12 @@ public interface MessageMapper {
             @Mapping(source = "comment.createTime",target="createTime")
     })
     MessageCommentDTO convertToCommentDto(Message message, Comment comment, User user);
+    @Mappings({
+            @Mapping(source = "message.messageId",target = "messageId"),
+            @Mapping(source = "tweet.tid",target="srcId"),
+            @Mapping(source = "user.nickname" ,target="nickName"),
+            @Mapping(source = "tweet.content",target="content")
+    })
+    MessageLikesDTO convertToCommentDto(Message message,Tweet tweet,User user);
 
 }

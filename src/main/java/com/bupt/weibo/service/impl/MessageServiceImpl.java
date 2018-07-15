@@ -2,6 +2,7 @@ package com.bupt.weibo.service.impl;
 
 
 import com.bupt.weibo.dto.MessageCommentDTO;
+import com.bupt.weibo.dto.MessageLikesDTO;
 import com.bupt.weibo.dto.MessageMentionTweetDTO;
 import com.bupt.weibo.dto.mapper.MessageMapper;
 import com.bupt.weibo.entity.*;
@@ -23,8 +24,10 @@ import java.util.List;
 public class MessageServiceImpl implements MessageService {
     @Autowired
     MessageMapper messageMapper;
+
     @Autowired
     MessageRepository messageRepository;
+
     @Override
     public List<MessageMentionTweetDTO> getPersonalAllTweetMention(String UID) {
         List<Object[]> resultArray=messageRepository.findAllMessageAndTweetJoin(UID);
@@ -44,7 +47,15 @@ public class MessageServiceImpl implements MessageService {
         }
         return messageCommentDTOList;
     }
-
+    @Override
+    public List<MessageLikesDTO> getPersonalAllLikes(String UID){
+        List<Object[]> resultArray = messageRepository.findAllLikesMessage(UID);
+        List<MessageLikesDTO> messageLikesDTOList = new LinkedList<>();
+        for(Object[] objArray:resultArray){
+            messageLikesDTOList.add(messageMapper.convertToCommentDto((Message)objArray[0],(Tweet)objArray[1],(User)objArray[2]));
+        }
+        return messageLikesDTOList;
+    }
     @Override
     public Boolean publishMessage(Message message) {
         Message savedMessage = messageRepository.saveAndFlush(message);
@@ -54,4 +65,5 @@ public class MessageServiceImpl implements MessageService {
             return false;
         }
     }
+
 }

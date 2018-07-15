@@ -1,6 +1,7 @@
 package com.bupt.weibo.service;
 
 import com.bupt.weibo.dto.MessageCommentDTO;
+import com.bupt.weibo.dto.MessageLikesDTO;
 import com.bupt.weibo.dto.MessageMentionTweetDTO;
 import com.bupt.weibo.entity.Message;
 
@@ -18,4 +19,6 @@ public interface MessageService {
     List<MessageCommentDTO> getPersonalAllComment(String UID);
     //发布一条消息
     Boolean publishMessage(Message message);
+    //获得某一用户所有被点赞消息
+    List<MessageLikesDTO> getPersonalAllLikes(String UID);
 }

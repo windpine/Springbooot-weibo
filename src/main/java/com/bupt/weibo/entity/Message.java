@@ -15,6 +15,7 @@ public class Message {
     private int srcId;
     private String content;
     private String uid;
+    private String srcUid;
 
     @Id
     @Column(name = "messageID", nullable = false)
@@ -62,6 +63,16 @@ public class Message {
     public int getSrcId(){return srcId;}
     public void setSrcId(int srcId) {this.srcId=srcId;}
 
+    @Basic
+    @Column(name = "src_uid", nullable = false,length = 32)
+    public String getSrcUid() {
+        return srcUid;
+    }
+
+    public void setSrcUid(String srcUid) {
+        this.srcUid = srcUid;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -71,7 +82,8 @@ public class Message {
                 type == message.type &&
                 srcId == message.srcId &&
                 Objects.equals(uid , message.uid )&&
-                Objects.equals(content, message.content);
+                Objects.equals(content, message.content)&&
+                Objects.equals(srcUid,message.srcUid);
     }
 
     @Override

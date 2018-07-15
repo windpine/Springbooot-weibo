@@ -1,6 +1,7 @@
 package com.bupt.weibo.controller;
 
 import com.bupt.weibo.dto.MessageCommentDTO;
+import com.bupt.weibo.dto.MessageLikesDTO;
 import com.bupt.weibo.dto.MessageMentionTweetDTO;
 import com.bupt.weibo.dto.ResultDTO;
 import com.bupt.weibo.entity.Message;
@@ -34,6 +35,7 @@ public class MessageController {
     public static final String UIDPATH = "/{UID}";
     public static final String MENTIONPATH ="/mention";
     public static final String COMMENTPATH= "/comment";
+    public static final String LIKESPATH="/likes";
 
     @Autowired
     MessageService messageService;
@@ -74,7 +76,24 @@ public class MessageController {
             throw new ResultException("no message or error");
         }
     }
-
+    /**
+     * 提示用户有人点赞
+     */
+    @GetMapping(value = LIKESPATH)
+    public ResponseEntity<ResultDTO> getAllMessageLike(UriComponentsBuilder uriComponentsBuilder,@RequestParam(name="UID")String UID){
+        //包装header
+        HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+LIKESPATH+"/"+UID);
+        //map message
+        List<MessageLikesDTO> likesDTOList = messageService.getPersonalAllLikes(UID);
+        Map result = new HashMap<String,List<MessageLikesDTO>>();
+        //返回
+        if(likesDTOList.size()!=0){
+            result.put("messageList",likesDTOList);
+            return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(result),headers, HttpStatus.OK);
+        }else{
+            throw new ResultException("no message or error");
+        }
+    }
     /**
      * 为当前用户推送一条消息
      *
