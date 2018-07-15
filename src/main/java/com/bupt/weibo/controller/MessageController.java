@@ -9,12 +9,9 @@ import com.bupt.weibo.service.MessageService;
 import com.bupt.weibo.utils.ApplicationUtils;
 import com.bupt.weibo.utils.ResultUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -29,19 +26,19 @@ import java.util.Map;
  * @description
  */
 @RestController
-@RequestMapping(value = MessageController.PATH)
+@RequestMapping(MessageController.PATH)
 @Slf4j
 public class MessageController {
     public static final String PATH = "/message";
     public static final String UIDPATH = "/{UID}";
     public static final String MENTIONPATH ="/mention";
     public static final String COMMENTPATH= "/comment";
+
     @Autowired
-    private MessageService messageService;
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    MessageService messageService;
 
     /**
-     * 获取当前用户下的所有@消息
+     * 获取当前用户下的所有消息
      */
     @GetMapping(value = MENTIONPATH)
     public ResponseEntity<ResultDTO> getAllMessageMention(UriComponentsBuilder uriComponentsBuilder, @RequestParam(name="UID")String UID){
@@ -50,7 +47,6 @@ public class MessageController {
         //map message
         List<MessageMentionTweetDTO> messageDTOS = messageService.getPersonalAllTweetMention(UID);
         Map result = new HashMap<String,List<MessageMentionTweetDTO>>();
-        logger.info("Map_success");
         //返回
         if(messageDTOS.size() != 0){
             result.put("messageList",messageDTOS);
