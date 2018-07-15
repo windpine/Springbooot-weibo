@@ -12,7 +12,7 @@ import java.util.Objects;
  */
 public class MentionPK implements Serializable {
     private int tid;
-    private int uid;
+    private String uid;
 
     @Column(name = "TID", nullable = false)
     @Id
@@ -26,11 +26,11 @@ public class MentionPK implements Serializable {
 
     @Column(name = "UID", nullable = false)
     @Id
-    public int getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 
@@ -40,7 +40,7 @@ public class MentionPK implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         MentionPK mentionPK = (MentionPK) o;
         return tid == mentionPK.tid &&
-                uid == mentionPK.uid;
+                Objects.equals(uid , mentionPK.uid);
     }
 
     @Override

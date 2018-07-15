@@ -99,7 +99,6 @@ public class ShiroRealm extends AuthorizingRealm {
 
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 
-
         for(Role role:user.getRoles()){
             info.addRole(role.getName());
         }

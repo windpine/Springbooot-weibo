@@ -17,7 +17,7 @@ import java.util.Objects;
 @Entity
 public class Comment {
     private int cid;
-    private int uid;
+    private String uid;
     private Integer tid;
     private Integer srcId;
     private String content;
@@ -36,11 +36,11 @@ public class Comment {
 
     @Basic
     @Column(name = "UID", nullable = false)
-    public Integer getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 

@@ -34,14 +34,14 @@ public class RelationController {
 
     @RequestMapping(value="/{followId}/follow/{followerId}")
     @DeleteMapping("/")
-    public ResultDTO deleteARelation(@PathVariable int followId,@PathVariable int followerId) throws Exception{
+    public ResultDTO deleteARelation(@PathVariable String followId,@PathVariable String followerId) throws Exception{
         relationService.deleteARelation(followId,followerId);
         return resultUtils.onSuccess();
     }
 
     @RequestMapping(value = "/{uid}/follows")
     @GetMapping("/")
-    public ResultDTO getAllFollows(@PathVariable int uid) throws Exception{
+    public ResultDTO getAllFollows(@PathVariable String uid) throws Exception{
         List<User> users=relationService.getAllFollows(uid);
         if(users!=null)
             return resultUtils.onSuccess(JSONObject.toJSONString(users));
@@ -51,7 +51,7 @@ public class RelationController {
 
     @RequestMapping(value = "/{uid}/followers")
     @GetMapping("/")
-    public ResultDTO getAllFollowers(@PathVariable int uid) throws Exception{
+    public ResultDTO getAllFollowers(@PathVariable String uid) throws Exception{
         List<User> users=relationService.getAllFollowers(uid);
         if(users!=null)
             return resultUtils.onSuccess(JSONObject.toJSONString(users));
