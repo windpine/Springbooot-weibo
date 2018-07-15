@@ -11,26 +11,26 @@ import java.util.Objects;
  * @description
  */
 public class RelationPK implements Serializable {
-    private int followId;
-    private int followerId;
+    private String followId;
+    private String followerId;
 
     @Column(name = "followID", nullable = false)
     @Id
-    public int getFollowId() {
+    public String getFollowId() {
         return followId;
     }
 
-    public void setFollowId(int followId) {
+    public void setFollowId(String followId) {
         this.followId = followId;
     }
 
     @Column(name = "followerID", nullable = false)
     @Id
-    public int getFollowerId() {
+    public String getFollowerId() {
         return followerId;
     }
 
-    public void setFollowerId(int followerId) {
+    public void setFollowerId(String followerId) {
         this.followerId = followerId;
     }
 
@@ -39,8 +39,8 @@ public class RelationPK implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RelationPK that = (RelationPK) o;
-        return followId == that.followId &&
-                followerId == that.followerId;
+        return Objects.equals(followId , that.followId) &&
+               Objects.equals( followerId , that.followerId);
     }
 
     @Override

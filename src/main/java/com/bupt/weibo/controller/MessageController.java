@@ -41,6 +41,9 @@ public class MessageController {
     public ResponseEntity<ResultDTO> getAllMessage(UriComponentsBuilder uriComponentsBuilder, @PathVariable(name="UID")Integer UID){
         //包装header
         HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+"/"+UID);
+        headers.setAccessControlAllowOrigin("*");
+        headers.setAccessControlAllowCredentials(true);
+        //
         List<MessageDTO> messageDTOS = messageService.getPersonalAllMessage(UID);
 
         Map result = new HashMap<String,List<MessageDTO>>();
@@ -60,6 +63,9 @@ public class MessageController {
     public ResponseEntity<ResultDTO> publishMessage(UriComponentsBuilder uriComponentsBuilder,@RequestBody Message message){
         //包装header
         HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH);
+        headers.setAccessControlAllowOrigin("*");
+        headers.setAccessControlAllowCredentials(true);
+        //
         boolean ispublish = messageService.publishMessage(message);
         if(ispublish){
             return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(),headers,HttpStatus.OK);

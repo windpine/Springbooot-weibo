@@ -14,26 +14,26 @@ import java.util.Objects;
 @Entity
 @IdClass(RelationPK.class)
 public class Relation {
-    private int followId;
-    private int followerId;
+    private String followId;
+    private String followerId;
 
     @Id
     @Column(name = "followID", nullable = false)
-    public int getFollowId() {
+    public String getFollowId() {
         return followId;
     }
 
-    public void setFollowId(int followId) {
+    public void setFollowId(String followId) {
         this.followId = followId;
     }
 
     @Id
     @Column(name = "followerID", nullable = false)
-    public int getFollowerId() {
+    public String getFollowerId() {
         return followerId;
     }
 
-    public void setFollowerId(int followerId) {
+    public void setFollowerId(String followerId) {
         this.followerId = followerId;
     }
 
@@ -42,8 +42,8 @@ public class Relation {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Relation relation = (Relation) o;
-        return followId == relation.followId &&
-                followerId == relation.followerId;
+        return Objects.equals(followId , relation.followId) &&
+               Objects.equals(followerId , relation.followerId);
     }
 
     @Override

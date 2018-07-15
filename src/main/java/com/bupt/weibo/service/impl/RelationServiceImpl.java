@@ -22,7 +22,7 @@ public class RelationServiceImpl implements RelationService {
     }
 
     @Override
-    public void deleteARelation(int followId, int followerId){
+    public void deleteARelation(String followId, String followerId){
         Relation relation=new Relation();
         relation.setFollowId(followId);
         relation.setFollowerId(followerId);
@@ -30,12 +30,12 @@ public class RelationServiceImpl implements RelationService {
     }
 
     @Override
-    public List<User> getAllFollows(int uid){
+    public List<User> getAllFollows(String uid){
         return relationRepository.findByFollowId(uid);
     }
 
     @Override
-    public List<User> getAllFollowers(int uid){
+    public List<User> getAllFollowers(String uid){
         return relationRepository.findByFollowerId(uid);
     }
 

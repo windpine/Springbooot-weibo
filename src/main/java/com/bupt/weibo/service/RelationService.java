@@ -11,10 +11,10 @@ public interface RelationService {
 
     Relation addARelation(Relation relation);
 
-    void deleteARelation(int followId, int followerId);
+    void deleteARelation(String followId, String followerId);
 
-    List<User> getAllFollows(int uid);
+    List<User> getAllFollows(String uid);
 
-    List<User> getAllFollowers(int uid);
+    List<User> getAllFollowers(String uid);
 
 }
