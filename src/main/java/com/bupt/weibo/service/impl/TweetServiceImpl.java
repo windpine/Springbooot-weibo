@@ -30,7 +30,8 @@ public class TweetServiceImpl implements TweetService {
 
     @Override
     public List<Tweet> getAllTweets() {
-        return tweetRepository.findAll();
+        Sort sort = new Sort(Sort.Direction.DESC,"createTime");
+        return tweetRepository.findAll(sort);
     }
 
     @Override

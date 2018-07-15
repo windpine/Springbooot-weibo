@@ -17,6 +17,9 @@ import java.util.List;
  */
 @Repository
 public interface TweetRepository extends JpaRepository<Tweet,Integer> {
+
+    @Transactional
+    List<Tweet> findAll(Sort sort);
     @Transactional
     List<Tweet> findTweetsByUid(Integer UID, Sort sort);
 
