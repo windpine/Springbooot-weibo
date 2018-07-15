@@ -47,8 +47,6 @@ public class TweetController {
     public ResponseEntity<ResultDTO> getAllTweet(UriComponentsBuilder uriComponentsBuilder){
         //包装header
         HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH);
-        headers.setAccessControlAllowCredentials(true);
-        headers.setAccessControlAllowOrigin("*");
         List<Tweet> tweets = tweetService.getAllTweets();
         Map<String,List<Tweet>> result = new HashMap<String,List<Tweet>>();
         logger.info(MAP_SUCCCESS);
