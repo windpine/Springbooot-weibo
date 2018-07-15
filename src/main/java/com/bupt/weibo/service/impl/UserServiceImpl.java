@@ -72,6 +72,37 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
+    @Override
+    public void updateUser(UserDTO userDTO) throws DisabledAccountException{
+        log.info("Mapper转换UserDTO->User");
+        User user=userMapper.convertToEntity(userDTO);
+        //生成UUID
+        user.setUid(UUIDUtils.getOneUUID());
+        ByteSource salt = ByteSource.Util.bytes(user.getUsername());
+        /*
+         * MD5加密：
+         * 使用SimpleHash类对原始密码进行加密。
+         * 第一个参数代表使用MD5方式加密
+         * 第二个参数为原始密码
+         * 第三个参数为盐值，即用户名
+         * 第四个参数为加密次数
+         * 最后用toHex()方法将加密后的密码转成String
+         * */
+
+        String newPs = new SimpleHash("MD5",
+                user.getPassword(), salt, 1024).toHex();
+        user.setPassword(newPs);
+        //检查用户是否存在
+        if(userRepository.findByUsername(user.getUsername()) != null){
+            log.info("成功更新！");
+            //todo：test
+            userRepository.updateUser(user.getUid(),user.getNickname(),user.getPassword(),user.getEmail());
+        }else {
+            throw new DisabledAccountException("不存在该用户");
+        }
+    }
+
     @Override
     public User getUserByEmail(String email) {
 

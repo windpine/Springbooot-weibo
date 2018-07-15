@@ -15,6 +15,8 @@ public class UserInfoDto {
 
     private String nickname;
 
+    private String username;
+
     private Integer tweets=0;
 
     private Integer follows=0;
