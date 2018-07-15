@@ -19,7 +19,7 @@ public class Comment {
     private int cid;
     private String uid;
     private Integer tid;
-    private Integer srcId;
+    private Integer srcId=-1;
     private String content;
     private Timestamp createTime;
 
@@ -90,7 +90,7 @@ public class Comment {
         if (o == null || getClass() != o.getClass()) return false;
         Comment comment = (Comment) o;
         return cid == comment.cid &&
-                uid == comment.uid &&
+                Objects.equals(uid, comment.uid) &&
                 Objects.equals(srcId, comment.srcId) &&
                 Objects.equals(content, comment.content) &&
                 Objects.equals(createTime, comment.createTime);

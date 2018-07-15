@@ -20,6 +20,8 @@ public interface TweetRepository extends JpaRepository<Tweet,Integer> {
     @Transactional
     List<Tweet> findTweetsByUid(String UID, Sort sort);
 
+    List<Tweet> findAll(Sort sort);
+
     @Transactional
     List<Tweet> findTweetsByTopicTitle(String topicTitle,Sort sort);
     @Transactional
