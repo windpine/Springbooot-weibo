@@ -2,6 +2,7 @@ package com.bupt.weibo.service.impl;
 
 
 import com.bupt.weibo.dto.MessageCommentDTO;
+import com.bupt.weibo.dto.MessageLikesDTO;
 import com.bupt.weibo.dto.MessageMentionTweetDTO;
 import com.bupt.weibo.dto.mapper.MessageMapper;
 import com.bupt.weibo.entity.*;
@@ -9,6 +10,7 @@ import com.bupt.weibo.repository.MessageRepository;
 import com.bupt.weibo.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -23,8 +25,10 @@ import java.util.List;
 public class MessageServiceImpl implements MessageService {
     @Autowired
     MessageMapper messageMapper;
+
     @Autowired
     MessageRepository messageRepository;
+
     @Override
     public List<MessageMentionTweetDTO> getPersonalAllTweetMention(String UID) {
         List<Object[]> resultArray=messageRepository.findAllMessageAndTweetJoin(UID);
@@ -44,6 +48,28 @@ public class MessageServiceImpl implements MessageService {
         }
         return messageCommentDTOList;
     }
+    @Override
+    public List<MessageLikesDTO> getPersonalAllLikes(String UID){
+        List<Object[]> resultArray = messageRepository.findAllLikesMessage(UID);
+        List<MessageLikesDTO> messageLikesDTOList = new LinkedList<>();
+        for(Object[] objArray:resultArray){
+            messageLikesDTOList.add(messageMapper.convertToCommentDto((Message)objArray[0],(Tweet)objArray[1],(User)objArray[2]));
+        }
+        return messageLikesDTOList;
+    }
+
+    @Override
+    @Transactional
+    public Boolean deleteMessage(String UID, Integer messageID) {
+        if(messageRepository.existsById(messageID)){
+            Message message = messageRepository.getOne(messageID);
+            if(message.getUid().equals(UID)) {
+                messageRepository.delete(message);
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
     public Boolean publishMessage(Message message) {
@@ -54,4 +80,5 @@ public class MessageServiceImpl implements MessageService {
             return false;
         }
     }
+
 }
