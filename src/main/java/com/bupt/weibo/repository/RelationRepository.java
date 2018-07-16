@@ -3,9 +3,11 @@ package com.bupt.weibo.repository;
 import com.bupt.weibo.entity.Relation;
 import com.bupt.weibo.entity.RelationPK;
 import com.bupt.weibo.entity.User;
+import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -15,16 +17,18 @@ import java.util.List;
  * @time 2018/7/7
  * @description
  */
+@Repository
+@Transactional
 public interface RelationRepository extends JpaRepository<Relation,RelationPK> {
 
     @Transactional
     @Modifying
     @Query("SELECT u From User u inner join Relation r on u.uid=r.followerId where r.followId=?1")
-    List<User> findByFollowId(int uid);
+    List<User> findByFollowId(String uid);
 
 
     @Transactional
     @Modifying
     @Query("SELECT u From User u inner join Relation r on u.uid=r.followId where r.followerId=?1")
-    List<User> findByFollowerId(int uid);
+    List<User> findByFollowerId(String uid);
 }

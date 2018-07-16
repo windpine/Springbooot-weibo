@@ -14,7 +14,7 @@ public class Message {
     private int type;
     private int srcId;
     private String content;
-    private int uid;
+    private String uid;
 
     @Id
     @Column(name = "messageID", nullable = false)
@@ -49,11 +49,11 @@ public class Message {
 
     @Basic
     @Column(name = "UID", nullable = false)
-    public int getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 
@@ -70,7 +70,7 @@ public class Message {
         return messageId == message.messageId &&
                 type == message.type &&
                 srcId == message.srcId &&
-                uid == message.uid &&
+                Objects.equals(uid , message.uid )&&
                 Objects.equals(content, message.content);
     }
 

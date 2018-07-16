@@ -17,9 +17,9 @@ import java.util.Objects;
 @Entity
 public class Comment {
     private int cid;
-    private int uid;
+    private String uid;
     private Integer tid;
-    private Integer srcId;
+    private Integer srcId=-1;
     private String content;
     private Timestamp createTime;
 
@@ -36,11 +36,11 @@ public class Comment {
 
     @Basic
     @Column(name = "UID", nullable = false)
-    public Integer getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 
@@ -90,7 +90,7 @@ public class Comment {
         if (o == null || getClass() != o.getClass()) return false;
         Comment comment = (Comment) o;
         return cid == comment.cid &&
-                uid == comment.uid &&
+                Objects.equals(uid, comment.uid) &&
                 Objects.equals(srcId, comment.srcId) &&
                 Objects.equals(content, comment.content) &&
                 Objects.equals(createTime, comment.createTime);

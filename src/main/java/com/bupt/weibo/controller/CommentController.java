@@ -39,8 +39,6 @@ public class CommentController {
     public ResponseEntity<ResultDTO> getTweetComments(UriComponentsBuilder uriComponentsBuilder, @PathVariable(name="TID") Integer TID){
         //包装header
         HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+"/"+TID);
-        headers.setAccessControlAllowCredentials(true);
-        headers.setAccessControlAllowOrigin("*");
         //map comments
         List<Comment> comments = commentService.getTweetComments(TID);
         Map result = new HashMap<String, List<Comment>>();
@@ -58,9 +56,6 @@ public class CommentController {
     public ResponseEntity<ResultDTO> sendAComment(UriComponentsBuilder uriComponentsBuilder,@RequestBody CommentDTO commentDTO) throws Exception{
         //包装header
         HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH);
-        headers.setAccessControlAllowCredentials(true);
-        headers.setAccessControlAllowOrigin("*");
-
         Comment comment = commentService.commentATweet(commentDTO);
         Map result = new HashMap<String,Integer>();
         //实际上不需要这么完整的数据，只需id即可
@@ -74,9 +69,6 @@ public class CommentController {
     public ResponseEntity<ResultDTO> deleteATweet(UriComponentsBuilder uriComponentsBuilder,@PathVariable(name = "CID") int CID)throws Exception{
         //包装header
         HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+"/"+CID);
-        headers.setAccessControlAllowCredentials(true);
-        headers.setAccessControlAllowOrigin("*");
-
         commentService.deleteAComment(CID);
         //返回
         return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(),headers,HttpStatus.OK);

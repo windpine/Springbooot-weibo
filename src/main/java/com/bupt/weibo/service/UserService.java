@@ -27,5 +27,6 @@ public interface UserService {
     User updateRolesById(String id, List<Role> roles);
     User updatePermissionsById(String id, List<Permission> permissions);
     void delUserById(String id);
+    void updateUser(UserDTO userDTO) throws DisabledAccountException;
 
 }

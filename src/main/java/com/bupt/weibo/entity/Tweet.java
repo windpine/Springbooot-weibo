@@ -96,7 +96,7 @@ public class Tweet {
         if (o == null || getClass() != o.getClass()) return false;
         Tweet tweet = (Tweet) o;
         return tid == tweet.tid &&
-                uid == tweet.uid &&
+                Objects.equals(uid ,tweet.uid) &&
                 Objects.equals(srcId, tweet.srcId) &&
                 Objects.equals(topicTitle, tweet.topicTitle) &&
                 Objects.equals(content, tweet.content) &&
