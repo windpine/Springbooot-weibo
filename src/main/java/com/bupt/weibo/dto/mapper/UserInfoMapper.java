@@ -1,5 +1,6 @@
 package com.bupt.weibo.dto.mapper;
 
+import com.bupt.weibo.dto.UserDTO;
 import com.bupt.weibo.dto.UserInfoDto;
 import com.bupt.weibo.entity.UserInfo;
 import org.mapstruct.InheritInverseConfiguration;
@@ -18,4 +19,6 @@ public interface UserInfoMapper {
 
     @InheritInverseConfiguration
     UserInfoDto convertToDto(UserInfo userInfo);
+
+    UserInfo convertToEntity(UserDTO userDTO);
 }

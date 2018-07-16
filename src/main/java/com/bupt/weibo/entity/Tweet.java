@@ -16,7 +16,10 @@ public class Tweet {
     private Integer srcId=-1;
     private String topicTitle;
     private String content;
+    private Integer forwards=0;
+    private Integer comments=0;
     private Integer likes=0;
+    private String imageUrl="";
     private Timestamp createTime;
 
     @Id
@@ -108,5 +111,33 @@ public class Tweet {
     public int hashCode() {
 
         return Objects.hash(tid, uid, srcId, topicTitle, content, likes, createTime);
+    }
+
+    @Basic
+    @Column(name = "forwards", nullable = true,length = 11)
+    public Integer getForwards() {
+        return forwards;
+    }
+
+    public void setForwards(Integer forwards) {
+        this.forwards = forwards;
+    }
+    @Basic
+    @Column(name = "comments", nullable = true,length = 11)
+    public Integer getComments() {
+        return comments;
+    }
+
+    public void setComments(Integer comments) {
+        this.comments = comments;
+    }
+    @Basic
+    @Column(name = "image_url", nullable = true,length = 256)
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
