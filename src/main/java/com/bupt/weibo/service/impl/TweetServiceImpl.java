@@ -1,6 +1,6 @@
 package com.bupt.weibo.service.impl;
 
-import com.bupt.weibo.dto.TweetDTO;
+import com.bupt.weibo.dto.PostTweetDTO;
 import com.bupt.weibo.dto.mapper.TweetMapper;
 import com.bupt.weibo.entity.Tweet;
 import com.bupt.weibo.repository.TweetRepository;
@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -41,14 +39,14 @@ public class TweetServiceImpl implements TweetService {
     }
 
     @Override
-    public Boolean publishTweet(TweetDTO tweetDTO) {
+    public Tweet publishTweet(PostTweetDTO postTweetDTO) {
         //转换dtoToEntity
-        Tweet tweet = tweetMapper.convertToEntity(tweetDTO);
+        Tweet tweet = tweetMapper.convertToEntity(postTweetDTO);
         Tweet saveTweet = tweetRepository.saveAndFlush(tweet);
         if(saveTweet.equals(tweet))
-            return true;
+            return saveTweet;
         else
-            return false;
+            return null;
     }
 
     @Override

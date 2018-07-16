@@ -34,7 +34,7 @@ public class UserInfo {
     private Integer followers=0;
     @Basic
     @Column(name = "avatar_url", nullable = true,length = 256)
-    private String avatarUrl ="";
+    private String imageUrl="";
     @Basic
     @Column(name = "creat_time", nullable = false)
     private Timestamp creatTime;

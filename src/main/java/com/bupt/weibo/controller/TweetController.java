@@ -1,9 +1,7 @@
 package com.bupt.weibo.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.bupt.weibo.dto.ResultDTO;
-import com.bupt.weibo.dto.TweetDTO;
-import com.bupt.weibo.dto.mapper.TweetMapper;
+import com.bupt.weibo.dto.PostTweetDTO;
 import com.bupt.weibo.entity.Tweet;
 import com.bupt.weibo.exception.ResultException;
 import com.bupt.weibo.service.TweetService;
@@ -77,13 +75,14 @@ public class TweetController {
 
     //发表一条微博,使用json传递TweetDTO
     @PostMapping
-    public ResponseEntity<ResultDTO> publishTweet(UriComponentsBuilder uriComponentsBuilder, @RequestBody TweetDTO tweetDTO){
+    public ResponseEntity<Integer> publishTweet(UriComponentsBuilder uriComponentsBuilder, @RequestBody PostTweetDTO postTweetDTO){
         //包装header
         HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH);
         //返回发表结果
-        if(tweetDTO != null){
-            if(tweetService.publishTweet(tweetDTO)){
-                return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(),headers,HttpStatus.OK);
+        if(postTweetDTO != null){
+            Tweet saveTweet=tweetService.publishTweet(postTweetDTO);
+            if(saveTweet!=null){
+                return new ResponseEntity<>(saveTweet.getTid(),headers,HttpStatus.OK);
             }else{
                 throw new ResultException("save fail");
             }

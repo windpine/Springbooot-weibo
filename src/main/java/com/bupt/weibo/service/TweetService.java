@@ -1,10 +1,8 @@
 package com.bupt.weibo.service;
 
 
-import com.bupt.weibo.dto.TweetDTO;
-import com.bupt.weibo.entity.Comment;
+import com.bupt.weibo.dto.PostTweetDTO;
 import com.bupt.weibo.entity.Tweet;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -18,7 +16,7 @@ public interface TweetService {
     //获取某一用户发表的微博
     List<Tweet> getPersonalTweets(String UID);
     //发表一条微博
-    Boolean publishTweet(TweetDTO tweetDTO);
+    Tweet publishTweet(PostTweetDTO postTweetDTO);
     //查看某一话题的微博
     List<Tweet> getTopicTweets(String topicTitle);
 

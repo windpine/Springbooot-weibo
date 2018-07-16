@@ -72,8 +72,8 @@ public class UserController {
     public ResponseEntity<ResultDTO> getUsers(UriComponentsBuilder uriComponentsBuilder){
         //包装header
         HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH);
-        headers.setAccessControlAllowCredentials(true);
-        headers.setAccessControlAllowOrigin("*");
+//        headers.setAccessControlAllowCredentials(true);
+//        headers.setAccessControlAllowOrigin("*");
         List<User> users = userService.listUsers();
         Map<String,List<User>> result = new HashMap<String,List<User>>();
         logger.info(MAP_SUCCCESS);

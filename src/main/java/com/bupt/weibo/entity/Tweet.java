@@ -18,6 +18,10 @@ public class Tweet {
     private String content;
     private Integer likes=0;
     private Timestamp createTime;
+    private Integer forwards=0;
+    private Integer comments=0;
+    private String imageUrl="";
+
 
     @Id
     @Column(name = "TID", nullable = false)
@@ -89,6 +93,36 @@ public class Tweet {
     public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
+
+    @Basic
+    @Column(name = "forwards", nullable = true,length = 11)
+    public Integer getForwards() {
+        return forwards;
+    }
+
+    public void setForwards(Integer forwards) {
+        this.forwards = forwards;
+    }
+    @Basic
+    @Column(name = "comments", nullable = true,length = 11)
+    public Integer getComments() {
+        return comments;
+    }
+
+    public void setComments(Integer comments) {
+        this.comments = comments;
+    }
+
+    @Basic
+    @Column(name = "image_url", nullable = true,length = 256)
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
 
     @Override
     public boolean equals(Object o) {

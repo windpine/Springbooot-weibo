@@ -42,7 +42,7 @@ public class RelationController {
 
     @RequestMapping(value="/{followId}/follow/{followerId}")
     @DeleteMapping("/")
-    public ResponseEntity<ResultDTO> deleteARelation(@PathVariable int followId,@PathVariable int followerId ,UriComponentsBuilder uriComponentsBuilder) throws Exception{
+    public ResponseEntity<ResultDTO> deleteARelation(@PathVariable String followId,@PathVariable String followerId ,UriComponentsBuilder uriComponentsBuilder) throws Exception{
         String subUri="/"+followId+"/follow/"+followerId;
         HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,subUri);
         relationService.deleteARelation(followId,followerId);
@@ -51,7 +51,7 @@ public class RelationController {
 
     @RequestMapping(value = "/{uid}/follows")
     @GetMapping("/")
-    public ResponseEntity<ResultDTO> getAllFollows(@PathVariable int uid ,UriComponentsBuilder uriComponentsBuilder) throws Exception{
+    public ResponseEntity<ResultDTO> getAllFollows(@PathVariable String uid ,UriComponentsBuilder uriComponentsBuilder) throws Exception{
         HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,"/"+uid+"/follows");
         List<User> users=relationService.getAllFollows(uid);
         if(users!=null)
@@ -62,7 +62,7 @@ public class RelationController {
 
     @RequestMapping(value = "/{uid}/followers")
     @GetMapping("/")
-    public ResponseEntity<ResultDTO> getAllFollowers(@PathVariable int uid,UriComponentsBuilder uriComponentsBuilder) throws Exception{
+    public ResponseEntity<ResultDTO> getAllFollowers(@PathVariable String uid,UriComponentsBuilder uriComponentsBuilder) throws Exception{
         HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,"/"+uid+"/followers");
         List<User> users=relationService.getAllFollowers(uid);
         if(users!=null)
