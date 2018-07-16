@@ -10,6 +10,7 @@ import com.bupt.weibo.repository.MessageRepository;
 import com.bupt.weibo.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -56,6 +57,20 @@ public class MessageServiceImpl implements MessageService {
         }
         return messageLikesDTOList;
     }
+
+    @Override
+    @Transactional
+    public Boolean deleteMessage(String UID, Integer messageID) {
+        if(messageRepository.existsById(messageID)){
+            Message message = messageRepository.getOne(messageID);
+            if(message.getUid().equals(UID)) {
+                messageRepository.delete(message);
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public Boolean publishMessage(Message message) {
         Message savedMessage = messageRepository.saveAndFlush(message);

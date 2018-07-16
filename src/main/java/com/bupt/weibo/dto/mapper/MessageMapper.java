@@ -43,7 +43,7 @@ public interface MessageMapper {
             @Mapping(source = "message.messageId",target = "messageId"),
             @Mapping(source = "tweet.tid",target="srcId"),
             @Mapping(source = "user.nickname" ,target="nickName"),
-            @Mapping(source = "tweet.content",target="content")
+            @Mapping(source = "tweet.content",target="content"),
     })
     MessageLikesDTO convertToCommentDto(Message message,Tweet tweet,User user);
 

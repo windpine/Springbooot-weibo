@@ -21,4 +21,6 @@ public interface MessageService {
     Boolean publishMessage(Message message);
     //获得某一用户所有被点赞消息
     List<MessageLikesDTO> getPersonalAllLikes(String UID);
+    //删除一条消息
+    Boolean deleteMessage(String UID,Integer messageID);
 }
