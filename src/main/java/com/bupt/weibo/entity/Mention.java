@@ -14,7 +14,6 @@ import java.util.Objects;
 public class Mention {
     private int tid;
     private String uid;
-    private Integer cid;
     private Timestamp createTime;
 
     @Id
@@ -38,16 +37,6 @@ public class Mention {
     }
 
     @Basic
-    @Column(name = "CID", nullable = true)
-    public Integer getCid() {
-        return cid;
-    }
-
-    public void setCid(Integer cid) {
-        this.cid = cid;
-    }
-
-    @Basic
     @Column(name = "create_time", nullable = false)
     public Timestamp getCreateTime() {
         return createTime;
@@ -64,13 +53,12 @@ public class Mention {
         Mention mention = (Mention) o;
         return tid == mention.tid &&
                 Objects.equals(uid , mention.uid) &&
-                Objects.equals(cid, mention.cid) &&
                 Objects.equals(createTime, mention.createTime);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(tid, uid, cid, createTime);
+        return Objects.hash(tid, uid, createTime);
     }
 }

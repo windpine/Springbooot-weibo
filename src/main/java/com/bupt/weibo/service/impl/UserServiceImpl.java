@@ -1,11 +1,14 @@
 package com.bupt.weibo.service.impl;
 
 import com.bupt.weibo.dto.UserDTO;
+import com.bupt.weibo.dto.mapper.UserInfoMapper;
 import com.bupt.weibo.dto.mapper.UserMapper;
 import com.bupt.weibo.entity.Permission;
 import com.bupt.weibo.entity.Role;
 import com.bupt.weibo.entity.User;
+import com.bupt.weibo.entity.UserInfo;
 import com.bupt.weibo.exception.ResultException;
+import com.bupt.weibo.repository.UserInfoRepository;
 import com.bupt.weibo.repository.UserRepository;
 import com.bupt.weibo.service.UserService;
 import com.bupt.weibo.utils.UUIDUtils;
@@ -30,10 +33,16 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    UserInfoRepository userInfoRepository;
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     UserMapper userMapper;
+
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    @Autowired
+    UserInfoMapper userInfoMapper;
 
 
     @Override
@@ -47,8 +56,12 @@ public class UserServiceImpl implements UserService {
     public User registerUser(UserDTO userDTO) throws DisabledAccountException{
         log.info("Mapper转换UserDTO->User");
         User user=userMapper.convertToEntity(userDTO);
+        UserInfo userInfo = userInfoMapper.convertToEntity(userDTO);
+
         //生成UUID
-        user.setUid(UUIDUtils.getOneUUID());
+        String uid=UUIDUtils.getOneUUID();
+        user.setUid(uid);
+        userInfo.setUid(uid);
         ByteSource salt = ByteSource.Util.bytes(user.getUsername());
         /*
          * MD5加密：
@@ -63,12 +76,20 @@ public class UserServiceImpl implements UserService {
         String newPs = new SimpleHash("MD5",
                 user.getPassword(), salt, 1024).toHex();
         user.setPassword(newPs);
+
         //检查用户是否存在
         if(userRepository.findByUsername(user.getUsername())==null){
+            User _user;
             log.info("成功注册！");
-            return userRepository.save(user);
+            try{
+                userInfoRepository.save(userInfo);
+                _user=userRepository.save(user);
+            }catch (ResultException e){
+                _user=null;
+            }
+            return _user;
         }else {
-            throw new DisabledAccountException("已存在该用户名");
+            throw new ResultException("已存在该用户名");
         }
     }
 

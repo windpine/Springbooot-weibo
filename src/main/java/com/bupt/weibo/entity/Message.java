@@ -91,4 +91,14 @@ public class Message {
 
         return Objects.hash(messageId, type, srcId, content, uid);
     }
+
+    @Basic
+    @Column(name = "src_uid", nullable = false,length = 32)
+    public String getSrcUid() {
+        return srcUid;
+    }
+
+    public void setSrcUid(String srcUid) {
+        this.srcUid = srcUid;
+    }
 }

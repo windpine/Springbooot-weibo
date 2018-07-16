@@ -17,6 +17,7 @@ public class UserDTO {
     private String password;
     private String email;
     private String nickname;
+    private String avatarUrl;
     //    private Integer tweets;
 //    private Integer follows;
 //    private Integer followers;
