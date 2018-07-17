@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
 
         userInfoDTO.setSex("无");
         if(userDTO.getAvatarUrl()==""){
-            userInfoDTO.setAvatarUrl("https://weibo-1252079771.cos.ap-beijing.myqcloud.com/welcome.jpg");
+            userInfoDTO.setAvatarUrl("https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png");
         }else{
             userInfoDTO.setAvatarUrl(userDTO.getAvatarUrl());
         }

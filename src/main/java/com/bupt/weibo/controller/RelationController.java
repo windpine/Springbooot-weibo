@@ -35,6 +35,7 @@ public class RelationController {
     public static final String DELETEPATH="/{followerId}/{followId}";
     public static final String FOLLOWSPATH="/{uid}/follows";
     public static final String FLOLLOWERSPATH="/{uid}/followers";
+    public static final String CHECKPATH="/{followerId}/fans/{followId}";
 
     //创建日志记录
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -101,4 +102,16 @@ public class RelationController {
             return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(result), headers, HttpStatus.OK);
     }
 
+    //检查是否已经关注
+    @GetMapping(value=CHECKPATH)
+    public ResponseEntity<ResultDTO> checkRelation(UriComponentsBuilder uriComponentsBuilder,@PathVariable(name = "followId") String followId,@PathVariable(name="followerId") String followerId) throws Exception {
+        HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder, PATH + "/" + followerId + "/fans/" + followId);
+        logger.info("=======开始检查关系=========");
+
+        if (relationService.findById(followId,followerId).size() != 0) {
+            return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess("yes"), headers, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess("no"), headers, HttpStatus.OK);
+        }
+    }
 }

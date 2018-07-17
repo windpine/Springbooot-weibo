@@ -23,4 +23,6 @@ public interface RelationService {
 
     List<Relation> findById(String followId,String followerId);
 
+//    List<Relation> checkRelation(String followerId,String followId);
+
 }
