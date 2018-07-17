@@ -16,11 +16,11 @@ public class Tweet {
     private Integer srcId=-1;
     private String topicTitle;
     private String content;
-    private Integer likes=0;
-    private Timestamp createTime;
     private Integer forwards=0;
     private Integer comments=0;
+    private Integer likes=0;
     private String imageUrl="";
+    private Timestamp createTime;
 
 
     @Id
@@ -143,4 +143,5 @@ public class Tweet {
 
         return Objects.hash(tid, uid, srcId, topicTitle, content, likes, createTime);
     }
+
 }

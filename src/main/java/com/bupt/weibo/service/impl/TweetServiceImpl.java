@@ -1,6 +1,7 @@
 package com.bupt.weibo.service.impl;
 
-import com.bupt.weibo.dto.PostTweetDTO;
+import com.bupt.weibo.dto.TweetGetDTO;
+import com.bupt.weibo.dto.TweetPostDTO;
 import com.bupt.weibo.dto.mapper.TweetMapper;
 import com.bupt.weibo.entity.Tweet;
 import com.bupt.weibo.repository.TweetRepository;
@@ -27,9 +28,14 @@ public class TweetServiceImpl implements TweetService {
 
 
     @Override
-    public List<Tweet> getAllTweets() {
-        Sort sort = new Sort(Sort.Direction.DESC,"createTime");
-        return tweetRepository.findAll(sort);
+    public List<TweetGetDTO> getAllTweets() {
+        //Sort sort = new Sort(Sort.Direction.DESC,"createTime");
+        return tweetRepository.findAllTweet();
+    }
+
+    @Override
+    public List<TweetGetDTO> getRepostTweets(int TID){
+        return tweetRepository.findTweetsBySrcId(TID);
     }
 
     @Override
@@ -39,9 +45,9 @@ public class TweetServiceImpl implements TweetService {
     }
 
     @Override
-    public Tweet publishTweet(PostTweetDTO postTweetDTO) {
+    public Tweet publishTweet(TweetPostDTO tweetPostDTO) {
         //转换dtoToEntity
-        Tweet tweet = tweetMapper.convertToEntity(postTweetDTO);
+        Tweet tweet = tweetMapper.convertToEntity(tweetPostDTO);
         Tweet saveTweet = tweetRepository.saveAndFlush(tweet);
         if(saveTweet.equals(tweet))
             return saveTweet;

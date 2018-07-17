@@ -21,9 +21,6 @@ public class UserInfo {
     @Column(name = "UID", nullable = false,length = 32)
     private String uid;
     @Basic
-    @Column(name = "nickname", nullable = true, length = 32)
-    private String nickname;
-    @Basic
     @Column(name = "tweets", nullable = true,length = 11)
     private Integer tweets=0;
     @Basic
@@ -33,9 +30,9 @@ public class UserInfo {
     @Column(name = "followers", nullable = true,length = 11)
     private Integer followers=0;
     @Basic
-    @Column(name = "avatar_url", nullable = true,length = 256)
-    private String imageUrl="";
+    @Column(name = "sex", nullable = true,length = 2)
+    private String sex;
     @Basic
-    @Column(name = "creat_time", nullable = false)
-    private Timestamp creatTime;
+    @Column(name = "avatar_url", nullable = true,length = 256)
+    private String avatarUrl ="";
 }

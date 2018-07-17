@@ -9,7 +9,8 @@ public enum MessageType {
 
     MENTION(0),
     COMMENT(1),
-    LIKES(2);
+    LIKES(2),
+    REPOST(3);
 
     private int type;
 
