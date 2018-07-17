@@ -57,16 +57,26 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+
     @Override
     public User registerUser(UserDTO userDTO) throws DisabledAccountException{
         log.info("Mapper转换UserDTO->User");
         User user=userMapper.convertToEntity(userDTO);
-        UserInfo userInfo = userInfoMapper.convertToEntity(userDTO);
+        UserInfoDTO userInfoDTO=new UserInfoDTO();
+
+        userInfoDTO.setSex("无");
+        if(userDTO.getAvatarUrl()==""){
+            userInfoDTO.setAvatarUrl("https://weibo-1252079771.cos.ap-beijing.myqcloud.com/welcome.jpg");
+        }else{
+            userInfoDTO.setAvatarUrl(userDTO.getAvatarUrl());
+        }
+
+
 
         //生成UUID
         String uid=UUIDUtils.getOneUUID();
         user.setUid(uid);
-        userInfo.setUid(uid);
+        userInfoDTO.setUid(uid);
         ByteSource salt = ByteSource.Util.bytes(user.getUsername());
         /*
          * MD5加密：
@@ -81,6 +91,8 @@ public class UserServiceImpl implements UserService {
         String newPs = new SimpleHash("MD5",
                 user.getPassword(), salt, 1024).toHex();
         user.setPassword(newPs);
+
+        UserInfo userInfo=userInfoMapper.convertToEntity(userInfoDTO);
 
         //检查用户是否存在
         if(userRepository.findByUsername(user.getUsername())==null){
