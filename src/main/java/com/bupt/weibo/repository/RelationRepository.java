@@ -3,7 +3,6 @@ package com.bupt.weibo.repository;
 import com.bupt.weibo.entity.Relation;
 import com.bupt.weibo.entity.RelationPK;
 import com.bupt.weibo.entity.User;
-import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -21,14 +20,23 @@ import java.util.List;
 @Transactional
 public interface RelationRepository extends JpaRepository<Relation,RelationPK> {
 
+    List<Relation> findAll();
+
     @Transactional
     @Modifying
-    @Query("SELECT u From User u inner join Relation r on u.uid=r.followerId where r.followId=?1")
-    List<User> findByFollowId(String uid);
+    @Query(value="select r from Relation r where r.followId=?1 and r.followerId=?2")
+    List<Relation> findById(String followId,String followerId);
+
+    @Transactional
+    @Modifying
+    @Query("select u from User u inner join Relation r on u.uid=r.followerId where r.followId=?1 ")
+    List<User> findFollowersByFollowId(String uid);
 
 
     @Transactional
     @Modifying
-    @Query("SELECT u From User u inner join Relation r on u.uid=r.followId where r.followerId=?1")
-    List<User> findByFollowerId(String uid);
+    @Query(value="select u from User u inner join Relation r on u.uid=r.followId where r.followerId=?1 ")
+    List<User> findFollowsByFollowerId(String uid);//返回的是followerId=uid的所有对应的followList
+
 }
+

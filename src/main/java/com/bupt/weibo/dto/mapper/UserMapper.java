@@ -22,7 +22,7 @@ public interface UserMapper {
 
     //注册时默认添加角色为User
     //权限和身份的设置转移到业务层
-     User convertToEntity(UserDTO userDTO);
+     User convertToEntity(UserDTO userDTO);//// TODO: 多余的属性？
 
 
     //TODO 用于后台管理时手动添加，需要额外参数
