@@ -23,6 +23,8 @@ public interface UserService {
 
      User getUserByName(String username);
 
+     User getUserByNickname(String nickname );
+
     List<User> listUsers();
     User updateRolesById(String id, List<Role> roles);
     User updatePermissionsById(String id, List<Permission> permissions);

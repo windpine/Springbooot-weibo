@@ -1,6 +1,7 @@
 package com.bupt.weibo.service;
 
 import com.bupt.weibo.dto.CommentDTO;
+import com.bupt.weibo.dto.CommentGetDTO;
 import com.bupt.weibo.entity.Comment;
 
 import java.util.List;
@@ -12,9 +13,9 @@ import java.util.List;
  */
 public interface CommentService {
 
-    Comment commentATweet(CommentDTO commentDTO);
+    Comment commentATweet(CommentDTO commentDTO)  throws Exception ;
 
     void deleteAComment(int CID);
     //获取某一微博的所有评论
-    List<Comment> getTweetComments(Integer TID);
+    List<CommentGetDTO> getTweetComments(Integer TID);
 }

@@ -33,6 +33,8 @@ public interface UserRepository extends JpaRepository<User,String> {
 
     User findByEmail(String email);
 
+    User findByNickname(String nickname);
+
     @Transactional
     @Modifying(clearAutomatically = false)
     @Query(value = "update User u set u.nickname=?2,u.password=?3,u.email=?4 where u.uid=?1")

@@ -1,5 +1,7 @@
 package com.bupt.weibo.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.bupt.weibo.dto.ResultDTO;
 import com.bupt.weibo.dto.TweetGetDTO;
 import com.bupt.weibo.dto.TweetPostDTO;
@@ -8,7 +10,6 @@ import com.bupt.weibo.exception.ResultException;
 import com.bupt.weibo.service.TweetService;
 import com.bupt.weibo.utils.ApplicationUtils;
 import com.bupt.weibo.utils.ResultUtils;
-import net.bytebuddy.implementation.bytecode.assign.TypeCasting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -48,8 +50,9 @@ public class TweetController {
     public ResponseEntity<ResultDTO> getAllTweet(UriComponentsBuilder uriComponentsBuilder){
         //包装header
         HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH);
-        List<TweetGetDTO> tweets = tweetService.getAllTweets();
-        Map<String,List<TweetGetDTO>> result = new HashMap<String,List<TweetGetDTO>>();
+        List<List<TweetGetDTO>> tweets = tweetService.getAllTweets();
+        //JSONArray mapJSON=(com.alibaba.fastjson.JSONArray) JSON.toJSON(tweets);
+        Map<String,List<List<TweetGetDTO>>> result = new HashMap<>();
         logger.info(MAP_SUCCCESS);
         if(tweets.size() != 0){
             result.put("tweetList",tweets);

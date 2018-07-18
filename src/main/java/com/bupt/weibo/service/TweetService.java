@@ -5,6 +5,7 @@ import com.bupt.weibo.dto.TweetGetDTO;
 import com.bupt.weibo.dto.TweetPostDTO;
 import com.bupt.weibo.entity.Tweet;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ import java.util.List;
 
 public interface TweetService {
     //获取所有微博
-    List<TweetGetDTO> getAllTweets();
+    List<List<TweetGetDTO>> getAllTweets();
 
     //获取某一条微博被转发的所有微博
     List<TweetGetDTO> getRepostTweets(int TID);
@@ -29,5 +30,7 @@ public interface TweetService {
     void deleteATweet(int TID) throws Exception;
 
     void likeATweet(int TID) throws Exception;
+
+    void AddAComment(int TID) throws Exception;
 
 }
