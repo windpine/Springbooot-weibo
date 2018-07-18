@@ -92,4 +92,5 @@ public class Message {
         return Objects.hash(messageId, type, srcId, content, uid);
     }
 
+
 }

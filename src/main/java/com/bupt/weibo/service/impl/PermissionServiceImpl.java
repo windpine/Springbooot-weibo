@@ -4,10 +4,8 @@ import com.bupt.weibo.entity.Permission;
 import com.bupt.weibo.entity.User;
 import com.bupt.weibo.exception.ResultException;
 import com.bupt.weibo.repository.PermissionRepository;
-import com.bupt.weibo.repository.RoleRepository;
 import com.bupt.weibo.repository.UserRepository;
 import com.bupt.weibo.service.PermissionService;
-import com.bupt.weibo.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
