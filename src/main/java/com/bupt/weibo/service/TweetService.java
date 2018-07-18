@@ -1,11 +1,11 @@
 package com.bupt.weibo.service;
 
 
-import com.bupt.weibo.dto.TweetDTO;
-import com.bupt.weibo.entity.Comment;
+import com.bupt.weibo.dto.TweetGetDTO;
+import com.bupt.weibo.dto.TweetPostDTO;
 import com.bupt.weibo.entity.Tweet;
-import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -14,11 +14,15 @@ import java.util.List;
 
 public interface TweetService {
     //获取所有微博
-    List<Tweet> getAllTweets();
+    List<List<TweetGetDTO>> getAllTweets();
+
+    //获取某一条微博被转发的所有微博
+    List<TweetGetDTO> getRepostTweets(int TID);
+
     //获取某一用户发表的微博
     List<Tweet> getPersonalTweets(String UID);
     //发表一条微博
-    Boolean publishTweet(TweetDTO tweetDTO);
+    Tweet publishTweet(TweetPostDTO tweetPostDTO);
     //查看某一话题的微博
     List<Tweet> getTopicTweets(String topicTitle);
 
@@ -26,5 +30,7 @@ public interface TweetService {
     void deleteATweet(int TID) throws Exception;
 
     void likeATweet(int TID) throws Exception;
+
+    void AddAComment(int TID) throws Exception;
 
 }

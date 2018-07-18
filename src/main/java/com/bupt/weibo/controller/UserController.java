@@ -36,6 +36,7 @@ public class UserController {
     public static final String PATH = "/users";
     public static final String UIDPATH="/{UID}";
     public static final String PWDPATH="/{UID}/{password}";
+    public static final String NICKNAMEPATH="/nickname/{NICKNAME}";
 
     //创建日志记录
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -45,7 +46,6 @@ public class UserController {
 
     @Autowired
     UserService userService;
-
 
     @Autowired
     ResultUtils resultUtils;
@@ -113,6 +113,19 @@ public class UserController {
         }
     }
 
-
+    //根据用户昵称获得ID
+    @GetMapping(value = NICKNAMEPATH)
+    public ResponseEntity<ResultDTO> getUserByNickname(UriComponentsBuilder uriComponentsBuilder,@PathVariable(name = "NICKNAME") String NICKNAME){
+        //包装header
+        HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+"/nickname/"+NICKNAME);
+        User user=userService.getUserByNickname(NICKNAME);
+        Map<String,String> result=new HashMap<>();
+        if(user!=null){
+            result.put("uid",user.getUid());
+            return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(result),headers, HttpStatus.OK);
+        }else{
+            throw new ResultException("no user or error");
+        }
+    }
 
 }

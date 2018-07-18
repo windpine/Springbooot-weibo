@@ -31,7 +31,7 @@ public class MentionController {
     @GetMapping("/{UID}")
     public ResponseEntity<ResultDTO> getAllMentions(
             @PathVariable(name = "UID") String UID, UriComponentsBuilder uriComponentsBuilder){
-        HttpHeaders headers=ApplicationUtils.getHttpHeaders(uriComponentsBuilder,"users");
+        HttpHeaders headers=ApplicationUtils.getHttpHeaders(uriComponentsBuilder,"");
         List<Mention> mentionList = mentionService.getMentionsByUID(UID);
         if(mentionList!=null){
             return new ResponseEntity<>(ResultUtils.onSuccess(mentionList),headers,HttpStatus.OK);
@@ -40,11 +40,11 @@ public class MentionController {
         }
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<ResultDTO> addMention(UriComponentsBuilder uriComponentsBuilder,
                                                 @RequestBody MentionDTO mentionDTO){
 
-        HttpHeaders headers=ApplicationUtils.getHttpHeaders(uriComponentsBuilder,"users");
+        HttpHeaders headers=ApplicationUtils.getHttpHeaders(uriComponentsBuilder,"/mention");
         mentionService.addMention(mentionDTO);
         return new ResponseEntity<>(ResultUtils.onSuccess(),headers,HttpStatus.OK);
     }

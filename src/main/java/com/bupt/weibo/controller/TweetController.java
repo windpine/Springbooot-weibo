@@ -1,9 +1,10 @@
 package com.bupt.weibo.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.bupt.weibo.dto.ResultDTO;
-import com.bupt.weibo.dto.TweetDTO;
-import com.bupt.weibo.dto.mapper.TweetMapper;
+import com.bupt.weibo.dto.TweetGetDTO;
+import com.bupt.weibo.dto.TweetPostDTO;
 import com.bupt.weibo.entity.Tweet;
 import com.bupt.weibo.exception.ResultException;
 import com.bupt.weibo.service.TweetService;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +34,7 @@ import java.util.Map;
 @RequestMapping(value = TweetController.PATH)
 public class TweetController {
     public static final String PATH = "/tweets";
+    public static final String REPOSTPATH="/repost/{TID}";
     public static final String UIDPATH="/{UID}";
     public static final String GETOPICTITLE = "/topic/{topicTitle}";
     public static final String TIDPATH = "/{TID}";
@@ -47,14 +50,30 @@ public class TweetController {
     public ResponseEntity<ResultDTO> getAllTweet(UriComponentsBuilder uriComponentsBuilder){
         //包装header
         HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH);
-        List<Tweet> tweets = tweetService.getAllTweets();
-        Map<String,List<Tweet>> result = new HashMap<String,List<Tweet>>();
+        List<List<TweetGetDTO>> tweets = tweetService.getAllTweets();
+        //JSONArray mapJSON=(com.alibaba.fastjson.JSONArray) JSON.toJSON(tweets);
+        Map<String,List<List<TweetGetDTO>>> result = new HashMap<>();
         logger.info(MAP_SUCCCESS);
         if(tweets.size() != 0){
             result.put("tweetList",tweets);
             return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(result),headers, HttpStatus.OK);
         }else{
             throw new ResultException("no tweet or error");
+        }
+    }
+    //获取某一微博的转发微博列表
+    @GetMapping(value = REPOSTPATH)
+    public ResponseEntity<ResultDTO> getRepostTweets(UriComponentsBuilder uriComponentsBuilder,@PathVariable(name="TID") int TID){
+        HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+"/repost/"+TID);
+        List<TweetGetDTO> reposts=tweetService.getRepostTweets(TID);
+        Map<String,List<TweetGetDTO>> result=new HashMap<>();
+        logger.info(MAP_SUCCCESS);
+        if(reposts.size()!=0){
+            result.put("repostList",reposts);
+            return new ResponseEntity<>(ResultUtils.onSuccess(result),headers,HttpStatus.OK);
+        }
+        else{
+            throw new ResultException("no repost or error");
         }
     }
 
@@ -77,13 +96,14 @@ public class TweetController {
 
     //发表一条微博,使用json传递TweetDTO
     @PostMapping
-    public ResponseEntity<ResultDTO> publishTweet(UriComponentsBuilder uriComponentsBuilder, @RequestBody TweetDTO tweetDTO){
+    public ResponseEntity<Tweet> publishTweet(UriComponentsBuilder uriComponentsBuilder, @RequestBody TweetPostDTO tweetPostDTO){
         //包装header
         HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH);
         //返回发表结果
-        if(tweetDTO != null){
-            if(tweetService.publishTweet(tweetDTO)){
-                return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(),headers,HttpStatus.OK);
+        if(tweetPostDTO != null){
+            Tweet saveTweet=tweetService.publishTweet(tweetPostDTO);
+            if(saveTweet!=null){
+                return new ResponseEntity<>(saveTweet,headers,HttpStatus.OK);
             }else{
                 throw new ResultException("save fail");
             }
