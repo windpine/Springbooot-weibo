@@ -10,7 +10,8 @@ public enum MessageType {
     MENTION(0),
     COMMENT(1),
     LIKES(2),
-    REPOST(3);
+    REPOST(3),
+    FOLLOWEDTWEET(4);
 
     private int type;
 
