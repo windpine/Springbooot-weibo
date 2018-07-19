@@ -31,3 +31,10 @@ spring:
     port: 6379
 # 连接超时时间
     timeout: 5000ms
+logging:
+  file: ./logs.log
+  level:
+    com.bupt.weibo: info
+    org.hibernate: error
+    org.springframework.web: info
+

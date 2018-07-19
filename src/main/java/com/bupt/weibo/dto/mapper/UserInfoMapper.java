@@ -17,11 +17,8 @@ import org.mapstruct.Mapper;
 public interface UserInfoMapper {
 
     UserInfo convertToEntity(UserInfoDTO userInfoDto);
-
     @InheritInverseConfiguration
     UserInfoDTO convertToDto(UserInfo userInfo);
-
-
     User convertToEntity(UserDTO userDTO);
 
 
