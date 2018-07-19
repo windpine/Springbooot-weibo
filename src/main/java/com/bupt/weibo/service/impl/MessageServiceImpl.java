@@ -51,29 +51,29 @@ public class MessageServiceImpl implements MessageService {
     @Transactional
     public void checkFollowedTweet(String UID) {
         //查找关注人
-        List<User> followeds = relationRepository.findFollowersByFollowId(UID);
-        List<Message> messages = messageRepository.findMessagesByUidAndType(UID, MessageType.FOLLOWEDTWEET.getType());
-        for(User user: followeds){
-            List<Tweet> tweets = tweetRespository.findTweetsByUid(user.getUid(),new Sort(Sort.Direction.DESC,"createTime"));
-            for(Tweet tweet:tweets){
-                //检查是否已经发表
-                boolean isPublish = false;
-                for(Message message:messages){
-                    if(message.getSrcId() == tweet.getTid()){
-                        isPublish = true;
-                    }
-                }
-                if(!isPublish){
-                    Message message = new Message();
-                    message.setUid(UID);
-                    message.setType(MessageType.FOLLOWEDTWEET.getType());
-                    message.setSrcId(tweet.getTid());
-                    message.setSrcUid(tweet.getUid());
-                    message.setContent(tweet.getContent());
-                    messageRepository.save(message);
-                }
-            }
-        }
+//        List<User> followeds = relationRepository.findFollowersByFollowId(UID);
+//        List<Message> messages = messageRepository.findMessagesByUidAndType(UID, MessageType.FOLLOWEDTWEET.getType());
+//        for(User user: followeds){
+//            //List<Tweet> tweets = tweetRespository.findTweetsByUid(user.getUid(),new Sort(Sort.Direction.DESC,"createTime"));
+//            for(Tweet tweet:tweets){
+//                //检查是否已经发表
+//                boolean isPublish = false;
+//                for(Message message:messages){
+//                    if(message.getSrcId() == tweet.getTid()){
+//                        isPublish = true;
+//                    }
+//                }
+//                if(!isPublish){
+//                    Message message = new Message();
+//                    message.setUid(UID);
+//                    message.setType(MessageType.FOLLOWEDTWEET.getType());
+//                    message.setSrcId(tweet.getTid());
+//                    message.setSrcUid(tweet.getUid());
+//                    message.setContent(tweet.getContent());
+//                    messageRepository.save(message);
+//                }
+//            }
+//        }
     }
 
     @Override

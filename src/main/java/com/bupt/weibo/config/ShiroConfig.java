@@ -66,8 +66,7 @@ public class ShiroConfig {
 
         Map<String,String> filterChainDefinitionManager = new LinkedHashMap<String,String>();
         filterChainDefinitionManager.put("/userInfo","authc");
-        filterChainDefinitionManager.put("/users/**","anon");
-        filterChainDefinitionManager.put("/jobs/**","perms[WORDCOUNT:CREATE]");
+        filterChainDefinitionManager.put("/users/**","authc");
         filterChainDefinitionManager.put("/admin/**","roles[Admin]");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionManager);
 
