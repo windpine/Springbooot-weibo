@@ -1,9 +1,6 @@
 package com.bupt.weibo.controller;
 
-import com.bupt.weibo.dto.MessageCommentDTO;
-import com.bupt.weibo.dto.MessageLikesDTO;
-import com.bupt.weibo.dto.MessageMentionTweetDTO;
-import com.bupt.weibo.dto.ResultDTO;
+import com.bupt.weibo.dto.*;
 import com.bupt.weibo.entity.Message;
 import com.bupt.weibo.exception.ResultException;
 import com.bupt.weibo.service.MessageService;
@@ -15,12 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.rmi.server.UID;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,60 +30,36 @@ import java.util.Map;
 @Slf4j
 public class MessageController {
     public static final String PATH = "/message";
-    public static final String UIDPATH = "/{UID}";
-    public static final String MENTIONPATH ="/mention";
-    public static final String COMMENTPATH= "/comment";
-    public static final String LIKESPATH="/likes";
 
     @Autowired
     MessageService messageService;
     //日志记录
     private static Logger logger = LoggerFactory.getLogger(MessageController.class);
-    /**
-     * 获取当前用户下的所有消息
-     */
-    @GetMapping(value = MENTIONPATH)
-    public ResponseEntity<ResultDTO> getAllMessageMention(UriComponentsBuilder uriComponentsBuilder, @RequestParam(name="UID")String UID){
-        //包装header
-        HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+MENTIONPATH);
-        //map message
-        List<MessageMentionTweetDTO> messageDTOS = messageService.getPersonalAllTweetMention(UID);
-        Map result = new HashMap<String,List<MessageMentionTweetDTO>>();
-        //返回
-        result.put("messageList",messageDTOS);
-        return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(result),headers, HttpStatus.OK);
 
-    }
     /**
-     * 获取当前用户下的所有评论消息
+     * 获取某一用户消息
+     * @param uriComponentsBuilder
+     * @param UID 当前用户UID
+     * @param type 消息类型
+     * @return
      */
-    @GetMapping(value = COMMENTPATH)
-    public ResponseEntity<ResultDTO> getAllMessageComment(UriComponentsBuilder uriComponentsBuilder, @RequestParam(name="UID")String UID){
+    @GetMapping
+    public ResponseEntity<ResultDTO> getUserMessage(UriComponentsBuilder uriComponentsBuilder,@RequestParam(name="UID")String UID,@RequestParam(name="type")Integer type){
         //包装header
-        HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+COMMENTPATH);
+        HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder, PATH);
         //map message
-        List<MessageCommentDTO> messageDTOS = messageService.getPersonalAllComment(UID);
-        Map result = new HashMap<String,List<MessageCommentDTO>>();
+        List<MessageDTO> tweetDTOList = messageService.getPersonalTypeOfMessage(UID,type);
+        logger.info("获得所有转发微博");
+        Map result = new HashMap<String, List<MessageDTO>>();
         //返回
-        result.put("messageList",messageDTOS);
-        return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(result),headers, HttpStatus.OK);
-
+        if(tweetDTOList != null) {
+            result.put("messageList", tweetDTOList);
+            return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(result), headers, HttpStatus.OK);
+        }else{
+            throw new ResultException("获取失败");
+        }
     }
-    /**
-     * 提示用户有人点赞
-     */
-    @GetMapping(value = LIKESPATH)
-    public ResponseEntity<ResultDTO> getAllMessageLike(UriComponentsBuilder uriComponentsBuilder,@RequestParam(name="UID")String UID){
-        //包装header
-        HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+LIKESPATH+"/"+UID);
-        //map message
-        List<MessageLikesDTO> likesDTOList = messageService.getPersonalAllLikes(UID);
-        Map result = new HashMap<String,List<MessageLikesDTO>>();
-        //返回
-        result.put("messageList",likesDTOList);
-        return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(result),headers, HttpStatus.OK);
 
-    }
     /**
      * 为当前用户推送一条消息
      *

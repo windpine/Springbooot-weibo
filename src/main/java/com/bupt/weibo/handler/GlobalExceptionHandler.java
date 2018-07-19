@@ -34,14 +34,14 @@ public class GlobalExceptionHandler {
      */
 
     @ExceptionHandler(value = ResultException.class)
-    public ResponseEntity<Object> handleException(ResultException ex, HttpServletRequest request) throws URISyntaxException {
+    public ResponseEntity<ResultDTO> handleException(ResultException ex, HttpServletRequest request) throws URISyntaxException {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(new URI(request.getRequestURI()));
         headers.setContentType(MediaType.APPLICATION_JSON);
         log.error("-----exception Handler---Host: {} invokes url: {} ERROR: {} Cause:",request.getRemoteHost(),request.getRequestURL(), ex.getMessage(),ex.getCause());
         return handleExceptionInternal(ex,headers,HttpStatus.INTERNAL_SERVER_ERROR,request);
     }
-    protected ResponseEntity<Object> handleExceptionInternal(ResultException ex, HttpHeaders headers, HttpStatus status, HttpServletRequest request){
+    protected ResponseEntity<ResultDTO> handleExceptionInternal(ResultException ex, HttpHeaders headers, HttpStatus status, HttpServletRequest request){
         ResultDTO resultDTO = new ResultDTO();
         resultDTO.setStatus(status.toString());
         resultDTO.setErrorCode(ex.getErrorCode());

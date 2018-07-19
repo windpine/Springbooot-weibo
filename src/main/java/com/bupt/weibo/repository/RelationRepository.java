@@ -37,6 +37,10 @@ public interface RelationRepository extends JpaRepository<Relation,RelationPK> {
     @Modifying
     @Query(value="select u from User u inner join Relation r on u.uid=r.followId where r.followerId=?1 ")
     List<User> findFollowsByFollowerId(String uid);//返回的是followerId=uid的所有对应的followList
+    //根据UID查找关联的Tweets
+    @Query("select r,t,u from Tweet t  inner join Relation r on r.followId = t.uid left join User u on r.followId = u.uid where r.followerId = ?1 ")
+    @Transactional
+    List<Object[]> findRelationTweet(String UID);
 
 }
 

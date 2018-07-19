@@ -1,5 +1,6 @@
 package com.bupt.weibo.dto;
 
+
 import com.bupt.weibo.entity.UserInfo;
 import lombok.Data;
 
@@ -14,6 +15,7 @@ public class UserInfoDTO {
 
     private String uid;
 
+
     private String nickname;//user
 
     private String username;//user
@@ -25,6 +27,8 @@ public class UserInfoDTO {
     private Integer followers=0;
 
     private String avatarUrl ="";
+
+
 
     private String sex;//user
 
@@ -47,5 +51,4 @@ public class UserInfoDTO {
         this.password=password;
         this.email=email;
     };
-
 }

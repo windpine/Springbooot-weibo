@@ -15,15 +15,18 @@ import java.util.List;
 public interface MessageRepository extends JpaRepository<Message,Integer> {
     @Transactional
     List<Message> findAllByUid(String UID);
-    @Query("select m,me,t,u from Message m,Mention me,Tweet t,User u where m.uid = me.uid and m.uid = ?1 and t.tid = me.tid and u.uid = t.uid and m.type= 0")
+    /*@Query("select m,me,t,u from Message m,Mention me,Tweet t,User u where m.uid = me.uid and m.uid = ?1 and t.tid = me.tid and u.uid = t.uid and m.type= 0")
     @Transactional
     List<Object[]> findAllMessageAndTweetJoin(String Uid);
     @Query("select m,c,u from Message m,Comment c,User u where m.srcId = c.cid and m.uid = ?1 and u.uid= c.uid and m.type =1")
     @Transactional
     List<Object[]> findAllMessageAndCommentJoin(String Uid);
     @Transactional
-    @Query("select m,t,u from Message m,Tweet t,User u where m.srcId = t.tid and m.srcUid = u.uid and m.uid =?1 and m.type=2")
-    List<Object[]> findAllLikesMessage(String Uid);
-
+    @Query("select m,t,u from Message m,Tweet t,User u where m.srcId = t.tid and m.srcUid = u.uid and m.uid =?1 and m.type=?2")
+    List<Object[]> findAllTweetMessage(String Uid,Integer type);*/
+    @Transactional
+    @Query("select m,u from Message m left join User u on m.srcUid = u.uid where m.uid= ?1 and m.type=?2")
+    List<Object[]> findMessageUserByUidAndType(String UID,Integer type);
+    List<Message> findMessagesByUidAndType(String UID,Integer type);
 
 }
