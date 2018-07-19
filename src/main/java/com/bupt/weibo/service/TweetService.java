@@ -20,7 +20,7 @@ public interface TweetService {
     List<TweetGetDTO> getRepostTweets(int TID);
 
     //获取某一用户发表的微博
-    List<Tweet> getPersonalTweets(String UID);
+    List<List<TweetGetDTO>> getPersonalTweets(String UID);
     //发表一条微博
     Tweet publishTweet(TweetPostDTO tweetPostDTO);
     //查看某一话题的微博
@@ -32,5 +32,7 @@ public interface TweetService {
     void likeATweet(int TID) throws Exception;
 
     void AddAComment(int TID) throws Exception;
+
+    void SubAComment(int TID) throws Exception;
 
 }

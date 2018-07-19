@@ -15,7 +15,7 @@ public interface CommentService {
 
     Comment commentATweet(CommentDTO commentDTO)  throws Exception ;
 
-    void deleteAComment(int CID);
+    void deleteAComment(Integer CID) throws Exception;
     //获取某一微博的所有评论
     List<CommentGetDTO> getTweetComments(Integer TID);
 }

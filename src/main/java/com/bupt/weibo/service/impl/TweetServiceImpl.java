@@ -55,9 +55,21 @@ public class TweetServiceImpl implements TweetService {
     }
 
     @Override
-    public List<Tweet> getPersonalTweets(String UID) {
-        Sort sort = new Sort(Sort.Direction.DESC,"createTime");
-        return tweetRepository.findTweetsByUid(UID,sort);
+    public List<List<TweetGetDTO>> getPersonalTweets(String UID) {
+        List<TweetGetDTO> tweetList =tweetRepository.findTweetsByUid(UID);
+        List<List<TweetGetDTO>> personalTweetList=new ArrayList<>();
+        for(int i=0;i<tweetList.size();i++){
+            List<TweetGetDTO> Link=new LinkedList<>();
+            Link.add(tweetList.get(i));
+            TweetGetDTO tgDTO=tweetList.get(i);
+            while(tgDTO.getSrcId()>0){
+                tgDTO=tweetRepository.findATweetBySrcId(tgDTO.getSrcId());
+                if(tgDTO!=null)
+                    Link.add(tgDTO);
+            }
+            personalTweetList.add(Link);
+        }
+        return personalTweetList;
     }
 
     @Transactional
@@ -69,7 +81,7 @@ public class TweetServiceImpl implements TweetService {
         if(saveTweet.equals(tweet)){
             if(saveTweet.getSrcId()>=0){
                 //给转发数目加1
-                tweetRepository.updateForwards(saveTweet.getTid());
+                tweetRepository.updateForwards(saveTweet.getSrcId());
             }
             return saveTweet;
         }
@@ -96,6 +108,11 @@ public class TweetServiceImpl implements TweetService {
 
     @Override
     public void AddAComment(int TID) throws Exception{
-        tweetRepository.updateComment(TID);
+        tweetRepository.updateComment(1,TID);
+    }
+
+    @Override
+    public void SubAComment(int TID) throws Exception{
+        tweetRepository.updateComment(-1,TID);
     }
 }

@@ -21,11 +21,11 @@ public class TweetGetDTO {
     private Integer comments=0;
     private String imageUrl="";
 
-    private String nickname;
+    private String username;
 
     private String avatarUrl ="";
 
-    public TweetGetDTO(Tweet t,String nickname,String avatarUrl){
+    public TweetGetDTO(Tweet t,String username,String avatarUrl){
         this.tid=t.getTid();
         this.uid=t.getUid();
         this.srcId=t.getSrcId();
@@ -37,7 +37,7 @@ public class TweetGetDTO {
         this.comments=t.getComments();
         this.imageUrl=t.getImageUrl();
 
-        this.nickname=nickname;
+        this.username=username;
 
         this.avatarUrl=avatarUrl;
     }
