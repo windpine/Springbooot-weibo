@@ -1,7 +1,7 @@
 package com.bupt.weibo.dto.mapper;
 
 import com.bupt.weibo.dto.UserDTO;
-import com.bupt.weibo.dto.UserInfoDto;
+import com.bupt.weibo.dto.UserInfoDTO;
 import com.bupt.weibo.entity.UserInfo;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
@@ -15,10 +15,10 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface UserInfoMapper {
 
-    UserInfo convertToEntity(UserInfoDto userInfoDto);
+    UserInfo convertToEntity(UserInfoDTO userInfoDTO);
 
     @InheritInverseConfiguration
-    UserInfoDto convertToDto(UserInfo userInfo);
+    UserInfoDTO convertToDto(UserInfo userInfo);
 
     UserInfo convertToEntity(UserDTO userDTO);
 }

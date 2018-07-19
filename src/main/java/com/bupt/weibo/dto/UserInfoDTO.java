@@ -8,7 +8,7 @@ import lombok.Data;
  * @description
  */
 @Data
-public class UserInfoDto {
+public class UserInfoDTO {
 
 
     private String uid;
