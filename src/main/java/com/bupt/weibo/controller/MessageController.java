@@ -30,101 +30,19 @@ import java.util.Map;
 @Slf4j
 public class MessageController {
     public static final String PATH = "/message";
-//    public static final String UIDPATH = "/{UID}";
-//    public static final String MENTIONPATH ="/mention";
-//    public static final String COMMENTPATH= "/comment";
-//    public static final String LIKESPATH="/likes";
-//    public static final String FOLLOWEDPATH="/followed";
-//    public static final String FORWARDPATH="/forward";
 
     @Autowired
     MessageService messageService;
     //日志记录
     private static Logger logger = LoggerFactory.getLogger(MessageController.class);
 
-//    /**
-//     * 获取当前用户下的所有消息
-//     */
-//
-//    @GetMapping(value = MENTIONPATH)
-//    public ResponseEntity<ResultDTO> getAllMessageMention(UriComponentsBuilder uriComponentsBuilder, @RequestParam(name="UID")String UID){
-//        //包装header
-//        HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+MENTIONPATH);
-//        //map message
-//        List<MessageMentionTweetDTO> messageDTOS = messageService.getPersonalAllTweetMention(UID);
-//        Map result = new HashMap<String,List<MessageMentionTweetDTO>>();
-//        //返回
-//        result.put("messageList",messageDTOS);
-//        return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(result),headers, HttpStatus.OK);
-//
-//    }
-//    /**
-//     * 获取当前用户下的所有评论消息
-//     */
-//    @GetMapping(value = COMMENTPATH)
-//    public ResponseEntity<ResultDTO> getAllMessageComment(UriComponentsBuilder uriComponentsBuilder, @RequestParam(name="UID")String UID){
-//        //包装header
-//        HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+COMMENTPATH);
-//        //map message
-//        List<MessageCommentDTO> messageDTOS = messageService.getPersonalAllComment(UID);
-//        Map result = new HashMap<String,List<MessageCommentDTO>>();
-//        //返回
-//        result.put("messageList",messageDTOS);
-//        return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(result),headers, HttpStatus.OK);
-//
-//    }
-//    /**
-//     * 提示用户有人点赞
-//     */
-//    @GetMapping(value = LIKESPATH)
-//    public ResponseEntity<ResultDTO> getAllMessageLike(UriComponentsBuilder uriComponentsBuilder,@RequestParam(name="UID")String UID){
-//        //包装header
-//        HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+LIKESPATH+"/"+UID);
-//        //map message
-//        List<MessageTweetDTO> likesDTOList = messageService.getPersonalAllLikes(UID);
-//        Map result = new HashMap<String,List<MessageTweetDTO>>();
-//        //返回
-//        result.put("messageList",likesDTOList);
-//        return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(result),headers, HttpStatus.OK);
-//
-//    }
-//    /**
-//     * 显示所有关注的人的微博
-//     * @param uriComponentsBuilder
-//     * @param UID 当前用户UID
-//     * @return
-//     */
-//    @GetMapping(value = FOLLOWEDPATH)
-//    public ResponseEntity<ResultDTO> getAllMessageFollowed(UriComponentsBuilder uriComponentsBuilder,@RequestParam(name="UID")String UID) {
-//        //包装header
-//        HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder, PATH + FOLLOWEDPATH + "/" + UID);
-//        //map message
-//        List<MessageTweetDTO> followedTweetDTOList = messageService.getPersonalAllFollowedTweet(UID);
-//        logger.info("获得所有关注微博");
-//        Map result = new HashMap<String, List<MessageTweetDTO>>();
-//        //返回
-//        result.put("messageList", followedTweetDTOList);
-//        return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(result), headers, HttpStatus.OK);
-//    }
-//
-//    /**
-//     * 获得当前所有被转发微博
-//     * @param uriComponentsBuilder
-//     * @param UID 当前用户UID
-//     * @return
-//     */
-//    @GetMapping(value = FORWARDPATH)
-//    public ResponseEntity<ResultDTO> getAllMessageForward(UriComponentsBuilder uriComponentsBuilder,@RequestParam(name="UID")String UID) {
-//        //包装header
-//        HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder, PATH + FORWARDPATH + "/" + UID);
-//        //map message
-//        List<MessageTweetDTO> followedTweetDTOList = messageService.getPersonalAllFollowedTweet(UID);
-//        logger.info("获得所有转发微博");
-//        Map result = new HashMap<String, List<MessageTweetDTO>>();
-//        //返回
-//        result.put("messageList", followedTweetDTOList);
-//        return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(result), headers, HttpStatus.OK);
-//    }
+    /**
+     * 获取某一用户消息
+     * @param uriComponentsBuilder
+     * @param UID 当前用户UID
+     * @param type 消息类型
+     * @return
+     */
     @GetMapping
     public ResponseEntity<ResultDTO> getUserMessage(UriComponentsBuilder uriComponentsBuilder,@RequestParam(name="UID")String UID,@RequestParam(name="type")Integer type){
         //包装header
