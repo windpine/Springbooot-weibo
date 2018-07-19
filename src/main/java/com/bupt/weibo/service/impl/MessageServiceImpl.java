@@ -34,35 +34,6 @@ public class MessageServiceImpl implements MessageService {
     @Autowired
     TweetRepository tweetRespository;
 
-    /*@Override
-    public List<MessageMentionTweetDTO> getPersonalAllTweetMention(String UID) {
-        List<Object[]> resultArray=messageRepository.findAllMessageAndTweetJoin(UID);
-        List<MessageMentionTweetDTO> messageMentionTweetDTOList = new LinkedList<>();
-        for(Object[] objArray:resultArray){
-            messageMentionTweetDTOList.add(messageMapper.convertToMentionDto((Message)objArray[0],(Mention)objArray[1],(Tweet)objArray[2],(User)objArray[3]));
-        }
-        return messageMentionTweetDTOList;
-    }
-
-    @Override
-    public List<MessageCommentDTO> getPersonalAllComment(String UID) {
-        List<Object[]> resultArray=messageRepository.findAllMessageAndCommentJoin(UID);
-        List<MessageCommentDTO> messageCommentDTOList = new LinkedList<>();
-        for(Object[] objArray:resultArray){
-            messageCommentDTOList.add(messageMapper.convertToCommentDto((Message)objArray[0],(Comment)objArray[1],(User)objArray[2]));
-        }
-        return messageCommentDTOList;
-    }
-    @Override
-    public List<MessageTweetDTO> getPersonalAllLikes(String UID){
-        List<Object[]> resultArray = messageRepository.findAllTweetMessage(UID,MessageType.LIKES.getType());
-        List<MessageTweetDTO> messageTweetDTOList = new LinkedList<>();
-        for(Object[] objArray:resultArray){
-            messageTweetDTOList.add(messageMapper.convertToDto((Message)objArray[0],(Tweet)objArray[1],(User)objArray[2]));
-        }
-        return messageTweetDTOList;
-    }*/
-
     @Override
     @Transactional
     public Boolean deleteMessage(String UID, Integer messageID) {
@@ -105,31 +76,28 @@ public class MessageServiceImpl implements MessageService {
         }
     }
 
-   /* @Override
-    public List<MessageTweetDTO> getPersonalAllFollowedTweet(String UID) {
-        List<Object[]> resultArray = messageRepository.findAllTweetMessage(UID,MessageType.FOLLOWEDTWEET.getType());
-        List<MessageTweetDTO> messageTweetDTOList = new LinkedList<>();
-        for(Object[] objArray:resultArray){
-            messageTweetDTOList.add(messageMapper.convertToDto((Message)objArray[0],(Tweet)objArray[1],(User)objArray[2]));
-        }
-        return messageTweetDTOList;
-    }
-
-    @Override
-    public List<MessageTweetDTO> getPersonalForwardTweet(String UID) {
-        return null;
-    }*/
-
     @Override
     public List<MessageDTO> getPersonalTypeOfMessage(String UID, Integer type) {
-        List<Object[]> objs = messageRepository.findMessageUserByUidAndType(UID,type);
-        List<MessageDTO> messageDTOS = new LinkedList<>();
-        for(Object[] objects:objs){
-            //将获取到的MessageUser转换为对应类型
-            MessageDTO messageDTO = messageMapper.convertToDto((Message)objects[0],(User)objects[1]);
-            messageDTOS.add(messageDTO);
+        if(type.intValue() != MessageType.FOLLOWEDTWEET.getType()) {
+            List<Object[]> objs = messageRepository.findMessageUserByUidAndType(UID, type);
+            List<MessageDTO> messageDTOS = new LinkedList<>();
+            for (Object[] objects : objs) {
+                //将获取到的MessageUser转换为对应类型
+                MessageDTO messageDTO = messageMapper.convertToDto((Message) objects[0], (User) objects[1]);
+                messageDTOS.add(messageDTO);
+            }
+            return messageDTOS;
+        }else{
+            List<Object[]> objs= relationRepository.findRelationTweet(UID);
+            List<MessageDTO> messageDTOS = new  LinkedList<>();
+            for(Object[] objects:objs){
+                MessageDTO messageDTO = messageMapper.convertToDto((Relation)objects[0],(Tweet)objects[1],(User)objects[2]);
+                messageDTO.setMessageID(-1);
+                messageDTO.setMessageType(MessageType.FOLLOWEDTWEET.getType());
+                messageDTOS.add(messageDTO);
+            }
+            return messageDTOS;
         }
-        return messageDTOS;
     }
 
     @Override
