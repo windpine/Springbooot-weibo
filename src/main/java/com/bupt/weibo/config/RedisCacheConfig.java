@@ -14,6 +14,7 @@ import redis.clients.jedis.JedisPoolConfig;
  */
 @Configuration
 @EnableCaching
+//todo:如何建立
 public class RedisCacheConfig extends CachingConfigurerSupport{
     private Logger logger = LoggerFactory.getLogger(RedisCacheConfig.class);
 

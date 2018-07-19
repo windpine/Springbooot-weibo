@@ -25,4 +25,7 @@ public class UserDTO {
 //    private String role;
     private List<RoleDTO> roles;
     private List<PermissionDto> permissions;
+
+
+
 }

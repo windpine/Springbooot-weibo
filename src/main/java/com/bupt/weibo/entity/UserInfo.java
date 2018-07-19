@@ -1,15 +1,18 @@
 package com.bupt.weibo.entity;
 
+import com.bupt.weibo.entity.enums.UserStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 /**
- * @anthor tanshangou
- * @time 2018/7/13
- * @description
+ * Created by niccoleynh on 2018/7/15.
  */
 @Entity
 @Table(name = "user_info")
@@ -35,4 +38,22 @@ public class UserInfo {
     @Basic
     @Column(name = "avatar_url", nullable = true,length = 256)
     private String avatarUrl ="";
+//    @Basic
+//    @Column(name = "creat_time", nullable = false)
+//    private Timestamp creatTime;
+
+
+//    public String getUid(){
+//        return uid;
+//    }
+//
+//    public String getSex(){
+//        return sex;
+//    }
+//
+//    public String getAvatarUrl(){
+//        return avatarUrl;
+//    }
+//
+
 }

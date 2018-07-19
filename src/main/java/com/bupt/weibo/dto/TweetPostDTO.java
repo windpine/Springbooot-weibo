@@ -2,11 +2,11 @@ package com.bupt.weibo.dto;
 
 import lombok.Data;
 
-/**
- * 获取tweet
- */
 @Data
-public class TweetDTO {
+public class TweetPostDTO {
     private String uid;
+    private int srcId;
     private String content;
+    private String imageUrl="";
+
 }

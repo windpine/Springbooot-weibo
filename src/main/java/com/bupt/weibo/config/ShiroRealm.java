@@ -5,33 +5,23 @@ package com.bupt.weibo.config;
  * @time 2018/7/8
  * @description
  */
-import com.bupt.weibo.dto.PermissionDto;
-import com.bupt.weibo.dto.RoleDTO;
-import com.bupt.weibo.dto.UserDTO;
-import com.bupt.weibo.dto.mapper.PermissionMapper;
-import com.bupt.weibo.dto.mapper.RoleMapper;
 import com.bupt.weibo.entity.Permission;
 import com.bupt.weibo.entity.Role;
 import com.bupt.weibo.entity.User;
 import com.bupt.weibo.repository.PermissionRepository;
 import com.bupt.weibo.repository.RoleRepository;
 import com.bupt.weibo.repository.UserRepository;
-import com.bupt.weibo.service.UserService;
 import com.bupt.weibo.shiro.ShiroSessionDao;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.realm.AuthenticatingRealm;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 public class ShiroRealm extends AuthorizingRealm {

@@ -1,19 +1,17 @@
 package com.bupt.weibo.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.bupt.weibo.dto.ResultDTO;
 import com.bupt.weibo.dto.UserDTO;
+import com.bupt.weibo.dto.UserInfoDTO;
 import com.bupt.weibo.entity.User;
+import com.bupt.weibo.entity.UserInfo;
 import com.bupt.weibo.entity.enums.ErrorCode;
 import com.bupt.weibo.exception.ResultException;
 import com.bupt.weibo.service.UserService;
 import com.bupt.weibo.utils.ApplicationUtils;
 import com.bupt.weibo.utils.ResultUtils;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,7 +19,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static org.apache.shiro.web.filter.mgt.DefaultFilter.user;
 
 /**
  * @anthor tanshangou
@@ -29,9 +31,18 @@ import java.util.List;
  * @description
  */
 @RestController
-@RequestMapping("/users")
-@Slf4j
+@RequestMapping(value = UserController.PATH)
 public class UserController {
+    public static final String PATH = "/users";
+    public static final String UIDPATH="/{UID}";
+    public static final String PWDPATH="/{UID}/{password}";
+    public static final String NICKNAMEPATH="/nickname/{NICKNAME}";
+
+    //创建日志记录
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    //常用日志语句
+    private static final String MAP_SUCCCESS = TweetController.class.toString() + ":" +"Map 包装成功";
 
     @Autowired
     UserService userService;
@@ -41,25 +52,80 @@ public class UserController {
 
 
     //根据用户ID获得一个用户的信息
-    @GetMapping("/{uid}")
-    public ResultDTO getUser(@PathVariable("uid") String uid){
+    @GetMapping(value=UIDPATH)
+    public ResponseEntity<ResultDTO> getUser(UriComponentsBuilder uriComponentsBuilder,@PathVariable(name = "UID") String UID){
+        //包装header
+        HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+"/"+UID);
+        UserInfoDTO userInfoDTO = userService.getUserInfoByUid(UID);
+        Map<String, UserInfoDTO> result = new HashMap<String,UserInfoDTO>();
+        //返回结果
+        if(userInfoDTO != null){
+            result.put("user",userInfoDTO);
+            return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(result),headers, HttpStatus.OK);
+        }else{
+            throw new ResultException("no such a user!");
+        }
+    }
 
-        User user=userService.getUserById(uid);
 
+    //检测用户更改密码时原密码是否匹配
+    @GetMapping(value=PWDPATH)
+    public ResponseEntity<ResultDTO> checkOldPassword(UriComponentsBuilder uriComponentsBuilder,@PathVariable(name = "UID") String UID,@PathVariable(name = "password") String password){
+        //包装header
+        HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+"/"+UID+"/"+password);
+        String newPs=userService.checkOldPassword(UID,password);
+        return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(newPs),headers, HttpStatus.OK);
 
-        //log.info("username: "+user.getNickname());
-
-        return resultUtils.onSuccess(JSONObject.toJSONString(user));
     }
 
     //获得所有用户
-    @GetMapping("/users")
-    public ResultDTO getUsers(){
-        List<User> users=userService.listUsers();
-        return resultUtils.onSuccess(JSONObject.toJSONString(users));
+    @GetMapping
+    public ResponseEntity<ResultDTO> getUsers(UriComponentsBuilder uriComponentsBuilder){
+        //包装header
+        HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH);
+        headers.setAccessControlAllowCredentials(true);
+        headers.setAccessControlAllowOrigin("*");
+        List<User> users = userService.listUsers();
+        Map<String,List<User>> result = new HashMap<String,List<User>>();
+        logger.info(MAP_SUCCCESS);
+        if(users.size() != 0){
+            result.put("userList",users);
+            return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(result),headers, HttpStatus.OK);
+        }else{
+            throw new ResultException("no users or error");
+        }
     }
 
+    //更新用户
+    @PutMapping(value=UIDPATH)
+    public ResponseEntity<ResultDTO> updateUser(@RequestBody UserInfoDTO userInfoDTO,
+                                                   UriComponentsBuilder uriComponentsBuilder,@PathVariable(name = "UID") String UID) throws Exception{
+        HttpHeaders headers=ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+"/"+UID);
+        if(userInfoDTO != null){
+            logger.info("=======开始更新用户=========");
+//            logger.info("username:"+ userDTO.getUsername()
+//                    +" password: "+userDTO.getPassword());
+            userService.updateUser(userInfoDTO);
+//            UserInfoDTO userInfo=userInfoDTO;
+            return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(),headers,HttpStatus.OK);
+        }else{
+            throw new ResultException("更新用户失败！");
+        }
+    }
 
-
+    //根据用户昵称获得ID
+    @GetMapping(value = NICKNAMEPATH)
+    public ResponseEntity<ResultDTO> getUserByNickname(UriComponentsBuilder uriComponentsBuilder,@PathVariable(name = "NICKNAME") String NICKNAME){
+        //包装header
+        HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+"/nickname/"+NICKNAME);
+        User user=userService.getUserByNickname(NICKNAME);
+        Map<String,String> result=new HashMap<>();
+        if(user!=null){
+            result.put("uid",user.getUid());
+            return new ResponseEntity<ResultDTO>(ResultUtils.onSuccess(result),headers, HttpStatus.OK);
+        }else{
+            throw new ResultException("no user or error");
+        }
+    }
 
 }

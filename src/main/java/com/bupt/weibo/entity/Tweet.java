@@ -22,6 +22,7 @@ public class Tweet {
     private String imageUrl="";
     private Timestamp createTime;
 
+
     @Id
     @Column(name = "TID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +35,7 @@ public class Tweet {
     }
 
     @Basic
-    @Column(name = "UID", nullable = false,length = 32)
+    @Column(name = "UID", nullable = false)
     public String getUid() {
         return uid;
     }
@@ -93,6 +94,36 @@ public class Tweet {
         this.createTime = createTime;
     }
 
+    @Basic
+    @Column(name = "forwards", nullable = true,length = 11)
+    public Integer getForwards() {
+        return forwards;
+    }
+
+    public void setForwards(Integer forwards) {
+        this.forwards = forwards;
+    }
+    @Basic
+    @Column(name = "comments", nullable = true,length = 11)
+    public Integer getComments() {
+        return comments;
+    }
+
+    public void setComments(Integer comments) {
+        this.comments = comments;
+    }
+
+    @Basic
+    @Column(name = "image_url", nullable = true,length = 256)
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -113,31 +144,4 @@ public class Tweet {
         return Objects.hash(tid, uid, srcId, topicTitle, content, likes, createTime);
     }
 
-    @Basic
-    @Column(name = "forwards", nullable = true,length = 11)
-    public Integer getForwards() {
-        return forwards;
-    }
-
-    public void setForwards(Integer forwards) {
-        this.forwards = forwards;
-    }
-    @Basic
-    @Column(name = "comments", nullable = true,length = 11)
-    public Integer getComments() {
-        return comments;
-    }
-
-    public void setComments(Integer comments) {
-        this.comments = comments;
-    }
-    @Basic
-    @Column(name = "image_url", nullable = true,length = 256)
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
 }

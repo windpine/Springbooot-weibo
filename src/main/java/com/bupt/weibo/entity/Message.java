@@ -63,24 +63,6 @@ public class Message {
     public int getSrcId(){return srcId;}
     public void setSrcId(int srcId) {this.srcId=srcId;}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Message message = (Message) o;
-        return messageId == message.messageId &&
-                type == message.type &&
-                srcId == message.srcId &&
-                Objects.equals(uid , message.uid )&&
-                Objects.equals(content, message.content);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(messageId, type, srcId, content, uid);
-    }
-
     @Basic
     @Column(name = "src_uid", nullable = false,length = 32)
     public String getSrcUid() {
@@ -90,4 +72,25 @@ public class Message {
     public void setSrcUid(String srcUid) {
         this.srcUid = srcUid;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Message message = (Message) o;
+        return messageId == message.messageId &&
+                type == message.type &&
+                srcId == message.srcId &&
+                Objects.equals(uid , message.uid )&&
+                Objects.equals(content, message.content)&&
+                Objects.equals(srcUid,message.srcUid);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(messageId, type, srcId, content, uid);
+    }
+
+
 }

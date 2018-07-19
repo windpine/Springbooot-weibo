@@ -3,6 +3,7 @@ package com.bupt.weibo.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.bupt.weibo.dto.CommentDTO;
+import com.bupt.weibo.dto.CommentGetDTO;
 import com.bupt.weibo.dto.ResultDTO;
 import com.bupt.weibo.entity.Comment;
 import com.bupt.weibo.exception.ResultException;
@@ -40,8 +41,8 @@ public class CommentController {
         //包装header
         HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+"/"+TID);
         //map comments
-        List<Comment> comments = commentService.getTweetComments(TID);
-        Map result = new HashMap<String, List<Comment>>();
+        List<CommentGetDTO> comments = commentService.getTweetComments(TID);
+        Map result = new HashMap<String, List<CommentGetDTO>>();
         //返回
         if(comments.size() != 0){
             result.put("commentList",comments);
