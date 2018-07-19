@@ -21,11 +21,13 @@ public interface TweetRepository extends JpaRepository<Tweet,Integer> {
 
 
     @Transactional
-    List<Tweet> findTweetsByUid(String UID, Sort sort);
+    @Modifying
+    @Query("select new com.bupt.weibo.dto.TweetGetDTO(t,u.username,info.avatarUrl) From Tweet t inner join  User u on t.uid=u.uid left join UserInfo info on u.uid=info.uid where t.uid=?1 order by t.createTime DESC")
+    List<TweetGetDTO> findTweetsByUid(String UID);
 
     @Transactional
     @Modifying
-    @Query("select new com.bupt.weibo.dto.TweetGetDTO(t,u.nickname,info.avatarUrl) From Tweet t inner join  User u on t.uid=u.uid left join UserInfo info on u.uid=info.uid order by t.createTime DESC")
+    @Query("select new com.bupt.weibo.dto.TweetGetDTO(t,u.username,info.avatarUrl) From Tweet t inner join  User u on t.uid=u.uid left join UserInfo info on u.uid=info.uid order by t.createTime DESC")
     List<TweetGetDTO> findAllTweet();
 
     @Transactional
@@ -44,16 +46,16 @@ public interface TweetRepository extends JpaRepository<Tweet,Integer> {
 
     @Transactional
     @Modifying
-    @Query("update Tweet t set t.comments = t.comments+1 where t.tid=?1")
-    void updateComment(int TID);
+    @Query("update Tweet t set t.comments = t.comments+?1 where t.tid=?2")
+    void updateComment(int n,int TID);
 
     @Transactional
     @Modifying
-    @Query("select new com.bupt.weibo.dto.TweetGetDTO(t,u.nickname,info.avatarUrl) From Tweet t inner join  User u on t.uid=u.uid left join UserInfo info on u.uid=info.uid where t.srcId=?1 order by t.createTime DESC")
+    @Query("select new com.bupt.weibo.dto.TweetGetDTO(t,u.username,info.avatarUrl) From Tweet t inner join  User u on t.uid=u.uid left join UserInfo info on u.uid=info.uid where t.srcId=?1 order by t.createTime DESC")
     List<TweetGetDTO> findTweetsBySrcId(int srcId);
 
     @Transactional
-    @Query("select new com.bupt.weibo.dto.TweetGetDTO(t,u.nickname,info.avatarUrl) From Tweet t inner join  User u on t.uid=u.uid left join UserInfo info on u.uid=info.uid where t.tid=?1")
+    @Query("select new com.bupt.weibo.dto.TweetGetDTO(t,u.username,info.avatarUrl) From Tweet t inner join  User u on t.uid=u.uid left join UserInfo info on u.uid=info.uid where t.tid=?1")
     TweetGetDTO findATweetBySrcId(int srcId);
 
 

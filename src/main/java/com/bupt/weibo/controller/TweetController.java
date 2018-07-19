@@ -83,8 +83,8 @@ public class TweetController {
         //包装header
         HttpHeaders headers = ApplicationUtils.getHttpHeaders(uriComponentsBuilder,PATH+"/"+UID);
         //map tweet
-        List<Tweet> tweets = tweetService.getPersonalTweets(UID);
-        Map<String,List<Tweet>> result = new HashMap<String,List<Tweet>>();
+        List<List<TweetGetDTO>> tweets = tweetService.getPersonalTweets(UID);
+        Map<String,List<List<TweetGetDTO>>> result = new HashMap<>();
         //返回结果
         if(tweets.size() != 0){
             result.put("tweetList",tweets);

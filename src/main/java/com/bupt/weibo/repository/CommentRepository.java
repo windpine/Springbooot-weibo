@@ -21,4 +21,7 @@ public interface CommentRepository extends JpaRepository<Comment,Integer> {
     @Modifying
     @Query("select new com.bupt.weibo.dto.CommentGetDTO(c,u.nickname,info.avatarUrl) From Comment c inner join  User u on c.uid=u.uid left join UserInfo info on u.uid=info.uid where c.tid=?1 order by c.createTime desc ")
     List<CommentGetDTO> findCommentsByTid(Integer Tid);
+
+    @Transactional
+    Comment findCommentByCid(Integer Cid);
 }

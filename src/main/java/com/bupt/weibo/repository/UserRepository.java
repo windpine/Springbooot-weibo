@@ -34,7 +34,6 @@ public interface UserRepository extends JpaRepository<User,String> {
 
     User findByEmail(String email);
 
-    User findByNickname(String nickname);
 
     @Transactional
     @Modifying(clearAutomatically = true)

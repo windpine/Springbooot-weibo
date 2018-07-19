@@ -35,7 +35,7 @@ public class CommentServiceImpl implements CommentService {
 
         Comment comment = commentMapper.convertToEntity(commentDTO);
         Comment saveComment=commentRepository.save(comment);
-        if(saveComment.equals(comment)){
+        if(saveComment!=null){
             tweetService.AddAComment(saveComment.getTid());
             return saveComment;
         }
@@ -44,12 +44,15 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void deleteAComment(int CID) {
+    public void deleteAComment(Integer CID) throws Exception{
+        Comment comment=commentRepository.findCommentByCid(CID);
         commentRepository.deleteById(CID);
+        tweetService.SubAComment(comment.getTid());
+
     }
 
     @Override
-    public List<CommentGetDTO> getTweetComments(Integer TID) {
+    public List<CommentGetDTO> getTweetComments(Integer TID){
         //Sort sort = new Sort(Sort.Direction.DESC,"createTime");
         return commentRepository.findCommentsByTid(TID);
     }
