@@ -78,7 +78,7 @@ public class TweetServiceImpl implements TweetService {
         //转换dtoToEntity
         Tweet tweet = tweetMapper.convertToEntity(tweetPostDTO);
         Tweet saveTweet = tweetRepository.saveAndFlush(tweet);
-        if(saveTweet.equals(tweet)){
+        if(saveTweet!=null){
             if(saveTweet.getSrcId()>=0){
                 //给转发数目加1
                 tweetRepository.updateForwards(saveTweet.getSrcId());
