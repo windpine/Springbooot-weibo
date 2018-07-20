@@ -54,7 +54,7 @@ public class MessageServiceImpl implements MessageService {
 //        List<User> followeds = relationRepository.findFollowersByFollowId(UID);
 //        List<Message> messages = messageRepository.findMessagesByUidAndType(UID, MessageType.FOLLOWEDTWEET.getType());
 //        for(User user: followeds){
-//            List<Tweet> tweets = tweetRespository.findTweetsByUid(user.getUid(),new Sort(Sort.Direction.DESC,"createTime"));
+//            //List<Tweet> tweets = tweetRespository.findTweetsByUid(user.getUid(),new Sort(Sort.Direction.DESC,"createTime"));
 //            for(Tweet tweet:tweets){
 //                //检查是否已经发表
 //                boolean isPublish = false;
