@@ -17,8 +17,8 @@ public class TweetGetDTO {
     private String content;
     private Integer likes;
     private Timestamp createTime;
-    private Integer forwards=0;
-    private Integer comments=0;
+    private Integer forwards;
+    private Integer comments;
     private String imageUrl="";
 
     private String username;
@@ -33,7 +33,7 @@ public class TweetGetDTO {
         this.content=t.getContent();
         this.likes=t.getLikes();
         this.createTime=t.getCreateTime();
-        this.forwards=getForwards();
+        this.forwards=t.getForwards();
         this.comments=t.getComments();
         this.imageUrl=t.getImageUrl();
 
